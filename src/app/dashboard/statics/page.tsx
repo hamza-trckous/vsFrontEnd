@@ -118,9 +118,12 @@ const StaticsPage = () => {
         order.totalAmount,
         order.status,
       ]);
-      await axios.post("http://localhost:5000/api/sheets/update", {
-        values,
-      });
+      await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/api/sheets/update`,
+        {
+          values,
+        }
+      );
       setAlertMessage("تم تصدير البيانات بنجاح");
       setAlertType("success");
     } catch (error) {

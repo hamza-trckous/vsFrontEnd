@@ -1,0 +1,8 @@
+import axios from "axios";
+
+const API_URL = `${process.env.REACT_APP_BACKEND_URL}/api/sheets`;
+
+export const getSheetData = async (sheetId: string) => {
+  const response = await axios.get(`${API_URL}/${sheetId}`);
+  return response.data;
+};

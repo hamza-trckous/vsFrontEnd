@@ -1,5 +1,5 @@
 import axios from "axios";
-
+const url = process.env.REACT_APP_BACKEND_URL;
 interface IFormInput {
   username: string;
   email: string;
@@ -26,7 +26,7 @@ export const registerUser = async (data: IFormInput) => {
 
   try {
     const response = await axios.post(
-      "http://localhost:5000/api/register",
+      `${url}/api/register`,
       data,
       { withCredentials: true } // Added withCredentials
     );
@@ -63,14 +63,14 @@ export const registerUser = async (data: IFormInput) => {
 };
 
 export const loginUser = async (form: { email: string; password: string }) => {
-  return axios.post("http://localhost:5000/api/login", form, {
+  return axios.post(`${url}/api/login`, form, {
     withCredentials: true, // Ensure cookies are sent with the request
   });
 };
 
 export const logoutUser = async () => {
   return axios.post(
-    "http://localhost:5000/api/logout",
+    `${url}/api/logout`,
     {},
     {
       withCredentials: true, // Ensure cookies are sent with the request
@@ -79,7 +79,7 @@ export const logoutUser = async () => {
 };
 
 export const checkAuth = async () => {
-  const response = await axios.get("http://localhost:5000/api/check-auth", {
+  const response = await axios.get(`${url}/api/check-auth`, {
     withCredentials: true, // Ensure cookies are sent with the request
   });
   return response.data;

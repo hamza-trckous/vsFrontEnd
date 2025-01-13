@@ -92,7 +92,9 @@ const FormOrder = ({ product }: { product: NewProduct }) => {
       setIsAnimating(false);
 
       // Fetch the user's IP address from the backend using axios
-      const ipResponse = await axios.get("http://localhost:5000/api/get-ip");
+      const ipResponse = await axios.get(
+        `${process.env.REACT_APP_BACKEND_URL}/api/get-ip`
+      );
       const userIpAddress = ipResponse.data.ip;
       console.log("User IP address:", userIpAddress);
       // Hash the email before sending it to Facebook

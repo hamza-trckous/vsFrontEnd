@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const addToCart = async (productId: string, quantity: number) => {
   const response = await axios.post(
-    "http://localhost:5000/api/cart/add-to-cart",
+    `${process.env.REACT_APP_BACKEND_URL}/api/cart/add-to-cart`,
     { productId, quantity },
     { withCredentials: true }
   );
@@ -11,7 +11,7 @@ export const addToCart = async (productId: string, quantity: number) => {
 
 export const removeFromCart = async (productId: string) => {
   const response = await axios.post(
-    "http://localhost:5000/api/cart/remove-from-cart",
+    `${process.env.REACT_APP_BACKEND_URL}/api/cart/remove-from-cart`,
     { productId },
     { withCredentials: true }
   );
@@ -19,8 +19,11 @@ export const removeFromCart = async (productId: string) => {
 };
 
 export const getCartItems = async () => {
-  const response = await axios.get("http://localhost:5000/api/cart/cart", {
-    withCredentials: true,
-  });
+  const response = await axios.get(
+    `${process.env.REACT_APP_BACKEND_URL}/api/cart/cart`,
+    {
+      withCredentials: true,
+    }
+  );
   return response.data;
 };

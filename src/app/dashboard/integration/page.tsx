@@ -73,7 +73,9 @@ const IntegrationPage = () => {
       const fbp = getCookie("_fbp");
 
       // Get client IP address from backend API using axios
-      const response = await axios.get("http://localhost:5000/api/get-ip");
+      const response = await axios.get(
+        `${process.env.REACT_APP_BACKEND_URL}/api/get-ip`
+      );
       const clientIpAddress = response.data.ip;
 
       const eventData = {

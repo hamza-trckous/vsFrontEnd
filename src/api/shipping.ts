@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/shipping";
+const API_URL = `${process.env.REACT_APP_BACKEND_URL}/api/shipping`;
 
 export const getShippingPrices = async () => {
   try {

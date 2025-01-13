@@ -1,8 +1,9 @@
 import axios from "axios";
 import { Product, NewProduct } from "../Types/ProductPart";
+
 // Create an Axios instance with base configuration
 const api = axios.create({
-  baseURL: "http://localhost:5000/api/products", // Backend API base URL
+  baseURL: `${process.env.REACT_APP_BACKEND_URL}/api/products`, // Backend API base URL
   withCredentials: true, // Include cookies in requests
 });
 

@@ -34,13 +34,16 @@ export const trackConversion = async (eventData: EventData): Promise<void> => {
   console.log("Sending conversion event:");
 
   try {
-    const response = await fetch("http://localhost:5000/api/track-conversion", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(eventData),
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/api/track-conversion`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(eventData),
+      }
+    );
 
     if (!response.ok) {
       const errorData = await response.json();

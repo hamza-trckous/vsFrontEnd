@@ -1,15 +1,39 @@
 import axios from "axios";
 
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  // add other fields as necessary
+}
+
 export const getAllUsers = async () => {
-  const response = await axios.get("http://localhost:5000/api/users", {
-    withCredentials: true,
-  });
+  const response = await axios.get(
+    `${process.env.REACT_APP_BACKEND_URL}/api/users`,
+    {
+      withCredentials: true,
+    }
+  );
   return response.data;
 };
 
 export const deleteUser = async (id: string) => {
-  const response = await axios.delete(`http://localhost:5000/api/users/${id}`, {
-    withCredentials: true,
-  });
+  const response = await axios.delete(
+    `${process.env.REACT_APP_BACKEND_URL}/api/users/${id}`,
+    {
+      withCredentials: true,
+    }
+  );
+  return response.data;
+};
+
+export const updateUser = async (id: string, userData: Partial<User>) => {
+  const response = await axios.put(
+    `${process.env.REACT_APP_BACKEND_URL}/api/users/${id}`,
+    userData,
+    {
+      withCredentials: true,
+    }
+  );
   return response.data;
 };

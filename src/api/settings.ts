@@ -1,9 +1,12 @@
 import axios from "axios";
 
 export const getSettings = async () => {
-  const response = await axios.get("http://localhost:5000/api/settings", {
-    withCredentials: true,
-  });
+  const response = await axios.get(
+    `${process.env.REACT_APP_BACKEND_URL}/api/settings`,
+    {
+      withCredentials: true,
+    }
+  );
   return response.data;
 };
 
@@ -12,7 +15,7 @@ export const saveSettings = async (settings: {
   accessToken: string;
 }) => {
   const response = await axios.post(
-    "http://localhost:5000/api/settings",
+    `${process.env.REACT_APP_BACKEND_URL}/api/settings`,
     settings,
     {
       withCredentials: true,
