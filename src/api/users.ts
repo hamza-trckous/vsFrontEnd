@@ -29,7 +29,7 @@ export const deleteUser = async (id: string) => {
 
 export const updateUser = async (id: string, userData: Partial<User>) => {
   const response = await axios.put(
-    `${process.env.NEXT_APP_BACKEND_URL}/api/users/${id}`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/${id}`,
     userData,
     {
       withCredentials: true,

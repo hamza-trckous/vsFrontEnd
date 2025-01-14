@@ -9,7 +9,7 @@ interface AlertModalProps {
 
 const AlertModal: React.FC<AlertModalProps> = ({ message, type, onClose }) => {
   useEffect(() => {
-    const timer = setTimeout(onClose, 2000); // Close after 1 second
+    const timer = setTimeout(onClose, 2000); // Close after 2 seconds
     return () => clearTimeout(timer); // Cleanup the timer on unmount
   }, [onClose]);
 

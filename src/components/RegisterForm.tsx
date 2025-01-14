@@ -9,6 +9,10 @@ import { useAuth } from "@/context/AuthContext";
 
 const registerSchema = z
   .object({
+    name: z.string().min(1, "هذا الحقل مطلوب"),
+    lastname: z.string().min(1, "هذا الحقل مطلوب"),
+    dateOfbirth: z.string().optional(), // Change to string
+    placeofbirth: z.string().optional(),
     username: z.string().min(1, "هذا الحقل مطلوب"),
     email: z.string().email("البريد الإلكتروني غير صالح"),
     password: z
@@ -24,7 +28,7 @@ const registerSchema = z
     path: ["confirmPassword"],
   });
 
-type IFormInput = z.infer<typeof registerSchema>;
+type IFormInput = z.infer<typeof registerSchema> & { role: "user" };
 
 const RegisterForm = () => {
   const {
@@ -59,6 +63,65 @@ const RegisterForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <div className="flex flex-col items-center">
+        <label className="block text-sm font-medium text-gray-700">
+          الاسم:
+        </label>
+        <input
+          data-tribute="true"
+          {...register("name")}
+          className="mt-1 block w-3/4 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        />
+        {errors.name && (
+          <span className="text-red-500 text-sm">{errors.name.message}</span>
+        )}
+      </div>
+      <div className="flex flex-col items-center">
+        <label className="block text-sm font-medium text-gray-700">
+          اسم العائلة:
+        </label>
+        <input
+          data-tribute="true"
+          {...register("lastname")}
+          className="mt-1 block w-3/4 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        />
+        {errors.lastname && (
+          <span className="text-red-500 text-sm">
+            {errors.lastname.message}
+          </span>
+        )}
+      </div>
+      <div className="flex flex-col items-center">
+        <label className="block text-sm font-medium text-gray-700">
+          تاريخ الميلاد:
+        </label>
+        <input
+          data-tribute="true"
+          type="date"
+          {...register("dateOfbirth")}
+          className="mt-1 block w-3/4 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        />
+        {errors.dateOfbirth && (
+          <span className="text-red-500 text-sm">
+            {errors.dateOfbirth.message}
+          </span>
+        )}
+      </div>
+      <div className="flex flex-col items-center">
+        <label className="block text-sm font-medium text-gray-700">
+          مكان الميلاد:
+        </label>
+        <input
+          data-tribute="true"
+          {...register("placeofbirth")}
+          className="mt-1 block w-3/4 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        />
+        {errors.placeofbirth && (
+          <span className="text-red-500 text-sm">
+            {errors.placeofbirth.message}
+          </span>
+        )}
+      </div>
       <div className="flex flex-col items-center">
         <label className="block text-sm font-medium text-gray-700">
           اسم المستخدم:

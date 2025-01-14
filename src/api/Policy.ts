@@ -1,7 +1,7 @@
 import { Policy } from "@/Types/Policy";
 import axios from "axios";
 
-const API_URL = `${process.env.NEXT_APP_BACKEND_URL}/api/policies`;
+const API_URL = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/policies`;
 
 export const getPolicies = async (): Promise<Policy[]> => {
   const response = await axios.get(API_URL);
