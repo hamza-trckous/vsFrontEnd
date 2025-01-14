@@ -74,7 +74,7 @@ const IntegrationPage = () => {
 
       // Get client IP address from backend API using axios
       const response = await axios.get(
-        `${process.env.REACT_APP_BACKEND_URL}/api/get-ip`
+        `${process.env.NEXT_APP_BACKEND_URL}/api/get-ip`
       );
       const clientIpAddress = response.data.ip;
 

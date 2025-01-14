@@ -13,7 +13,7 @@ interface OrderData {
 
 export const createOrder = async (orderData: OrderData) => {
   const response = await axios.post(
-    `${process.env.REACT_APP_BACKEND_URL}/api/orders`,
+    `${process.env.NEXT_APP_BACKEND_URL}/api/orders`,
     orderData,
     {
       withCredentials: true,
@@ -24,7 +24,7 @@ export const createOrder = async (orderData: OrderData) => {
 
 export const getAllOrders = async () => {
   const response = await axios.get(
-    `${process.env.REACT_APP_BACKEND_URL}/api/orders`,
+    `${process.env.NEXT_APP_BACKEND_URL}/api/orders`,
     {
       withCredentials: true,
     }
@@ -34,7 +34,7 @@ export const getAllOrders = async () => {
 
 export const updateOrderStatus = async (orderId: string, status: string) => {
   const response = await axios.put(
-    `${process.env.REACT_APP_BACKEND_URL}/api/orders/${orderId}`,
+    `${process.env.NEXT_APP_BACKEND_URL}/api/orders/${orderId}`,
     { status },
     {
       withCredentials: true,

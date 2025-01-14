@@ -119,7 +119,7 @@ const StaticsPage = () => {
         order.status,
       ]);
       await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/api/sheets/update`,
+        `${process.env.NEXT_APP_BACKEND_URL}/api/sheets/update`,
         {
           values,
         }

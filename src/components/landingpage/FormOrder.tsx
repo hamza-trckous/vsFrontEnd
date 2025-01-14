@@ -93,7 +93,7 @@ const FormOrder = ({ product }: { product: NewProduct }) => {
 
       // Fetch the user's IP address from the backend using axios
       const ipResponse = await axios.get(
-        `${process.env.REACT_APP_BACKEND_URL}/api/get-ip`
+        `${process.env.NEXT_APP_BACKEND_URL}/api/get-ip`
       );
       const userIpAddress = ipResponse.data.ip;
       console.log("User IP address:", userIpAddress);

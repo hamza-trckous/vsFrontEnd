@@ -3,7 +3,7 @@ import { Product, NewProduct } from "../Types/ProductPart";
 
 // Create an Axios instance with base configuration
 const api = axios.create({
-  baseURL: `${process.env.REACT_APP_BACKEND_URL}/api/products`, // Backend API base URL
+  baseURL: `${process.env.NEXT_APP_BACKEND_URL}/api/products`, // Backend API base URL
   withCredentials: true, // Include cookies in requests
 });
 
