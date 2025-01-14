@@ -22,12 +22,18 @@ const HomePage = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const { isLoggedIn } = useAuth();
+  const [showSideBar, setShowSideBar] = useState(false);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const fetchedProducts = await getAllProducts();
         setProducts(fetchedProducts);
+        if (fetchedProducts.length > 0) {
+          setTimeout(() => {
+            setShowSideBar(true);
+          }, 1000);
+        }
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {
@@ -325,9 +331,11 @@ const HomePage = () => {
           )}
         </div>
         <div className="w-full md:w-1/4">
-          <Suspense fallback={<p>Loading...</p>}>
-            <Sidebar />
-          </Suspense>
+          {showSideBar && (
+            <Suspense fallback={<p>Loading...</p>}>
+              <Sidebar />
+            </Suspense>
+          )}
         </div>
       </div>
       <Suspense fallback={<p>Loading...</p>}>
