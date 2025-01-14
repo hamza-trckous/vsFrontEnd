@@ -31,9 +31,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     try {
       await loginUser({ email, password });
       const authData = await checkAuth();
-      console.log("authData", authData);
+      console.log("authData 2 ", authData);
       setIsLoggedIn(true);
-      if (authData.role === "admin") {
+      if (authData.user.role === "admin") {
         setIsAdmin(true);
       }
     } catch (error) {
@@ -62,7 +62,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         const authData = await checkAuth();
         if (authData.isAuthenticated) {
           setIsLoggedIn(true);
-          if (authData.role === "admin") {
+          if (authData.user.role === "admin") {
             setIsAdmin(true);
           }
         } else {

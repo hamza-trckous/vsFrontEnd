@@ -9,7 +9,7 @@ interface User {
 
 export const getAllUsers = async () => {
   const response = await axios.get(
-    `${process.env.NEXT_APP_BACKEND_URL}/api/users`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users`,
     {
       withCredentials: true,
     }
@@ -19,7 +19,7 @@ export const getAllUsers = async () => {
 
 export const deleteUser = async (id: string) => {
   const response = await axios.delete(
-    `${process.env.NEXT_APP_BACKEND_URL}/api/users/${id}`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/${id}`,
     {
       withCredentials: true,
     }
