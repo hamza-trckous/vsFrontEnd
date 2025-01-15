@@ -67,8 +67,11 @@ const UsersPage = () => {
                   <td className="py-2 px-4 border-b">{user.role}</td>
                   <td className="py-2 px-4 border-b">
                     {user.cart.map((item) => (
-                      <div key={item.productId._id}>
-                        {item.productId.name} - {item.quantity}
+                      <div key={item.productId?._id}>
+                        {item.productId?.name
+                          ? item.productId.name
+                          : "Unknown Product"}{" "}
+                        - {item.quantity}
                       </div>
                     ))}
                   </td>

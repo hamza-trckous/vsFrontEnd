@@ -11,14 +11,30 @@ const Table = ({
   onDelete: (id: string) => void;
 }) => {
   const router = useRouter();
-  const [showMore, setShowMore] = useState<{ [key: string]: boolean }>({});
+  const [showMoreImages, setShowMoreImages] = useState<{
+    [key: string]: boolean;
+  }>({});
+  const [showMoreDescription, setShowMoreDescription] = useState<{
+    [key: string]: boolean;
+  }>({});
+  const [showMoreReviews, setShowMoreReviews] = useState<{
+    [key: string]: boolean;
+  }>({});
 
   const handleEdit = (id: string) => {
     router.push(`/dashboard/Product/${id}`);
   };
 
-  const toggleShowMore = (id: string) => {
-    setShowMore((prev) => ({ ...prev, [id]: !prev[id] }));
+  const toggleShowMoreImages = (id: string) => {
+    setShowMoreImages((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
+
+  const toggleShowMoreDescription = (id: string) => {
+    setShowMoreDescription((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
+
+  const toggleShowMoreReviews = (id: string) => {
+    setShowMoreReviews((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
   return (
@@ -63,12 +79,12 @@ const Table = ({
                     )}
                     {product.images.length > 1 && (
                       <button
-                        onClick={() => toggleShowMore(product._id)}
+                        onClick={() => toggleShowMoreImages(product._id)}
                         className="absolute top-0 right-0 bg-blue-500 text-white px-1 py-0.5 rounded-full hover:bg-blue-600 transition-colors duration-200 text-xs">
-                        {showMore[product._id] ? "−" : "+"}
+                        {showMoreImages[product._id] ? "−" : "+"}
                       </button>
                     )}
-                    {showMore[product._id] &&
+                    {showMoreImages[product._id] &&
                       product.images
                         .slice(1)
                         .map(
@@ -90,7 +106,23 @@ const Table = ({
                   {product.name}
                 </td>
                 <td className="px-2 py-1 border border-gray-400 w-36 text-right break-words">
-                  {product.description}
+                  <div
+                    className={`overflow-hidden ${
+                      showMoreDescription[product._id]
+                        ? "max-h-full"
+                        : "max-h-12"
+                    }`}>
+                    {product.description}
+                  </div>
+                  {product.description.length > 30 && (
+                    <button
+                      onClick={() => toggleShowMoreDescription(product._id)}
+                      className="text-blue-500 text-xs mt-1">
+                      {showMoreDescription[product._id]
+                        ? "عرض أقل"
+                        : "عرض المزيد"}
+                    </button>
+                  )}
                 </td>
                 <td className="px-2 py-1 border border-gray-400 w-20 text-right break-words">
                   دينار جزائري <br /> {product.price} دج
@@ -111,31 +143,43 @@ const Table = ({
                   {"★".repeat(product.rating) + "☆".repeat(5 - product.rating)}
                 </td>
                 <td className="px-2 py-1 border border-gray-400 w-36 text-right break-words">
-                  {product.reviews.map((review, index) => (
-                    <div
-                      key={`${product._id}-review-${index}`}
-                      className="mb-2">
-                      <p>{review.text}</p>
-                      <div className="flex space-x-2">
-                        {review.images &&
-                          review.images.map(
-                            (url, imgIndex) =>
-                              url && (
-                                <Image
-                                  width={200}
-                                  height={200}
-                                  key={`${product._id}-review-${index}-image-${imgIndex}`}
-                                  src={url}
-                                  alt={`Review ${index + 1} Image ${
-                                    imgIndex + 1
-                                  }`}
-                                  className="w-12 h-12 rounded"
-                                />
-                              )
-                          )}
+                  <div
+                    className={`overflow-hidden ${
+                      showMoreReviews[product._id] ? "max-h-full" : "max-h-12"
+                    }`}>
+                    {product.reviews.map((review, index) => (
+                      <div
+                        key={`${product._id}-review-${index}`}
+                        className="mb-2">
+                        <p>{review.text}</p>
+                        <div className="flex flex-col space-x-2">
+                          {review.images &&
+                            review.images.map(
+                              (url, imgIndex) =>
+                                url && (
+                                  <Image
+                                    width={200}
+                                    height={200}
+                                    key={`${product._id}-review-${index}-image-${imgIndex}`}
+                                    src={url}
+                                    alt={`Review ${index + 1} Image ${
+                                      imgIndex + 1
+                                    }`}
+                                    className="w-12 h-12 rounded"
+                                  />
+                                )
+                            )}
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
+                  {product.reviews.length > 1 && (
+                    <button
+                      onClick={() => toggleShowMoreReviews(product._id)}
+                      className="text-blue-500 text-xs mt-1">
+                      {showMoreReviews[product._id] ? "عرض أقل" : "عرض المزيد"}
+                    </button>
+                  )}
                 </td>
                 <td className="px-2 py-1 border border-gray-400  text-right break-words">
                   {product.withShipping}

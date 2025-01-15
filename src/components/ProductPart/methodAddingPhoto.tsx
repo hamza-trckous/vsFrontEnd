@@ -27,14 +27,19 @@ const MethodAddingPhoto = ({
     const newImages = files.map((file) => URL.createObjectURL(file));
     setImagePreviews((prev) => [...prev, ...newImages]);
 
+    const updatedImages: string[] = [];
+
     files.forEach((file) => {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setNewProduct((prev) => ({
-          ...prev,
-          images: [...prev.images, reader.result as string],
-        }));
-        setValue("images", [...newProduct.images, reader.result as string]);
+        updatedImages.push(reader.result as string);
+        if (updatedImages.length === files.length) {
+          setNewProduct((prev) => ({
+            ...prev,
+            images: [...prev.images, ...updatedImages],
+          }));
+          setValue("images", [...newProduct.images, ...updatedImages]);
+        }
       };
       reader.readAsDataURL(file);
     });

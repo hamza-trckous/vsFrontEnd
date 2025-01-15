@@ -106,10 +106,11 @@ const PreviewProduct: React.FC<PreviewProductProps> = ({
                     : currentProduct.images[currentImageIndex - 1]
                 }
                 alt={currentProduct.name}
-                className="w-full h-48 md:h-60 object-fill rounded-t-lg"
+                className="w-full h-48 md:h-60 object-contain rounded-t-lg"
                 layout="responsive"
                 width={500}
                 height={300}
+                style={{ maxHeight: "calc(100vh - 200px)" }}
               />
             )}
             {currentProduct.images.length > 0 && (
