@@ -19,9 +19,11 @@ import Table from "../ProductPart/Table";
 import WithShipping from "../ProductPart/WithShipping";
 import DiscountPrice from "../ProductPart/DiscountPrice";
 import AlertModal from "../AlertModal";
+import { AxiosError } from "axios";
 
 const ProductPart = () => {
   const {
+    unregister,
     register,
     handleSubmit,
     setValue,
@@ -115,9 +117,19 @@ const ProductPart = () => {
       setAlertType("success");
       setAlertMessage("تمت إضافة المنتج بنجاح!");
     } catch (error) {
-      console.error("Error:", error);
+      if (error instanceof AxiosError && error.response?.data.errors) {
+        console.error(
+          "Error updating product:",
+          error.response.data.errors[0].message
+        );
+        setAlertMessage(
+          error.response.data.errors[0].message || "حدث خطأ أثناء تحديث المنتج."
+        );
+      } else {
+        console.error("Error updating product:", error);
+        setAlertMessage("حدث خطأ أثناء تحديث المنتج.");
+      }
       setAlertType("error");
-      setAlertMessage("حدث خطأ أثناء إضافة المنتج. يرجى المحاولة مرة أخرى.");
     }
 
     // Reset new product state
@@ -200,7 +212,13 @@ const ProductPart = () => {
           />
 
           {/* Reviews Section */}
-          <Reviews register={register} errors={errors} />
+          <Reviews
+            register={register}
+            errors={errors}
+            setValue={setValue}
+            unregister={unregister}
+            initialReviews={newProduct.reviews || []}
+          />
         </div>
         <button
           type="submit"
