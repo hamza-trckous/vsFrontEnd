@@ -50,16 +50,15 @@ const IntegrationPage = () => {
     try {
       injectFacebookPixel(pixelId);
 
-      const email = "user@example.com"; // Replace with actual user email
-      const phone = "1234567890"; // Replace with actual user phone number
-      const firstName = "John"; // Replace with actual user first name
-      const lastName = "Doe"; // Replace with actual user last name
-      const dob = "1990-01-01"; // Replace with actual user date of birth
-      const zip = "12345"; // Replace with actual user zip code
-      const city = "New York"; // Replace with actual user city
-      const state = "NY"; // Replace with actual user state
+      const email = "user@example.com";
+      const phone = "1234567890";
+      const firstName = "John";
+      const lastName = "Doe";
+      const dob = "1990-01-01";
+      const zip = "12345";
+      const city = "New York";
+      const state = "NY";
 
-      // Hash the email, phone, first name, last name, date of birth, zip code, city, and state before sending to Facebook
       const hashedEmail = CryptoJS.SHA256(email).toString();
       const hashedPhone = CryptoJS.SHA256(phone).toString();
       const hashedFirstName = CryptoJS.SHA256(firstName).toString();
@@ -69,14 +68,26 @@ const IntegrationPage = () => {
       const hashedCity = CryptoJS.SHA256(city).toString();
       const hashedState = CryptoJS.SHA256(state).toString();
 
-      // Get fbp from cookies
       const fbp = getCookie("_fbp");
 
-      // Get client IP address from backend API using axios
+      // Get client IP address from backend API
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/get-ip`
       );
-      const clientIpAddress = response.data.ip;
+      let clientIpAddress = response.data.ip;
+
+      // Validate the IP address format
+      const isValidIp = (ip: string) =>
+        /^(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)$/.test(
+          ip
+        );
+
+      if (!isValidIp(clientIpAddress)) {
+        console.warn(
+          "Invalid IP address retrieved. Skipping client_ip_address."
+        );
+        clientIpAddress = null; // Skip sending the IP address
+      }
 
       const eventData = {
         event_name: "tesT3",
@@ -90,12 +101,12 @@ const IntegrationPage = () => {
           zp: hashedZip,
           ct: hashedCity,
           st: hashedState,
-          client_ip_address: clientIpAddress, // Use the actual client IP address
-          client_user_agent: navigator.userAgent, // Get the user agent from the browser
-          fbp: typeof fbp === "string" ? fbp : "", // Ensure fbp is a string
-          fbc: "fb_click_id", // Replace with actual Facebook click ID
-          external_id: "external_id", // Replace with actual external ID if available
-          fb_login_id: "facebook_login_id", // Replace with actual Facebook login ID if available
+          ...(clientIpAddress && { client_ip_address: clientIpAddress }), // Only include if valid
+          client_user_agent: navigator.userAgent,
+          fbp: typeof fbp === "string" ? fbp : "",
+          fbc: "fb_click_id",
+          external_id: "external_id",
+          fb_login_id: "facebook_login_id",
         },
         custom_data: {
           currency: "USD",
@@ -105,30 +116,11 @@ const IntegrationPage = () => {
 
       console.log("Event data:", eventData);
 
-      // Send event data to your backend or directly to Facebook
       await trackConversion(eventData);
       setAlertMessage("Success! Go check your Facebook events.");
       setAlertType("success");
     } catch (error) {
       console.error("Error during test:", error);
-      if (axios.isAxiosError(error)) {
-        if (
-          error.response?.data?.error?.code === 190 &&
-          error.response?.data?.error?.error_subcode === 463
-        ) {
-          console.error("Access token has expired. Please refresh the token.");
-          // Optionally, you can implement a retry mechanism here
-        } else {
-          console.error(
-            `Error: ${error.response?.data?.message || error.message}`
-          );
-        }
-      } else if (error instanceof Error) {
-        console.error(`Error: ${error.message}`);
-      } else {
-        console.error("An unknown error occurred.");
-      }
-      // Do not show token-related errors to the customer
       setAlertMessage(
         "An error occurred while processing your request. Please try again later."
       );
