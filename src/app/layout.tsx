@@ -11,6 +11,10 @@ import AlertProvider from "@/context/useAlert";
 const RootLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon.png" type="image/png" />
+        <title>Babybloom</title>
+      </head>
       <body className="antialiased">
         <AlertProvider>
           <ShippingProvider>
