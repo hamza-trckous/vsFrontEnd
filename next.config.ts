@@ -1,36 +1,16 @@
-const nextConfig = {
-  images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "example.com",
-        pathname: "/path/to/**",
-      },
-    ],
-  },
-  async headers() {
-    return [
-      {
-        source: "/(.*)",
-        headers: [
-          {
-            key: "Content-Security-Policy",
-            value: `
-              default-src 'self';
-              script-src 'self' 'unsafe-inline' 'unsafe-eval' *.facebook.com *.fbcdn.net *.facebook.net https://gw.conversionsapigateway.com blob: data: https://*.google-analytics.com *.google.com https://apis.google.com https://accounts.google.com/gsi/client;
-              style-src 'self' 'unsafe-inline' *.googleapis.com;
-              img-src 'self' data: *.google-analytics.com *.google.com *.facebook.com *.fbcdn.net;
-              font-src 'self' data: *.gstatic.com;
-              connect-src 'self' *.facebook.com *.google-analytics.com;
-              frame-src *.facebook.com *.google.com;
-            `
-              .replace(/\s{2,}/g, " ")
-              .trim(),
-          },
-        ],
-      },
-    ];
-  },
-};
+import type { NextConfig } from "next";
+import withBundleAnalyzer from "@next/bundle-analyzer";
 
-module.exports = nextConfig;
+const nextConfig: NextConfig = withBundleAnalyzer({
+  enabled: process.env.ANALYZE === "true",
+})({
+  // Other Next.js settings
+  images: {
+    domains: ["your-domain.com"], // Add your domain if needed
+    unoptimized: true, // Add this if you want to serve static images without optimization
+  },
+  // You can also add this to ensure proper asset handling
+  assetPrefix: process.env.NODE_ENV === "production" ? undefined : undefined,
+});
+
+export default nextConfig;
