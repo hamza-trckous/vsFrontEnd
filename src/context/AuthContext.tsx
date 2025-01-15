@@ -5,6 +5,7 @@ import React, {
   useContext,
   ReactNode,
   useEffect,
+  useMemo,
 } from "react";
 import { loginUser, logoutUser, checkAuth } from "@/api/auth"; // Import the checkAuth function
 
@@ -56,8 +57,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
-  useEffect(() => {
-    const checkAuthStatus = async () => {
+  const checkAuthStatus = useMemo(
+    () => async () => {
       try {
         const authData = await checkAuth();
         if (authData.isAuthenticated) {
@@ -74,10 +75,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       } finally {
         setLoading(false);
       }
-    };
+    },
+    []
+  );
 
+  useEffect(() => {
     checkAuthStatus();
-  }, []);
+  }, [checkAuthStatus]);
 
   return (
     <AuthContext.Provider
