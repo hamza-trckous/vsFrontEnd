@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState, useMemo, Suspense } from "react";
+import React, { useEffect, useState, useMemo, Suspense, useRef } from "react";
 import dynamic from "next/dynamic";
 import Head from "next/head"; // Import Head for inlining CSS
 
@@ -17,12 +17,14 @@ import { getAllProducts } from "@/api/product";
 import { Product } from "@/Types/ProductPart";
 import useTrackPageView from "@/hooks/useTrackPageView";
 import { useAuth } from "@/context/AuthContext";
+import Image from "next/image";
 
 const HomePage = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const { isLoggedIn } = useAuth();
   const [showSideBar, setShowSideBar] = useState(false);
+  const productsRef = useRef<HTMLDivElement>(null);
 
   const fetchProducts = useMemo(
     () => async () => {
@@ -77,6 +79,10 @@ const HomePage = () => {
         )),
     [products]
   );
+
+  const scrollToProducts = () => {
+    productsRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
     <div>
@@ -318,14 +324,28 @@ const HomePage = () => {
             color: #38b2ac;
           }
         `}</style>
-        <link
-          rel="preload"
-          as="image"
-          href="https://example.com/path/to/largest-image.jpg"
-        />
+        <link rel="preload" as="image" href="/cover.jpg" />
         <script src="https://example.com/third-party-script.js" defer></script>
       </Head>
-      <div className="flex flex-col md:flex-row">
+      <div className="relative">
+        <Image
+          width={1920}
+          height={1080}
+          src="/cover.jpg"
+          alt="Cover"
+          className="w-full h-96 object-cover"
+        />
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-white bg-black bg-opacity-50">
+          <h1 className="text-4xl font-bold mb-4">مرحبًا بكم في بيبي بلوم</h1>
+          <p className="text-xl mb-4">أفضل المنتجات لطفلك</p>
+          <button
+            onClick={scrollToProducts}
+            className="bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition-colors duration-200">
+            استعرض المنتجات
+          </button>
+        </div>
+      </div>
+      <div ref={productsRef} className="flex flex-col md:flex-row">
         <div className="flex flex-wrap justify-evenly w-full md:w-11/12">
           {loading ? (
             <p>Loading...</p>

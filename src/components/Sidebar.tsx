@@ -3,13 +3,23 @@ import React, { useEffect, useState } from "react";
 
 const Sidebar = () => {
   const [isFixed, setIsFixed] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       const footer = document.querySelector("footer");
+      const scrollPosition = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const triggerHeight = windowHeight * 0.75;
+
+      if (scrollPosition >= triggerHeight) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+
       if (footer) {
         const footerTop = footer.getBoundingClientRect().top;
-        const windowHeight = window.innerHeight;
         if (footerTop <= windowHeight) {
           setIsFixed(false);
         } else {
@@ -24,9 +34,11 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`p-2 bg-gray-100 rounded-lg shadow-md text-right m-2 transition-opacity duration-500 ease-in-out fixed top-28 invisible md:visible md:text-sm ${
-        isFixed ? "opacity-100" : "opacity-0"
-      }`}>
+      className={`p-2 bg-gray-100 rounded-lg shadow-md text-right m-2 transition-opacity duration-500 ease-in-out fixed top-28 ${
+        isVisible ? "opacity-100" : "opacity-0"
+      } ${isFixed ? "" : "opacity-0"} ${
+        isVisible ? "visible" : "invisible"
+      } md:visible md:text-sm`}>
       <h2
         className="text-lg font-bold mb-4"
         style={{ fontFamily: "Cairo, sans-serif" }}>

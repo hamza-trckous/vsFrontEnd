@@ -66,20 +66,20 @@ const TopNavBar = () => {
         `}</style>
         <script src="https://example.com/third-party-script.js" defer></script>
       </Head>
-      <div className="bg-gray-100 p-2 shadow-sm">
+      <div className="bg-teal-400 p-2 shadow-sm">
         <div className="container mx-auto flex justify-between items-center text-sm">
-          <div className="relative">
+          {/* <div className="relative">
             <select className="bg-gray-100 text-gray-800 focus:outline-none text-sm">
               <option value="en">English</option>
               <option value="ar">العربية</option>
             </select>
-          </div>
+          </div> */}
 
           {/* Slogan */}
 
           {/* Motivational Speech */}
           <div
-            className="text-gray-600 italic text-xs md:text-base"
+            className="text-gray-600 italic text-xs md:text-base w-full text-center"
             style={{ fontFamily: "Cairo, sans-serif" }}>
             {"كل طفل هو فنان. المشكلة كيف تظل فنانًا عندما تكبر."}
           </div>
