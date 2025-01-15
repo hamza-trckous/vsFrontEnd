@@ -35,7 +35,7 @@ export const trackConversion = async (eventData: EventData): Promise<void> => {
 
   try {
     const response = await fetch(
-      `${process.env.NEXT_APP_BACKEND_URL}/api/track-conversion`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/track-conversion`,
       {
         method: "POST",
         headers: {

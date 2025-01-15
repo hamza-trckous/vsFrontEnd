@@ -33,12 +33,19 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       await loginUser({ email, password });
       const authData = await checkAuth();
       console.log("authData 2 ", authData);
+
+      if (!authData.isAuthenticated) {
+        setIsLoggedIn(false);
+        setIsAdmin(false);
+        return;
+      }
+
       setIsLoggedIn(true);
       if (authData.user.role === "admin") {
         setIsAdmin(true);
       }
     } catch (error) {
-      console.error("Error logging in:", error);
+      // console.error("Error logging in:", error);
       throw error;
     }
   };
@@ -61,17 +68,18 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     () => async () => {
       try {
         const authData = await checkAuth();
-        if (authData.isAuthenticated) {
-          setIsLoggedIn(true);
-          if (authData.user.role === "admin") {
-            setIsAdmin(true);
-          }
-        } else {
+        if (!authData.isAuthenticated) {
           setIsLoggedIn(false);
           setIsAdmin(false);
+          return;
         }
-      } catch (error) {
-        console.error("Error checking auth status:", error);
+
+        setIsLoggedIn(true);
+        if (authData.user.role === "admin") {
+          setIsAdmin(true);
+        }
+      } catch {
+        // Handle error if needed
       } finally {
         setLoading(false);
       }

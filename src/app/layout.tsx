@@ -12,7 +12,7 @@ const RootLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/favicon.png?v=2" type="image/png" />{" "}
+        <link rel="icon" href="/favicon.png?v=2" type="image/png" />
         <title>Babybloom</title>
       </head>
       <body className="antialiased">
