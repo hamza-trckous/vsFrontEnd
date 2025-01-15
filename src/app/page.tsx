@@ -24,8 +24,8 @@ const HomePage = () => {
   const { isLoggedIn } = useAuth();
   const [showSideBar, setShowSideBar] = useState(false);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
+  const fetchProducts = useMemo(
+    () => async () => {
       try {
         const fetchedProducts = await getAllProducts();
         setProducts(fetchedProducts);
@@ -39,10 +39,13 @@ const HomePage = () => {
       } finally {
         setLoading(false);
       }
-    };
+    },
+    []
+  );
 
+  useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [fetchProducts]);
 
   useTrackPageView({
     page_name: "AllProductsPage",
