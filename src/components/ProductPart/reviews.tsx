@@ -13,7 +13,7 @@ const Reviews = ({
   errors,
   setValue,
   unregister,
-  initialReviews = [],
+  initialReviews = [], // Ensure initialReviews is always an array
 }: {
   register: UseFormRegister<NewProduct>;
   errors: FieldErrors<NewProduct>;
