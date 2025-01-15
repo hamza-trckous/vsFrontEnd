@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect, SetStateAction } from "react";
 import { useForm } from "react-hook-form";
+import { AxiosError } from "axios";
 import { useRouter, useParams } from "next/navigation";
 import { getProductById, updateProduct } from "../api/product"; // Adjust the import path as necessary
 import { NewProduct, ProductWithreviews } from "../Types/ProductPart"; // Adjust the import path as necessary
@@ -20,6 +21,7 @@ const ProductPage = () => {
   const { ProductID } = useParams();
 
   const {
+    unregister,
     register,
     handleSubmit,
     setValue,
@@ -92,8 +94,18 @@ const ProductPage = () => {
         router.push("/dashboard/Product");
       }, 2000); // Redirect after 2 seconds
     } catch (error) {
-      console.error("Error updating product:", error);
-      setAlertMessage("حدث خطأ أثناء تحديث المنتج.");
+      if (error instanceof AxiosError && error.response?.data.errors) {
+        console.error(
+          "Error updating product:",
+          error.response.data.errors[0].message
+        );
+        setAlertMessage(
+          error.response.data.errors[0].message || "حدث خطأ أثناء تحديث المنتج."
+        );
+      } else {
+        console.error("Error updating product:", error);
+        setAlertMessage("حدث خطأ أثناء تحديث المنتج.");
+      }
       setAlertType("error");
     }
   };
@@ -148,7 +160,13 @@ const ProductPage = () => {
           />
 
           {/* Reviews Section */}
-          <Reviews register={register} errors={errors} />
+          <Reviews
+            register={register}
+            errors={errors}
+            setValue={setValue}
+            unregister={unregister}
+            initialReviews={product.reviews || []}
+          />
         </div>
         <button
           type="submit"

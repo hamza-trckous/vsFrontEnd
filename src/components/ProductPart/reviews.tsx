@@ -1,29 +1,47 @@
 import { NewProduct, Review } from "@/Types/ProductPart";
 import Image from "next/image";
 import React, { useState } from "react";
-import { FieldErrors, UseFormRegister } from "react-hook-form";
+import {
+  FieldErrors,
+  UseFormRegister,
+  UseFormSetValue,
+  UseFormUnregister,
+} from "react-hook-form";
 
 const Reviews = ({
   register,
   errors,
+  setValue,
+  unregister,
+  initialReviews = [],
 }: {
   register: UseFormRegister<NewProduct>;
   errors: FieldErrors<NewProduct>;
+  setValue: UseFormSetValue<NewProduct>;
+  unregister: UseFormUnregister<NewProduct>;
+  initialReviews: Review[];
 }) => {
-  const [reviews, setReviews] = useState<Review[]>([]);
+  const [reviews, setReviews] = useState<Review[]>(initialReviews);
 
   const addReview = () => {
-    setReviews([...reviews, { text: "", images: [] }]);
+    const newReview = { text: "", images: [] };
+    const updatedReviews = [...reviews, newReview];
+    setReviews(updatedReviews);
+    setValue("reviews", updatedReviews);
   };
 
   const removeReview = (index: number) => {
-    setReviews(reviews.filter((_, i) => i !== index));
+    const updatedReviews = reviews.filter((_, i) => i !== index);
+    setReviews(updatedReviews);
+    unregister(`reviews.${index}`);
+    setValue("reviews", updatedReviews);
   };
 
   const handleReviewTextChange = (index: number, text: string) => {
     const updatedReviews = [...reviews];
     updatedReviews[index].text = text;
     setReviews(updatedReviews);
+    setValue(`reviews.${index}.text`, text);
   };
 
   const handleReviewImageUpload = (index: number, files: FileList | null) => {
@@ -37,6 +55,7 @@ const Reviews = ({
       }
       updatedReviews[index].images.push(...fileURLs);
       setReviews(updatedReviews);
+      setValue(`reviews.${index}.images`, updatedReviews[index].images);
     }
   };
 
