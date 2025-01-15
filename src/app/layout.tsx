@@ -12,7 +12,11 @@ const RootLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/download (3) 1.png" type="image/png" />
+        <link
+          rel="icon"
+          href="https://drive.google.com/file/d/1upWwNK73-wThO4PHQMazxvMm8iNnO9U3/view?usp=drive_link"
+          type="image/png"
+        />
         <title>Babybloom</title>
       </head>
       <body className="antialiased">
