@@ -59,7 +59,7 @@ const Nav = () => {
         {/* <div className="hidden md:flex items-center space-x-2 flex-grow justify-center mx-20 relative">
           <Image src="/search.svg" width={20} height={20} alt="Search Icon" />
         </div> */}
-        Slogon
+
         {/* Mobile Menu Button */}
         <div className="md:hidden">
           <button
