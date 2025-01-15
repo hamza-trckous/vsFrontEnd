@@ -13,6 +13,7 @@ import { useAlert } from "@/context/useAlert";
 
 interface CardForProductProps {
   product?: ProductWithreviews;
+  index: number; // Add index prop
 }
 
 const CardForProduct: React.FC<CardForProductProps> = ({ product }) => {
@@ -87,7 +88,8 @@ const CardForProduct: React.FC<CardForProductProps> = ({ product }) => {
   return (
     <>
       <div
-        className="flex h-[480px] flex-wrap  border rounded-lg shadow-md p-4 bg-white lg:w-[240px] w-full md:w-1/4 m-1 relative cursor-pointer transform transition-transform hover:scale-[102%] hover:border-teal-200"
+        id="product-card"
+        className="flex h-[480px] flex-wrap justify-center items-center border rounded-lg shadow-md p-4 bg-white lg:w-[240px] w-full md:w-1/4 m-1 relative cursor-pointer transform transition-transform hover:scale-[102%] hover:border-teal-200 "
         onClick={() => setShowPreview(true)}>
         <button
           className="absolute top-2 right-2 text-gray-600 hover:text-teal-500"
@@ -118,7 +120,7 @@ const CardForProduct: React.FC<CardForProductProps> = ({ product }) => {
             loading="lazy"
           />
         )}
-        <div className="text-right p-2">
+        <div className="md:text-right sm:text-right p-2 text-center ">
           <h2
             className="text-sm font-bold break-words mr-3"
             style={{ fontFamily: "Cairo, sans-serif" }}>
@@ -161,7 +163,7 @@ const CardForProduct: React.FC<CardForProductProps> = ({ product }) => {
       </div>
 
       {showPreview && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 w-max ">
           <div className="bg-white p-4 rounded-lg shadow-lg w-11/12 md:w-1/2 relative overflow-y-auto max-h-full scrollbar-hide">
             <button
               className="absolute top-2 right-2 text-gray-600 hover:text-teal-500"

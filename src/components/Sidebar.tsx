@@ -34,7 +34,7 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`p-2 bg-gray-100 rounded-lg shadow-md text-right m-2 transition-opacity duration-500 ease-in-out fixed top-28 ${
+      className={`p-2 bg-gray-100 rounded-lg shadow-md text-right m-2 transition-opacity duration-500 ease-in-out fixed top-28 invisible sm:visible md:visible ${
         isVisible ? "opacity-100" : "opacity-0"
       } ${isFixed ? "" : "opacity-0"} ${
         isVisible ? "visible" : "invisible"

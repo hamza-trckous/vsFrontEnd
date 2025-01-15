@@ -88,7 +88,7 @@ const PreviewProduct: React.FC<PreviewProductProps> = ({
   };
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50  "
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50   "
       onClick={handleClickOutside}>
       <div className="p-4 rounded-lg shadow-lg w-11/12 md:w-3/5 relative overflow-y-auto max-h-full bg-teal-50">
         <button
@@ -96,7 +96,7 @@ const PreviewProduct: React.FC<PreviewProductProps> = ({
           onClick={onClose}>
           &times;
         </button>
-        <div className="border rounded-lg shadow-md p-4 bg-white w-full m-4 overflow-y-auto max-h-screen scrollbar-hide">
+        <div className="border rounded-lg shadow-md p-1 bg-white w-full m-1 overflow-y-auto max-h-screen scrollbar-hide">
           <div className="relative">
             {currentProduct.images.length > 0 && (
               <Image

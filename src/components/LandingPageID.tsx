@@ -106,11 +106,11 @@ const LandingPageId: React.FC<LandingPageIDProps> = ({ productId }) => {
   }
 
   return (
-    <div className="container mx-auto p-4" dir="rtl">
-      <div className="bg-white shadow-md rounded-lg p-4">
+    <div className="  p-1 " dir="rtl">
+      <div className="bg-white shadow-md rounded-lg p-1">
         <div className="flex flex-col md:flex-row">
           {/* Product Details Section */}
-          <div className="md:w-1/2 p-4">
+          <div className="md:w-1/2 p-1">
             <h2
               className="text-lg font-bold"
               style={{ fontFamily: "Cairo, sans-serif" }}>

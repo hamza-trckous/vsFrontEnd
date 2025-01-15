@@ -59,7 +59,7 @@ const HomePage = () => {
       products
         .slice()
         .reverse()
-        .map((product) => (
+        .map((product, index) => (
           <CardForProduct
             key={product._id}
             product={{
@@ -75,6 +75,7 @@ const HomePage = () => {
               _id: product._id,
               withShipping: product.withShipping,
             }}
+            index={index} // Pass index to CardForProduct
           />
         )),
     [products]
@@ -327,7 +328,7 @@ const HomePage = () => {
         <link rel="preload" as="image" href="/cover.jpg" />
         <script src="https://example.com/third-party-script.js" defer></script>
       </Head>
-      <div className="relative">
+      <div className="relative overflow-hidden">
         <Image
           width={1920}
           height={1080}
@@ -336,7 +337,9 @@ const HomePage = () => {
           className="w-full h-96 object-cover"
         />
         <div className="absolute inset-0 flex flex-col items-center justify-center text-white bg-black bg-opacity-50">
-          <h1 className="text-4xl font-bold mb-4">مرحبًا بكم في بيبي بلوم</h1>
+          <h1 className="text-4xl font-bold mb-4 text-center ">
+            مرحبًا بكم في بيبي بلوم
+          </h1>
           <p className="text-xl mb-4">أفضل المنتجات لطفلك</p>
           <button
             onClick={scrollToProducts}
@@ -345,6 +348,7 @@ const HomePage = () => {
           </button>
         </div>
       </div>
+      <div className="container mx-auto p-12"></div>
       <div ref={productsRef} className="flex flex-col md:flex-row">
         <div className="flex flex-wrap justify-evenly w-full md:w-11/12">
           {loading ? (

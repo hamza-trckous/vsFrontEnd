@@ -32,13 +32,3 @@ a:hover {
 .custom-number-input .decrement {
   @apply w-6 h-6 bg-gray-100 border border-gray-300 rounded flex items-center justify-center;
 }
-
-.animate-slide-up {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-}
-.opacity-0 {
-  opacity: 0;
-  transform: translateY(20px);
-}

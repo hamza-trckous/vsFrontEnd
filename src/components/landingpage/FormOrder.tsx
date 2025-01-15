@@ -29,7 +29,20 @@ const FormOrder = ({ product }: { product: NewProduct }) => {
     useForm<OrderDetails>(); // Add getValues and watch to useForm
   const selectedWilaya = watch("wilaya"); // Watch the selected wilaya
 
-  const quantity = watch("quantity") || 1; // Watch the quantity
+  const [quantity, setQuantity] = useState(1); // Add state for quantity
+
+  const handleIncrement = () => {
+    setQuantity((prevQuantity) => Math.min(prevQuantity + 1, 10));
+  };
+
+  const handleDecrement = () => {
+    setQuantity((prevQuantity) => Math.max(prevQuantity - 1, 1));
+  };
+
+  useEffect(() => {
+    setValue("quantity", quantity); // Update the form value when quantity changes
+  }, [quantity, setValue]);
+
   const calculateTotalAmount = React.useCallback(() => {
     const discountedPrice = product.discountedPrice ?? product.price;
     const shippingPrice = selectedWilaya
@@ -98,7 +111,6 @@ const FormOrder = ({ product }: { product: NewProduct }) => {
       const userIpAddress = ipResponse.data.ip;
       console.log("User IP address:", userIpAddress);
       // Hash the email before sending it to Facebook
-      const hashedEmail = CryptoJS.SHA256(data.email).toString();
       const hashedPhone = CryptoJS.SHA256(data.phone).toString();
       // Get fbp and fbc from cookies
       const fbp = getCookie("_fbp");
@@ -111,7 +123,6 @@ const FormOrder = ({ product }: { product: NewProduct }) => {
         event_name: "order",
         event_time: Math.floor(Date.now() / 1000),
         user_data: {
-          em: hashedEmail,
           client_ip_address: userIpAddress,
           client_user_agent: navigator.userAgent,
           fbc: (await fbc) as string,
@@ -164,91 +175,95 @@ const FormOrder = ({ product }: { product: NewProduct }) => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="mt-4 w-3/4 flex flex-col mx-auto">
+      className="mt-4  flex flex-col  w-full">
       <h3
-        className="text-lg font-bold mb-2 text-right"
+        className="text-lg font-bold m-2 text-right "
         style={{ fontFamily: "Cairo, sans-serif" }}>
         طلب المنتج
       </h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-2 gap-4 mb-2 items-center justify-center content-center justify-items-center ">
         <input
           type="text"
           {...register("name", { required: true })}
-          placeholder="الاسم"
-          className="border rounded-lg p-2 text-right"
-        />
-        <input
-          type="email"
-          {...register("email", { required: true })}
-          placeholder="البريد الإلكتروني"
-          className="border rounded-lg p-2 text-right"
-        />
-        <input
-          type="text"
-          {...register("address", { required: true })}
-          placeholder="العنوان"
-          className="border rounded-lg p-2 text-right"
+          placeholder="الاسم 👤"
+          className="border-teal-800 border m-2  w-[90%] sm:w-[70%] rounded-lg p-2 text-right "
         />
         <input
           type="text"
           {...register("phone", { required: true })}
-          placeholder="رقم الهاتف"
-          className="border rounded-lg p-2 text-right"
+          placeholder="رقم الهاتف ☎️"
+          className="border-teal-800 border w-[90%] sm:w-[70%] m-2 rounded-lg p-2 text-right"
         />
 
-        <div className="flex w-full flex-col  ">
-          {product.withShipping === "نعم" ? (
-            <select
-              {...register("wilaya", { required: true })}
-              className={`border m-2 rounded-lg p-2 text-right ${
-                selectedWilayaStyle ? "bg-green-100" : "bg-red-100"
-              }`}
-              onChange={(e) => setSelectedWilayaStyle(e.target.value)}
-              value={selectedWilayaStyle}>
-              <option value="">اختر الولاية</option>
-              {wilayas.map((wilaya) => (
-                <option key={wilaya.code} value={wilaya.name}>
-                  {wilaya.arabicName}
-                </option>
-              ))}
-            </select>
-          ) : (
-            <div className="border m-2 rounded-lg p-2 text-right bg-green-100">
-              {" "}
-              الشحن مجانا
-            </div>
-          )}
-          {product.withShipping === "نعم" && (
-            <input
-              type="text"
-              value={`سعر الشحن: ${
-                selectedWilaya ? shippingPrices[selectedWilaya] || 0 : 0
-              } دج`}
-              readOnly
-              className={`border m-2 rounded-lg p-2 text-right ${
-                selectedWilayaStyle ? "bg-green-100" : "bg-red-100"
-              }`}
-            />
-          )}
+        <input
+          type="text"
+          {...register("address", { required: true })}
+          placeholder="العنوان   🏚️"
+          className="border-teal-800 border   w-[90%] sm:w-[70%]   m-2 rounded-lg p-2 text-right"
+        />
+        <div className="flex items-center justify-center m-2 w-[90%] sm:w-[70%] rounded-lg p-2 text-right max-h-16">
+          <button
+            type="button"
+            onClick={handleDecrement}
+            className="bg-red-200 text-black border px-4 py-1 rounded-lg">
+            -
+          </button>
+          <span className="mx-4">{quantity}</span>
+          <button
+            type="button"
+            onClick={handleIncrement}
+            className="bg-green-200 text-black border px-4 py-1 rounded-lg">
+            +
+          </button>
+        </div>
 
+        {product.withShipping === "نعم" ? (
+          <select
+            {...register("wilaya", { required: true })}
+            className={`border-teal-800 border  w-[90%] sm:w-[70%]  m-2 rounded-lg p-2 text-right ${
+              selectedWilayaStyle ? "bg-green-100" : "bg-red-100"
+            }`}
+            onChange={(e) => setSelectedWilayaStyle(e.target.value)}
+            value={selectedWilayaStyle}>
+            <option value="">اختر الولاية</option>
+            {wilayas.map((wilaya) => (
+              <option key={wilaya.code} value={wilaya.name}>
+                {wilaya.arabicName}
+              </option>
+            ))}
+          </select>
+        ) : (
+          <div className="border-teal-800 border  w-[90%] sm:w-[70%]  m-2 rounded-lg p-2 text-right  bg-green-100 ">
+            {" "}
+            💸 الشحن مجانا
+          </div>
+        )}
+        {product.withShipping === "نعم" && (
           <input
             type="text"
-            value={` السعر الاجمالي: ${calculateTotalAmount()} دج`}
+            value={`🚚سعرالشحن:${
+              selectedWilaya ? shippingPrices[selectedWilaya] || 0 : 0
+            } دج`}
             readOnly
-            className={`border m-2 rounded-lg p-2 text-right w-max ${
-              selectedWilayaStyle
-                ? "bg-green-100"
-                : product.withShipping === "نعم"
-                ? "bg-red-100"
-                : "bg-green-100"
+            className={`border-teal-800 border  w-[90%] sm:w-[70%]  m-2 rounded-lg p-2 text-right  ${
+              selectedWilayaStyle ? "bg-green-100" : "bg-red-100"
             }`}
           />
-        </div>
+        )}
+      </div>
+      <hr></hr>
+      <div className="flex flex-col justify-center items-center w-full mt-2">
         <input
-          type="number"
-          {...register("quantity", { required: true, min: 1, max: 10 })}
-          placeholder="الكمية"
-          className="custom-number-input border rounded-lg p-2 text-right max-h-16"
+          type="text"
+          value={`💸السعر الاجمالي: ${calculateTotalAmount()} دج`}
+          readOnly
+          className={`border-teal-800 border  text-center m-2 rounded-lg p-2 w-max  ${
+            selectedWilayaStyle
+              ? "bg-green-100"
+              : product.withShipping === "نعم"
+              ? "bg-red-100"
+              : "bg-green-100"
+          }`}
         />
       </div>
       <button
