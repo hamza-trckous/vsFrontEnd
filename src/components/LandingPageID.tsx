@@ -8,9 +8,7 @@ import type { Product, NewProduct } from "@/Types/ProductPart";
 import useTrackPageView from "@/hooks/useTrackPageView";
 import trackFacebookEvent from "@/utils/trackFacebookEvent";
 import { useAuth } from "@/context/AuthContext";
-import { useShipping } from "@/context/ShippingContext";
-import { useForm } from "react-hook-form";
-import { OrderDetails } from "@/Types/OrderPart";
+
 import FormOrder from "@/components/landingpage/FormOrder";
 import { injectFacebookPixel } from "@/api/TrackConversion";
 
@@ -22,9 +20,7 @@ const LandingPageId: React.FC<LandingPageIDProps> = ({ productId }) => {
   const [product, setProduct] = useState<NewProduct | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const { isLoggedIn, isAdmin } = useAuth();
-  const { shippingPrices } = useShipping();
-  const { watch } = useForm<OrderDetails>();
-  const selectedWilaya = watch("wilaya");
+
   const [pixelId] = useState("1325739738421612");
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -126,19 +122,6 @@ const LandingPageId: React.FC<LandingPageIDProps> = ({ productId }) => {
                 {product.discountedPrice ?? product.price} دينار جزائري
               </span>
             </div>
-
-            {/* Shipping Price */}
-            {product.withShipping === "نعم" && (
-              <div className="flex items-center justify-start mt-2">
-                <span className="text-gray-600 mr-2 text-md ">سعر الشحن:</span>
-                <span className="text-teal-500 font-bold text-md mr-2">
-                  {selectedWilaya
-                    ? shippingPrices[selectedWilaya]?.priceToDesktop || 0
-                    : 0}{" "}
-                  دج
-                </span>
-              </div>
-            )}
 
             {/* Rating Stars */}
             <div className="flex items-center justify-start mt-2">

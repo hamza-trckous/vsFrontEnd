@@ -96,6 +96,7 @@ const FormOrder = ({ product }: { product: NewProduct }) => {
       setAlertType("success");
       reset();
       setValue("quantity", 1);
+      setQuantity(1);
       setIsAnimating(false);
 
       // Fetch the user's IP address from the backend using axios

@@ -3,20 +3,13 @@ import React, { useState, useEffect } from "react";
 import { FaStar } from "react-icons/fa";
 import { NewProduct } from "@/Types/ProductPart";
 import FormOrder from "@/components/landingpage/FormOrder";
-import { OrderDetails } from "@/Types/OrderPart";
-import { useShipping } from "@/context/ShippingContext";
 import { injectFacebookPixel } from "@/api/TrackConversion";
-import { useForm } from "react-hook-form";
 import Image from "next/image"; // Import next/image
 import { useRouter } from "next/router"; // Import useRouter
 
 const LandingPage: React.FC = () => {
-  const { shippingPrices } = useShipping(); // Use the useShipping hook to get the shipping prices
   const router = useRouter();
   const { id } = router.query; // Get the id from the router query
-
-  const { watch } = useForm<OrderDetails>(); // Add getValues and watch to useForm
-  const selectedWilaya = watch("wilaya"); // Watch the selected wilaya
 
   const [pixelId] = useState("1325739738421612"); // Use your Facebook Pixel ID here
   const [product, setProduct] = useState<NewProduct | null>(null);
@@ -49,12 +42,7 @@ const LandingPage: React.FC = () => {
   return (
     <div className="container mx-auto p-4" dir="rtl">
       <div className="bg-white shadow-md rounded-lg p-4">
-        <ShowProduct
-          product={product}
-          shippingPrice={
-            selectedWilaya ? shippingPrices[selectedWilaya] || 0 : 0
-          }
-        />
+        <ShowProduct product={product} />
 
         <hr className="my-4" />
 
@@ -66,13 +54,7 @@ const LandingPage: React.FC = () => {
 
 export default LandingPage;
 
-const ShowProduct = ({
-  product,
-  shippingPrice,
-}: {
-  product: NewProduct;
-  shippingPrice: number;
-}) => {
+const ShowProduct = ({ product }: { product: NewProduct }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const handleNextImage = () => {
     setCurrentImageIndex((prevIndex) =>
@@ -106,14 +88,7 @@ const ShowProduct = ({
             {/* Display discountedPrice or price */}
           </span>
         </div>
-        {product.withShipping === "نعم" && (
-          <div className="flex items-center justify-start mt-2">
-            <span className="text-gray-600 mr-2 text-md">سعر الشحن:</span>
-            <span className="text-teal-500 font-bold text-md">
-              {shippingPrice} دج
-            </span>
-          </div>
-        )}
+
         <div className="flex items-center justify-start mt-2">
           {Array.from({ length: 5 }, (_, index) => (
             <FaStar
