@@ -32,7 +32,6 @@ export const ShippingProvider: React.FC<{ children: React.ReactNode }> = ({
   const fetchShippingPrices = useCallback(async () => {
     try {
       const prices = await getShippingPrices();
-      console.log("prices", prices);
       const pricesMap = prices.reduce(
         (
           acc: {

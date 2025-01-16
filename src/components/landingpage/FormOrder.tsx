@@ -189,24 +189,77 @@ const FormOrder = ({ product }: { product: NewProduct }) => {
         <Quantité quantity={quantity} setQuantity={setQuantity} />
 
         {product.withShipping === "نعم" ? (
-          <select
-            {...register("wilaya", { required: true })}
-            className={`border-teal-800 border  w-[90%] sm:w-[70%]  m-2 rounded-lg p-2 text-right ${
-              selectedWilayaStyle ? "bg-green-100" : "bg-red-100"
-            }`}
-            onChange={(e) => {
-              const value = e.target.value;
-              setValue("wilaya", value); // Update the form value
-              setSelectedWilayaStyle(value);
-            }}
-            value={selectedWilayaStyle}>
-            <option value="">اختر الولاية</option>
-            {wilayas.map((wilaya) => (
-              <option key={wilaya.code} value={wilaya.name}>
-                {wilaya.arabicName}
-              </option>
-            ))}
-          </select>
+          <>
+            <select
+              {...register("wilaya", { required: true })}
+              className={`border-teal-800 border  w-[90%] sm:w-[70%]  m-2 rounded-lg p-2 text-right ${
+                selectedWilayaStyle
+                  ? "bg-green-100"
+                  : "bg-amber-300 animate-pulse"
+              }`}
+              onChange={(e) => {
+                const value = e.target.value;
+                setValue("wilaya", value); // Update the form value
+                setSelectedWilayaStyle(value);
+              }}
+              value={selectedWilayaStyle}>
+              <option value="">اختر الولاية</option>
+              {wilayas.map((wilaya) => (
+                <option key={wilaya.code} value={wilaya.name}>
+                  {wilaya.arabicName}
+                </option>
+              ))}
+            </select>
+
+            <div className="flex justify-center content-center align-middle items-center">
+              {" "}
+              <input
+                name="shippingMethod"
+                disabled={!selectedWilaya}
+                onChange={() => setShippingMethode("للمكتب")}
+                value={"للمكتب"}
+                className="m-1"
+                type="radio"
+                checked={ShippingMethode === "للمكتب"}
+              />{" "}
+              للمكتب
+              <input
+                name="shippingMethod"
+                disabled={!selectedWilaya}
+                onChange={() => setShippingMethode("للمنزل")}
+                value={"للمنزل"}
+                checked={ShippingMethode === "للمنزل"}
+                className="m-1"
+                type="radio"
+              />{" "}
+              للمنزل
+            </div>
+            <div className="w-full flex justify-between items-center text-center  ">
+              <textarea
+                value={`سعر التوصيل : 🚚 
+${
+  selectedWilaya
+    ? (ShippingMethode === "للمكتب"
+        ? shippingPrices[selectedWilaya]?.priceToDesktop
+        : shippingPrices[selectedWilaya]?.priceToHomme) || 0
+    : 0
+} دج`}
+                readOnly
+                className={`border-teal-800 border text-center m-auto w-[90%] sm:w-[70%] flex justify-center items-center content-center justify-items-center  rounded-lg p-2  resize-none  ${
+                  selectedWilayaStyle ? "bg-green-100" : "bg-red-100"
+                }`}
+              />
+              ➕
+            </div>
+            <textarea
+              value={`  سعر المنتج : 📦 
+${product.discountedPrice ? product.discountedPrice : product.price} دج`}
+              readOnly
+              className={`border-teal-800 border m-auto text-center  w-[90%] sm:w-[70%]   rounded-lg p-2  resize-none  ${
+                selectedWilayaStyle ? "bg-green-100" : "bg-red-100"
+              }`}
+            />
+          </>
         ) : (
           <div className="border-teal-800 border  w-[90%] sm:w-[70%]  m-2 rounded-lg p-2 text-right  bg-green-100 ">
             {" "}
@@ -214,47 +267,7 @@ const FormOrder = ({ product }: { product: NewProduct }) => {
           </div>
         )}
       </div>
-      {product.withShipping === "نعم" && (
-        <label className="flex flex-col">
-          <input
-            type="text"
-            value={`🚚 سعر التوصيل:${
-              selectedWilaya
-                ? (ShippingMethode === "للمكتب"
-                    ? shippingPrices[selectedWilaya]?.priceToDesktop
-                    : shippingPrices[selectedWilaya]?.priceToHomme) || 0
-                : 0
-            } دج`}
-            readOnly
-            className={`border-teal-800 border  w-[90%] sm:w-[70%]  m-2 rounded-lg p-2 text-right  ${
-              selectedWilayaStyle ? "bg-green-100" : "bg-red-100"
-            }`}
-          />
-          <div className="flex justify-center content-center align-middle items-center">
-            {" "}
-            <input
-              name="shippingMethod"
-              disabled={!selectedWilaya}
-              onChange={() => setShippingMethode("للمكتب")}
-              value={"للمكتب"}
-              className="m-1"
-              type="radio"
-              checked={ShippingMethode === "للمكتب"}
-            />{" "}
-            للمكتب
-            <input
-              name="shippingMethod"
-              disabled={!selectedWilaya}
-              onChange={() => setShippingMethode("للمنزل")}
-              value={"للمنزل"}
-              checked={ShippingMethode === "للمنزل"}
-              className="m-1"
-              type="radio"
-            />{" "}
-            للمنزل
-          </div>
-        </label>
-      )}
+
       <hr></hr>
 
       <TotalPrice
