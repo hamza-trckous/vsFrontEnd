@@ -101,15 +101,15 @@ const FormOrder = ({ product }: { product: NewProduct }) => {
 
       // Fetch the user's IP address from the backend using axios
       const ipResponse = await axios.get(
-        `${process.env.NEXT_APP_BACKEND_URL}/api/get-ip`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/get-ip`
       );
       const userIpAddress = ipResponse.data.ip;
       console.log("User IP address:", userIpAddress);
       // Hash the email before sending it to Facebook
       const hashedPhone = CryptoJS.SHA256(data.phone).toString();
       // Get fbp and fbc from cookies
-      const fbp = getCookie("_fbp");
-      const fbc = getCookie("_fbc");
+      const fbp = getCookie("_fbp")?.toString() || "";
+      const fbc = getCookie("_fbc")?.toString() || "";
       const hashedFirstName = CryptoJS.SHA256(data.name).toString();
       const hashedState = CryptoJS.SHA256(data.wilaya || "").toString();
 
@@ -120,13 +120,13 @@ const FormOrder = ({ product }: { product: NewProduct }) => {
         user_data: {
           client_ip_address: userIpAddress,
           client_user_agent: navigator.userAgent,
-          fbc: (await fbc) as string,
-          ph: hashedPhone,
-          fbp: (await fbp) as string,
+          fbc: fbc || "",
+          ph: hashedPhone || "",
+          fbp: fbp || "",
           external_id: "external_id",
           fb_login_id: "facebook_login_id",
-          fn: hashedFirstName,
-          st: hashedState,
+          fn: hashedFirstName || "",
+          st: hashedState || "",
         },
         custom_data: {
           currency: "DZD",
