@@ -13,31 +13,21 @@ import AlertModal from "../AlertModal";
 import { getCookie } from "cookies-next"; // Correct import statement for cookies-next
 import axios from "axios"; // Import axios
 import { useAuth } from "@/context/AuthContext";
+
 const FormOrder = ({ product }: { product: NewProduct }) => {
+  const [quantity, setQuantity] = useState(1); // Add state for quantity
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const [alertType, setAlertType] = useState<"success" | "error">("success");
   const [selectedWilayaStyle, setSelectedWilayaStyle] = useState("");
-
-  const [alertMessage, setAlertMessage] = useState<string | null>(null);
-
   const [isAnimating, setIsAnimating] = useState(true); // Add state to control animation
+  const [ShippingMethode, setShippingMethode] = useState("للمكتب");
 
   const { shippingPrices } = useShipping(); // Use the useShipping hook to get the shipping prices
   const { isAdmin } = useAuth(); // Use the useUser hook to get the logged-in user
   const { user } = useUser(); // Use the useUser hook to get the logged-in user
-
   const { register, handleSubmit, reset, setValue, getValues, watch } =
     useForm<OrderDetails>(); // Add getValues and watch to useForm
   const selectedWilaya = watch("wilaya"); // Watch the selected wilaya
-
-  const [quantity, setQuantity] = useState(1); // Add state for quantity
-
-  const handleIncrement = () => {
-    setQuantity((prevQuantity) => Math.min(prevQuantity + 1, 10));
-  };
-
-  const handleDecrement = () => {
-    setQuantity((prevQuantity) => Math.max(prevQuantity - 1, 1));
-  };
 
   useEffect(() => {
     setValue("quantity", quantity); // Update the form value when quantity changes
@@ -46,7 +36,9 @@ const FormOrder = ({ product }: { product: NewProduct }) => {
   const calculateTotalAmount = React.useCallback(() => {
     const discountedPrice = product.discountedPrice ?? product.price;
     const shippingPrice = selectedWilaya
-      ? shippingPrices[selectedWilaya] || 0
+      ? ShippingMethode === "للمكتب"
+        ? shippingPrices[selectedWilaya]?.priceToDesktop
+        : shippingPrices[selectedWilaya]?.priceToHomme || 0
       : 0;
     const totalAmount =
       discountedPrice * quantity +
@@ -59,6 +51,7 @@ const FormOrder = ({ product }: { product: NewProduct }) => {
     selectedWilaya,
     shippingPrices,
     quantity,
+    ShippingMethode,
   ]);
   useEffect(() => {
     setValue("totalAmount", calculateTotalAmount());
@@ -102,6 +95,7 @@ const FormOrder = ({ product }: { product: NewProduct }) => {
       setAlertMessage("تم تقديم الطلب بنجاح! سنتصل بك قريبًا.");
       setAlertType("success");
       reset();
+      setValue("quantity", 1);
       setIsAnimating(false);
 
       // Fetch the user's IP address from the backend using axios
@@ -172,50 +166,26 @@ const FormOrder = ({ product }: { product: NewProduct }) => {
     }
   };
 
+  useEffect(() => {
+    if (selectedWilaya) {
+      setSelectedWilayaStyle(selectedWilaya);
+      setShippingMethode("للمكتب");
+    } else {
+      setSelectedWilayaStyle("");
+      setShippingMethode("للمكتب");
+    }
+  }, [selectedWilaya]);
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="mt-4  flex flex-col  w-full">
-      <h3
-        className="text-lg font-bold m-2 text-right "
-        style={{ fontFamily: "Cairo, sans-serif" }}>
-        طلب المنتج
-      </h3>
+      <Title />
       <div className="grid grid-cols-2 md:grid-cols-2 gap-4 mb-2 items-center justify-center content-center justify-items-center ">
-        <input
-          type="text"
-          {...register("name", { required: true })}
-          placeholder="الاسم 👤"
-          className="border-teal-800 border m-2  w-[90%] sm:w-[70%] rounded-lg p-2 text-right "
-        />
-        <input
-          type="text"
-          {...register("phone", { required: true })}
-          placeholder="رقم الهاتف ☎️"
-          className="border-teal-800 border w-[90%] sm:w-[70%] m-2 rounded-lg p-2 text-right"
-        />
+        <Name register={register} />
+        <Phone register={register} />
 
-        <input
-          type="text"
-          {...register("address", { required: true })}
-          placeholder="العنوان   🏚️"
-          className="border-teal-800 border   w-[90%] sm:w-[70%]   m-2 rounded-lg p-2 text-right"
-        />
-        <div className="flex items-center justify-center m-2 w-[90%] sm:w-[70%] rounded-lg p-2 text-right max-h-16">
-          <button
-            type="button"
-            onClick={handleDecrement}
-            className="bg-red-200 text-black border px-4 py-1 rounded-lg">
-            -
-          </button>
-          <span className="mx-4">{quantity}</span>
-          <button
-            type="button"
-            onClick={handleIncrement}
-            className="bg-green-200 text-black border px-4 py-1 rounded-lg">
-            +
-          </button>
-        </div>
+        <Adrees register={register} />
+        <Quantité quantity={quantity} setQuantity={setQuantity} />
 
         {product.withShipping === "نعم" ? (
           <select
@@ -223,7 +193,11 @@ const FormOrder = ({ product }: { product: NewProduct }) => {
             className={`border-teal-800 border  w-[90%] sm:w-[70%]  m-2 rounded-lg p-2 text-right ${
               selectedWilayaStyle ? "bg-green-100" : "bg-red-100"
             }`}
-            onChange={(e) => setSelectedWilayaStyle(e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value;
+              setValue("wilaya", value); // Update the form value
+              setSelectedWilayaStyle(value);
+            }}
             value={selectedWilayaStyle}>
             <option value="">اختر الولاية</option>
             {wilayas.map((wilaya) => (
@@ -235,45 +209,64 @@ const FormOrder = ({ product }: { product: NewProduct }) => {
         ) : (
           <div className="border-teal-800 border  w-[90%] sm:w-[70%]  m-2 rounded-lg p-2 text-right  bg-green-100 ">
             {" "}
-            💸 الشحن مجانا
+            💸 التوصيل مجانا
           </div>
         )}
-        {product.withShipping === "نعم" && (
+      </div>
+      {product.withShipping === "نعم" && (
+        <label className="flex flex-col">
           <input
             type="text"
-            value={`🚚سعرالشحن:${
-              selectedWilaya ? shippingPrices[selectedWilaya] || 0 : 0
+            value={`🚚 سعر التوصيل:${
+              selectedWilaya
+                ? (ShippingMethode === "للمكتب"
+                    ? shippingPrices[selectedWilaya]?.priceToDesktop
+                    : shippingPrices[selectedWilaya]?.priceToHomme) || 0
+                : 0
             } دج`}
             readOnly
             className={`border-teal-800 border  w-[90%] sm:w-[70%]  m-2 rounded-lg p-2 text-right  ${
               selectedWilayaStyle ? "bg-green-100" : "bg-red-100"
             }`}
           />
-        )}
-      </div>
+          <div className="flex justify-center content-center align-middle items-center">
+            {" "}
+            <input
+              name="shippingMethod"
+              disabled={!selectedWilaya}
+              onChange={() => setShippingMethode("للمكتب")}
+              value={"للمكتب"}
+              className="m-1"
+              type="radio"
+              checked={ShippingMethode === "للمكتب"}
+            />{" "}
+            للمكتب
+            <input
+              name="shippingMethod"
+              disabled={!selectedWilaya}
+              onChange={() => setShippingMethode("للمنزل")}
+              value={"للمنزل"}
+              checked={ShippingMethode === "للمنزل"}
+              className="m-1"
+              type="radio"
+            />{" "}
+            للمنزل
+          </div>
+        </label>
+      )}
       <hr></hr>
-      <div className="flex flex-col justify-center items-center w-full mt-2">
-        <input
-          type="text"
-          value={`💸السعر الاجمالي: ${calculateTotalAmount()} دج`}
-          readOnly
-          className={`border-teal-800 border  text-center m-2 rounded-lg p-2 w-max  ${
-            selectedWilayaStyle
-              ? "bg-green-100"
-              : product.withShipping === "نعم"
-              ? "bg-red-100"
-              : "bg-green-100"
-          }`}
-        />
-      </div>
-      <button
-        type="button" // Change type to button to handle click event
-        onClick={handleSubmit(onSubmit)} // Add click handler
-        className={`mt-4 text-white px-4 py-2 rounded-lg transition-colors duration-200 ${
-          isAnimating ? "animate-pulse bg-orange-500" : "bg-teal-500"
-        } hover:bg-teal-600`}>
-        إرسال الطلب
-      </button>
+
+      <TotalPrice
+        calculateTotalAmount={calculateTotalAmount}
+        product={product}
+        selectedWilayaStyle={selectedWilayaStyle}
+      />
+
+      <ButtonOfSendForm
+        handleSubmit={handleSubmit}
+        onSubmit={onSubmit}
+        isAnimating={isAnimating}
+      />
       {alertMessage && (
         <AlertModal
           message={alertMessage}
@@ -286,3 +279,141 @@ const FormOrder = ({ product }: { product: NewProduct }) => {
 };
 
 export default FormOrder;
+const Quantité = ({
+  quantity,
+  setQuantity,
+}: {
+  quantity: number;
+  setQuantity: React.Dispatch<React.SetStateAction<number>>;
+}) => {
+  const handleIncrement = () => {
+    setQuantity((prevQuantity) => Math.min(prevQuantity + 1, 10));
+  };
+
+  const handleDecrement = () => {
+    setQuantity((prevQuantity) => Math.max(prevQuantity - 1, 1));
+  };
+  return (
+    <div className="flex items-center justify-center m-2 w-[90%] sm:w-[70%] rounded-lg p-2 text-right max-h-16">
+      <input
+        disabled
+        type="text"
+        placeholder="الكمية"
+        className=" text-black  w-[90%] sm:w-[70%]   m-2 rounded-lg p-2 text-right"
+      />
+      <button
+        type="button"
+        onClick={handleDecrement}
+        className="bg-red-200 text-black border px-4 py-1 rounded-lg">
+        -
+      </button>
+      <span className="mx-4">{quantity}</span>
+      <button
+        type="button"
+        onClick={handleIncrement}
+        className="bg-green-200 text-black border px-4 py-1 rounded-lg">
+        +
+      </button>
+    </div>
+  );
+};
+const Title = () => {
+  return (
+    <h3
+      className="text-lg font-bold m-2 text-right "
+      style={{ fontFamily: "Cairo, sans-serif" }}>
+      طلب المنتج
+    </h3>
+  );
+};
+const ButtonOfSendForm = ({
+  handleSubmit,
+  isAnimating,
+  onSubmit,
+}: {
+  handleSubmit: (onSubmit: SubmitHandler<OrderDetails>) => void;
+  isAnimating: boolean;
+  onSubmit: SubmitHandler<OrderDetails>;
+}) => {
+  return (
+    <button
+      type="submit" // Change type to button to handle click event
+      onClick={() => handleSubmit(onSubmit)} // Add click handler
+      className={`mt-4 text-white px-4 py-2 rounded-lg transition-colors duration-200 ${
+        isAnimating ? "animate-pulse bg-orange-500" : "bg-teal-500"
+      } hover:bg-teal-600`}>
+      إرسال الطلب
+    </button>
+  );
+};
+
+const TotalPrice = ({
+  calculateTotalAmount,
+  selectedWilayaStyle,
+  product,
+}: {
+  calculateTotalAmount: () => number;
+  selectedWilayaStyle: string;
+  product: NewProduct;
+}) => {
+  return (
+    <div className="flex flex-col justify-center items-center w-full mt-2">
+      <input
+        type="text"
+        value={`💸السعر الاجمالي: ${calculateTotalAmount()} دج`}
+        readOnly
+        className={`border-teal-800 border  text-center m-2 rounded-lg p-2 w-max  ${
+          selectedWilayaStyle
+            ? "bg-green-100"
+            : product.withShipping === "نعم"
+            ? "bg-red-100"
+            : "bg-green-100"
+        }`}
+      />
+    </div>
+  );
+};
+const Name = ({
+  register,
+}: {
+  register: ReturnType<typeof useForm<OrderDetails>>["register"];
+}) => {
+  return (
+    <input
+      type="text"
+      {...register("name", { required: true })}
+      placeholder="الاسم 👤"
+      className="border-teal-800 border m-2  w-[90%] sm:w-[70%] rounded-lg p-2 text-right "
+    />
+  );
+};
+
+const Phone = ({
+  register,
+}: {
+  register: ReturnType<typeof useForm<OrderDetails>>["register"];
+}) => {
+  return (
+    <input
+      type="text"
+      {...register("phone", { required: true })}
+      placeholder="رقم الهاتف ☎️"
+      className="border-teal-800 border w-[90%] sm:w-[70%] m-2 rounded-lg p-2 text-right"
+    />
+  );
+};
+
+const Adrees = ({
+  register,
+}: {
+  register: ReturnType<typeof useForm<OrderDetails>>["register"];
+}) => {
+  return (
+    <input
+      type="text"
+      {...register("address", { required: true })}
+      placeholder="العنوان   🏚️"
+      className="border-teal-800 border   w-[90%] sm:w-[70%]   m-2 rounded-lg p-2 text-right"
+    />
+  );
+};

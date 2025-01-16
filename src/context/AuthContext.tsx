@@ -32,7 +32,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     try {
       await loginUser({ email, password });
       const authData = await checkAuth();
-      console.log("authData 2 ", authData);
 
       if (!authData.isAuthenticated) {
         setIsLoggedIn(false);
@@ -45,7 +44,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         setIsAdmin(true);
       }
     } catch (error) {
-      // console.error("Error logging in:", error);
       throw error;
     }
   };

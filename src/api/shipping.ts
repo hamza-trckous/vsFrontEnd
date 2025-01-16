@@ -13,11 +13,15 @@ export const getShippingPrices = async () => {
   }
 };
 
-export const updateShippingPrice = async (wilaya: string, price: number) => {
+export const updateShippingPrice = async (
+  wilaya: string,
+  priceToDesktop: number,
+  priceToHomme: number
+) => {
   try {
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/shipping/update`,
-      { wilaya, price }
+      { wilaya, priceToDesktop, priceToHomme }
     );
     return response.data;
   } catch (error) {
@@ -42,7 +46,11 @@ export const deleteShippingPrice = async (wilaya: string) => {
 };
 
 export const createInitialShippingPrices = async (
-  shippingPrices: { wilaya: string; price: number }[]
+  shippingPrices: {
+    wilaya: string;
+    priceToDesktop: number;
+    priceToHomme: number;
+  }[]
 ) => {
   try {
     const response = await axios.post(
@@ -51,7 +59,6 @@ export const createInitialShippingPrices = async (
     );
     return response.data;
   } catch (error) {
-    console.error("Error creating initial shipping prices:", error);
     throw error;
   }
 };

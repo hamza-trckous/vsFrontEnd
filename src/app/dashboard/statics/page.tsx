@@ -113,7 +113,9 @@ const StaticsPage = () => {
         order.phone,
         order.address,
         order.name,
-        order.products.map((p) => p.product.name).join(", "),
+        order.products
+          .map((p) => p.product?.name || "Unknown Product")
+          .join(", "),
         order.products.map((p) => p.quantity).join(", "),
         order.totalAmount,
         order.status,
@@ -176,60 +178,61 @@ const StaticsPage = () => {
               </tr>
             </thead>
             <tbody>
-              {orders
-                .slice()
-                .reverse()
-                .map((order) => (
-                  <tr key={order._id}>
-                    <td className="py-2 px-4 border-b">
-                      <div className="flex flex-wrap">{order.phone}</div>
-                      <div className="flex flex-wrap">{order.address}</div>
-                      <div className="flex flex-wrap">{order.name}</div>
-                    </td>
+              {orders.length > 1 &&
+                orders
+                  .slice()
+                  .reverse()
+                  .map((order) => (
+                    <tr key={order._id}>
+                      <td className="py-2 px-4 border-b">
+                        <div className="flex flex-wrap">{order.phone}</div>
+                        <div className="flex flex-wrap">{order.address}</div>
+                        <div className="flex flex-wrap">{order.name}</div>
+                      </td>
 
-                    <td className="py-2 px-4 border-b">
-                      {order.products.map((item) => (
-                        <div key={item.product._id + item.quantity}>
-                          {item.product.name}
-                        </div>
-                      ))}
-                    </td>
-                    <td className="py-2 px-4 border-b">
-                      {order.products.map((item) => (
-                        <div key={item.product._id + item.quantity}>
-                          {item.quantity}
-                        </div>
-                      ))}
-                    </td>
-                    <td
-                      onClick={() => console.log(order)}
-                      className="py-2 px-4 border-b">
-                      {order.totalAmount} $
-                    </td>
-                    <td className="py-2 px-4 border-b">{order.status}</td>
-                    <td className="py-2 px-4 border-b">
-                      <select
-                        value={selectedStatus[order._id] || order.status}
-                        onChange={(e) =>
-                          handleStatusChange(order._id, e.target.value)
-                        }
-                        className="border rounded-lg p-2">
-                        <option value="pending">قيد الانتظار</option>
-                        <option value="completed">مكتمل</option>
-                        <option value="cancelled">ملغى</option>
-                      </select>
-                    </td>
-                    <td className="py-2 px-4 border-b">
-                      <button
-                        onClick={() => handleSave(order._id)}
-                        className={`${getButtonColor(
-                          selectedStatus[order._id] || order.status
-                        )} text-white px-4 py-2 rounded-lg hover:bg-opacity-75 transition-colors duration-200`}>
-                        حفظ
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                      <td className="py-2 px-4 border-b">
+                        {order.products.map((item) => (
+                          <div key={item.product?._id + item.quantity}>
+                            {item.product?.name || "Unknown Product"}
+                          </div>
+                        ))}
+                      </td>
+                      <td className="py-2 px-4 border-b">
+                        {order.products.map((item) => (
+                          <div key={item.product?._id + item.quantity}>
+                            {item.quantity}
+                          </div>
+                        ))}
+                      </td>
+                      <td
+                        onClick={() => console.log(order)}
+                        className="py-2 px-4 border-b">
+                        {order.totalAmount} $
+                      </td>
+                      <td className="py-2 px-4 border-b">{order.status}</td>
+                      <td className="py-2 px-4 border-b">
+                        <select
+                          value={selectedStatus[order._id] || order.status}
+                          onChange={(e) =>
+                            handleStatusChange(order._id, e.target.value)
+                          }
+                          className="border rounded-lg p-2">
+                          <option value="pending">قيد الانتظار</option>
+                          <option value="completed">مكتمل</option>
+                          <option value="cancelled">ملغى</option>
+                        </select>
+                      </td>
+                      <td className="py-2 px-4 border-b">
+                        <button
+                          onClick={() => handleSave(order._id)}
+                          className={`${getButtonColor(
+                            selectedStatus[order._id] || order.status
+                          )} text-white px-4 py-2 rounded-lg hover:bg-opacity-75 transition-colors duration-200`}>
+                          حفظ
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
             </tbody>
           </table>
         </div>

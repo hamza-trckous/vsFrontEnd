@@ -12,9 +12,11 @@ import AlertModal from "@/components/AlertModal";
 
 const Shipping = () => {
   const [shippingPrices, setShippingPrices] = useState<{
-    [city: string]: number;
+    [city: string]: { priceToDesktop: number; priceToHomme: number };
   }>({});
+
   const [globalPrice, setGlobalPrice] = useState<number>(600);
+  const [globalPrice2, setGlobalPrice2] = useState<number>(800);
   const [isInitialPricesCreated, setIsInitialPricesCreated] =
     useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
@@ -24,15 +26,25 @@ const Shipping = () => {
     const fetchShippingPrices = async () => {
       try {
         const prices = await getShippingPrices();
+        console.log("prices bibi", prices);
         if (prices.length > 0) {
           setIsInitialPricesCreated(true);
         }
         const pricesMap = prices.reduce(
           (
-            acc: { [city: string]: number },
-            item: { wilayas: string; price: number }
+            acc: {
+              [city: string]: { priceToDesktop: number; priceToHomme: number };
+            },
+            item: {
+              wilayas: string;
+              priceToDesktop: number;
+              priceToHomme: number;
+            }
           ) => {
-            acc[item.wilayas] = item.price;
+            acc[item.wilayas] = {
+              priceToDesktop: item.priceToDesktop,
+              priceToHomme: item.priceToHomme,
+            };
             return acc;
           },
           {}
@@ -46,23 +58,31 @@ const Shipping = () => {
     fetchShippingPrices();
   }, []);
 
-  const handlePriceChange = (city: string, price: number) => {
+  const handlePriceChange = (
+    city: string,
+    pricetype: "priceToDesktop" | "priceToHomme",
+    price: number
+  ) => {
     setShippingPrices((prevPrices) => ({
       ...prevPrices,
-      [city]: price,
+      [city]: { ...prevPrices[city], [pricetype]: price },
     }));
   };
 
   const handleSavePrices = async () => {
     try {
-      for (const [wilaya, price] of Object.entries(shippingPrices)) {
-        await updateShippingPrice(wilaya, price);
+      for (const [wilaya, { priceToDesktop, priceToHomme }] of Object.entries(
+        shippingPrices
+      )) {
+        await updateShippingPrice(wilaya, priceToDesktop, priceToHomme);
+        console.log(wilaya, priceToDesktop, priceToHomme);
       }
-      setAlertMessage("تم حفظ أسعار الشحن بنجاح!");
+
+      setAlertMessage("تم حفظ أسعار التوصيل بنجاح!");
       setType("success");
     } catch (error) {
       console.error("Error saving shipping prices:", error);
-      setAlertMessage("حدث خطأ أثناء حفظ أسعار الشحن.");
+      setAlertMessage("حدث خطأ أثناء حفظ أسعار التوصيل.");
       setType("error");
     }
   };
@@ -71,14 +91,15 @@ const Shipping = () => {
     try {
       const initialPrices = wilayas.map((wilaya) => ({
         wilaya: wilaya.name,
-        price: globalPrice,
+        priceToDesktop: globalPrice,
+        priceToHomme: globalPrice2,
       }));
       await createInitialShippingPrices(initialPrices);
-      setAlertMessage("تم إنشاء قائمة أسعار الشحن بنجاح!");
+      setAlertMessage("تم إنشاء قائمة أسعار التوصيل بنجاح!");
       window.location.reload();
     } catch (error) {
       console.error("Error initializing shipping prices:", error);
-      setAlertMessage("حدث خطأ أثناء إنشاء قائمة أسعار الشحن.");
+      setAlertMessage("حدث خطأ أثناء إنشاء قائمة أسعار التوصيل.");
     }
   };
 
@@ -87,30 +108,80 @@ const Shipping = () => {
       for (const wilaya of Object.keys(shippingPrices)) {
         await deleteShippingPrice(wilaya);
       }
-      setAlertMessage("تم حذف قائمة أسعار الشحن بنجاح!");
+      setAlertMessage("تم حذف قائمة أسعار التوصيل بنجاح!");
       setShippingPrices({});
     } catch (error) {
       console.error("Error deleting shipping prices:", error);
-      setAlertMessage("حدث خطأ أثناء حذف قائمة أسعار الشحن.");
+      setAlertMessage("حدث خطأ أثناء حذف قائمة أسعار التوصيل.");
     }
   };
 
   const handleApplyGlobalPrice = () => {
     const updatedPrices = wilayas.reduce(
-      (acc: { [city: string]: number }, wilaya) => {
-        acc[wilaya.name] = globalPrice;
+      (
+        acc: { [city: string]: { priceDesktop: number; priceToHomme: number } },
+        wilaya
+      ) => {
+        const currentPrices = shippingPrices[wilaya.name] || {
+          priceDesktop: 0,
+          priceToHomme: 0,
+        };
+        acc[wilaya.name] = {
+          priceDesktop: globalPrice,
+          priceToHomme: currentPrices.priceToHomme,
+        };
         return acc;
       },
       {}
     );
-    setShippingPrices(updatedPrices);
+    setShippingPrices((pre) => {
+      const updated = { ...pre };
+      for (const city in updatedPrices) {
+        updated[city] = {
+          priceToDesktop: updatedPrices[city].priceDesktop,
+          priceToHomme: updated[city]?.priceToHomme || 0,
+        };
+      }
+      return updated;
+    });
+    console.log("stat", shippingPrices);
   };
 
+  const handleApplyGlobalPrice2 = () => {
+    const updatedPrices = wilayas.reduce(
+      (
+        acc: { [city: string]: { priceDesktop: number; priceToHomme: number } },
+        wilaya
+      ) => {
+        const currentPrices = shippingPrices[wilaya.name] || {
+          priceDesktop: 0,
+          priceToHomme: 0,
+        };
+        acc[wilaya.name] = {
+          priceDesktop: currentPrices.priceToDesktop,
+          priceToHomme: globalPrice2,
+        };
+        return acc;
+      },
+      {}
+    );
+    setShippingPrices((pre) => {
+      const updated = { ...pre };
+      for (const city in updatedPrices) {
+        updated[city] = {
+          priceToDesktop: updated[city]?.priceToDesktop || 0,
+          priceToHomme: updatedPrices[city].priceToHomme,
+        };
+      }
+      return updated;
+    });
+    console.log("stat2", shippingPrices);
+  };
   return (
     <div className="container mx-auto p-4 w-full justify-start flex-col">
       <div className="w-11/12">
         <h2 className="text-2xl font-bold mb-4 text-center">
-          جدول أسعار الشحن في الجزائر
+          جدول أسعار التوصيل في الجزائر
         </h2>
         <div className="flex items-center justify-center mb-4">
           <input
@@ -122,14 +193,29 @@ const Shipping = () => {
           <button
             onClick={handleApplyGlobalPrice}
             className="ml-2 bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition-colors duration-200">
-            تطبيق السعر على جميع الولايات
+            تطبيق سعر التوصيل للمكتب على جميع الولايات
+          </button>
+        </div>
+        <div className="flex items-center justify-center mb-4">
+          <input
+            type="number"
+            value={globalPrice2}
+            onChange={(e) => setGlobalPrice2(parseFloat(e.target.value))}
+            className="border rounded px-2 py-1 text-center"
+          />
+          <button
+            onClick={handleApplyGlobalPrice2}
+            className="ml-2 bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition-colors duration-200">
+            تطبيق سعر التوصيل للمنزل على جميع الولايات
           </button>
         </div>
         <table className="min-w-full bg-white border border-gray-200">
           <thead>
             <tr>
               <th className="py-2 px-4 border-b">الولاية</th>
-              <th className="py-2 px-4 border-b">سعر الشحن (دج)</th>
+              <th className="py-2 px-4 border-b"> سعر التوصيل للمكتب(دج)</th>
+
+              <th className="py-2 px-4 border-b">سعر التوصيل للمنزل(دج)</th>
             </tr>
           </thead>
           <tbody>
@@ -138,16 +224,39 @@ const Shipping = () => {
                 <td className="py-2 px-4 border-b text-center">
                   {wilaya.arabicName}
                 </td>
-                <td className="py-2 px-4 border-b flex items-center justify-center">
-                  <input
-                    type="number"
-                    value={shippingPrices[wilaya.name] || ""}
-                    onChange={(e) =>
-                      handlePriceChange(wilaya.name, parseFloat(e.target.value))
-                    }
-                    className="border rounded px-2 py-1 w-full text-center"
-                  />
-                  <span className="ml-2">دج</span>
+                <td className="py-2 px-4 border-b">
+                  <div className="flex items-center justify-center">
+                    <input
+                      type="number"
+                      value={shippingPrices[wilaya.name]?.priceToDesktop || ""}
+                      onChange={(e) =>
+                        handlePriceChange(
+                          wilaya.name,
+                          "priceToDesktop",
+                          parseFloat(e.target.value)
+                        )
+                      }
+                      className="border rounded px-2 py-1 w-full text-center"
+                    />
+                    <span className="ml-2">دج</span>
+                  </div>
+                </td>
+                <td className="py-2 px-4 border-b">
+                  <div className="flex items-center justify-center">
+                    <input
+                      type="number"
+                      value={shippingPrices[wilaya.name]?.priceToHomme || ""}
+                      onChange={(e) =>
+                        handlePriceChange(
+                          wilaya.name,
+                          "priceToHomme",
+                          parseFloat(e.target.value)
+                        )
+                      }
+                      className="border rounded px-2 py-1 w-full text-center"
+                    />
+                    <span className="ml-2">دج</span>
+                  </div>
                 </td>
               </tr>
             ))}

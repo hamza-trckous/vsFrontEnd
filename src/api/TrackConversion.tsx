@@ -30,8 +30,6 @@ interface EventData {
 }
 
 export const trackConversion = async (eventData: EventData): Promise<void> => {
-  console.log("Sending conversion event:");
-
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/track-conversion`,
@@ -46,22 +44,16 @@ export const trackConversion = async (eventData: EventData): Promise<void> => {
 
     if (!response.ok) {
       const errorData = await response.json();
-      console.error("Error response from server:", errorData);
       const errorMessage =
         errorData.error?.error?.message || "Failed to send conversion event";
       throw new Error(errorMessage);
     }
-
-    const data = await response.json();
-    console.log("Conversion event sent successfully:", data);
   } catch (error) {
     if (
       error instanceof Error &&
       error.message.includes("Error validating access token")
     ) {
-      console.error("Access token has expired. Please refresh the token.");
     } else {
-      console.error("Error sending conversion event:", error);
     }
     throw error;
   }

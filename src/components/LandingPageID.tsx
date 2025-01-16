@@ -132,7 +132,10 @@ const LandingPageId: React.FC<LandingPageIDProps> = ({ productId }) => {
               <div className="flex items-center justify-start mt-2">
                 <span className="text-gray-600 mr-2 text-md ">سعر الشحن:</span>
                 <span className="text-teal-500 font-bold text-md mr-2">
-                  {selectedWilaya ? shippingPrices[selectedWilaya] || 0 : 0} دج
+                  {selectedWilaya
+                    ? shippingPrices[selectedWilaya]?.priceToDesktop || 0
+                    : 0}{" "}
+                  دج
                 </span>
               </div>
             )}

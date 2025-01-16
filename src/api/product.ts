@@ -13,7 +13,6 @@ export const getAllProducts = async (): Promise<Product[]> => {
     const response = await api.get<Product[]>("");
     return response.data;
   } catch (error) {
-    console.error("Error fetching products:", error);
     throw error;
   }
 };
@@ -24,7 +23,6 @@ export const getProductById = async (id: string): Promise<Product> => {
     const response = await api.get<Product>(`/${id}`);
     return response.data;
   } catch (error) {
-    console.error(`Error fetching product with ID ${id}:`, error);
     throw error;
   }
 };
@@ -35,10 +33,8 @@ export const createProduct = async (
 ): Promise<Product> => {
   try {
     const response = await api.post<Product>("", productData);
-    console.log("response", response);
     return response.data;
   } catch (error) {
-    console.error("Error creating product:", error);
     throw error;
   }
 };
@@ -52,7 +48,6 @@ export const updateProduct = async (
     const response = await api.put<Product>(`/${id}`, productData);
     return response.data;
   } catch (error) {
-    console.error(`Error updating product with ID ${id}:`, error);
     throw error;
   }
 };
@@ -65,7 +60,6 @@ export const deleteProduct = async (
     const response = await api.delete<{ message: string }>(`/${id}`);
     return response.data;
   } catch (error) {
-    console.error(`Error deleting product with ID ${id}:`, error);
     throw error;
   }
 };

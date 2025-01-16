@@ -1,11 +1,21 @@
 "use client";
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 import { getShippingPrices } from "@/api/shipping";
 
 interface ShippingContextProps {
-  shippingPrices: { [city: string]: number };
+  shippingPrices: {
+    [city: string]: { priceToDesktop: number; priceToHomme: number };
+  };
   setShippingPrices: React.Dispatch<
-    React.SetStateAction<{ [city: string]: number }>
+    React.SetStateAction<{
+      [city: string]: { priceToDesktop: number; priceToHomme: number };
+    }>
   >;
 }
 
@@ -17,32 +27,40 @@ export const ShippingProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [shippingPrices, setShippingPrices] = useState<{
-    [city: string]: number;
+    [city: string]: { priceToDesktop: number; priceToHomme: number };
   }>({});
+  const fetchShippingPrices = useCallback(async () => {
+    try {
+      const prices = await getShippingPrices();
+      console.log("prices", prices);
+      const pricesMap = prices.reduce(
+        (
+          acc: {
+            [city: string]: { priceToDesktop: number; priceToHomme: number };
+          },
+          item: {
+            wilayas: string;
+            priceToDesktop: number;
+            priceToHomme: number;
+          }
+        ) => {
+          acc[item.wilayas] = {
+            priceToDesktop: item.priceToDesktop,
+            priceToHomme: item.priceToHomme,
+          };
+          return acc;
+        },
+        {}
+      );
+      setShippingPrices(pricesMap);
+    } catch (error) {
+      console.error("Error fetching shipping prices:", error);
+    }
+  }, []);
 
   useEffect(() => {
-    const fetchShippingPrices = async () => {
-      try {
-        const prices = await getShippingPrices();
-        console.log("prices", prices);
-        const pricesMap = prices.reduce(
-          (
-            acc: { [city: string]: number },
-            item: { wilayas: string; price: number }
-          ) => {
-            acc[item.wilayas] = item.price;
-            return acc;
-          },
-          {}
-        );
-        setShippingPrices(pricesMap);
-      } catch (error) {
-        console.error("Error fetching shipping prices:", error);
-      }
-    };
-
     fetchShippingPrices();
-  }, []);
+  }, [fetchShippingPrices]);
 
   return (
     <ShippingContext.Provider value={{ shippingPrices, setShippingPrices }}>

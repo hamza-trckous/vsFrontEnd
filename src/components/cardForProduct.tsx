@@ -107,7 +107,7 @@ const CardForProduct: React.FC<CardForProductProps> = ({ product }) => {
             width={625}
             height={240}
             className="w-full h-60 object-cover rounded-t-lg"
-            loading="eager"
+            loading="lazy"
           />
         ) : (
           <Image

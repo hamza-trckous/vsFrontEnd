@@ -2,8 +2,6 @@ import axios from "axios";
 
 const url = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-console.log("Backend URL:", url); // Verify the URL is being read correctly
-
 interface IFormInput {
   username: string;
   email: string;
@@ -29,11 +27,9 @@ export const registerUser = async (data: IFormInput) => {
   };
 
   try {
-    console.log("Sending request to:", `${url}/api/register`); // Add logging
     const response = await axios.post(`${url}/api/register`, data, {
       withCredentials: true,
     });
-    console.log("Response received:", response); // Add logging
     return {
       ...response.data,
       message: translations[response.data.message] ?? response.data.message,
@@ -66,14 +62,12 @@ export const registerUser = async (data: IFormInput) => {
 };
 
 export const loginUser = async (form: { email: string; password: string }) => {
-  console.log("Sending login request to:", `${url}/api/login`); // Add logging
   return axios.post(`${url}/api/login`, form, {
     withCredentials: true,
   });
 };
 
 export const logoutUser = async () => {
-  console.log("Sending logout request to:", `${url}/api/logout`); // Add logging
   return axios.post(
     `${url}/api/logout`,
     {},
@@ -84,10 +78,8 @@ export const logoutUser = async () => {
 };
 
 export const checkAuth = async () => {
-  console.log("Sending check-auth request to:", `${url}/api/check-auth`); // Add logging
   const response = await axios.get(`${url}/api/check-auth`, {
     withCredentials: true,
   });
-  console.log("Check-auth response received:", response); // Add logging
   return response.data;
 };

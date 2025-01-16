@@ -66,7 +66,7 @@ const HomePage = () => {
               images: product.images,
               name: product.name,
               price: product.price,
-              discountedPrice: product.price, // Adjust if you have a discount logic
+              discountedPrice: product.discountedPrice, // Adjust if you have a discount logic
               rating: product.rating,
               description: product.description,
               reviews: product.reviews, // Assuming product.reviews is already of type Review[]
@@ -335,6 +335,7 @@ const HomePage = () => {
           src="/cover.jpg"
           alt="Cover"
           className="w-full h-96 object-cover"
+          loading="lazy"
         />
         <div className="absolute inset-0 flex flex-col items-center justify-center text-white bg-black bg-opacity-50">
           <h1 className="text-4xl font-bold mb-4 text-center ">
