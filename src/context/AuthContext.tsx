@@ -40,6 +40,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         throw new Error("Token is null");
       }
       localStorage.setItem("token", token);
+
       await cheking(token);
     } catch (error) {
       localStorage.removeItem("token"); // Clean up if error
@@ -86,7 +87,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       if (!authData.isAuthenticated) {
         setIsLoggedIn(false);
         setIsAdmin(false);
-        localStorage.removeItem("token");
 
         return;
       }

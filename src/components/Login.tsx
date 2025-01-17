@@ -6,7 +6,7 @@ interface LoginProps {
   onLoginSuccess: (token: string) => void;
 }
 
-const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
+const Login: React.FC<LoginProps> = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -16,8 +16,6 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
     e.preventDefault();
     try {
       await login(email, password);
-      // Use the login function from AuthContext
-      onLoginSuccess("token");
 
       // Pass a dummy token for
     } catch {
