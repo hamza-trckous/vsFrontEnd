@@ -99,7 +99,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       // Handle error if needed
       setIsLoggedIn(false);
       setIsAdmin(false);
-      localStorage.removeItem("token");
     } finally {
       setLoading(false);
     }
