@@ -77,8 +77,11 @@ export const logoutUser = async () => {
   );
 };
 
-export const checkAuth = async () => {
+export const checkAuth = async (token: string) => {
   const response = await axios.get(`${url}/api/check-auth`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
     withCredentials: true,
   });
   return response.data;

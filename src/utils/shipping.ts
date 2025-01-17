@@ -1,3 +1,5 @@
+import { getShippingPrices } from "@/api/shipping";
+
 export const wilayas = [
   { code: "01", name: "Adrar", arabicName: "أدرار" },
   { code: "02", name: "Chlef", arabicName: "الشلف" },
@@ -58,3 +60,32 @@ export const wilayas = [
   { code: "57", name: "El M'Ghair", arabicName: "المغير" },
   { code: "58", name: "El Menia", arabicName: "المنيعة" },
 ];
+
+export const fetchShippingPrices = async () => {
+  try {
+    const prices = await getShippingPrices();
+
+    const pricesMap = prices.reduce(
+      (
+        acc: {
+          [city: string]: { priceToDesktop: number; priceToHomme: number };
+        },
+        item: {
+          wilayas: string;
+          priceToDesktop: number;
+          priceToHomme: number;
+        }
+      ) => {
+        acc[item.wilayas] = {
+          priceToDesktop: item.priceToDesktop,
+          priceToHomme: item.priceToHomme,
+        };
+        return acc;
+      },
+      {}
+    );
+    return pricesMap;
+  } catch (error) {
+    console.error("Error fetching shipping prices:", error);
+  }
+};

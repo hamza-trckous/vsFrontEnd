@@ -3,12 +3,11 @@ import { OrderDetails } from "@/Types/OrderPart";
 import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form"; // Correct import statement
 import { createOrder } from "@/api/orders";
-import { wilayas } from "@/utils/shipping"; // Import wilayas
+import { fetchShippingPrices, wilayas } from "@/utils/shipping"; // Import wilayas
 import { trackConversion } from "@/api/TrackConversion"; // Import trackConversion
 import CryptoJS from "crypto-js"; // Import CryptoJS for hashing
 import { useUser } from "@/context/UserContext";
 import { NewProduct } from "@/Types/ProductPart";
-import { useShipping } from "@/context/ShippingContext";
 import AlertModal from "../AlertModal";
 import { getCookie } from "cookies-next"; // Correct import statement for cookies-next
 import axios from "axios"; // Import axios
@@ -22,7 +21,9 @@ const FormOrder = ({ product }: { product: NewProduct }) => {
   const [isAnimating, setIsAnimating] = useState(true); // Add state to control animation
   const [ShippingMethode, setShippingMethode] = useState("للمكتب");
 
-  const { shippingPrices } = useShipping(); // Use the useShipping hook to get the shipping prices
+  const [shippingPrices, setShippingPrices] = useState<{
+    [city: string]: { priceToDesktop: number; priceToHomme: number };
+  }>({});
   const { isAdmin } = useAuth(); // Use the useUser hook to get the logged-in user
   const { user } = useUser(); // Use the useUser hook to get the logged-in user
   const { register, handleSubmit, reset, setValue, getValues, watch } =
@@ -33,6 +34,15 @@ const FormOrder = ({ product }: { product: NewProduct }) => {
     setValue("quantity", quantity); // Update the form value when quantity changes
   }, [quantity, setValue]);
 
+  useEffect(() => {
+    const feetch = async () => {
+      const prices = await fetchShippingPrices();
+      if (prices) {
+        setShippingPrices(prices);
+      }
+    };
+    feetch();
+  }, []); // Fetch shipping prices when the component mounts
   const calculateTotalAmount = React.useCallback(() => {
     const discountedPrice = product.discountedPrice ?? product.price;
     const shippingPrice = selectedWilaya

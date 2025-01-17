@@ -17,6 +17,7 @@ interface AuthContextType {
   logout: () => void;
   setLoading: (loading: boolean) => void;
   setIsLoggedIn: (isLoggedIn: boolean) => void;
+  cheking: (token: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -30,19 +31,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   const login = async (email: string, password: string) => {
     try {
-      await loginUser({ email, password });
-      const authData = await checkAuth();
-
-      if (!authData.isAuthenticated) {
-        setIsLoggedIn(false);
-        setIsAdmin(false);
-        return;
+      const response = await loginUser({ email, password });
+      const token = response.data.token;
+      if (!token) {
+        throw new Error("Token is null");
       }
-
-      setIsLoggedIn(true);
-      if (authData.user.role === "admin") {
-        setIsAdmin(true);
-      }
+      localStorage.setItem("token", token);
+      cheking(token);
     } catch (error) {
       throw error;
     }
@@ -56,6 +51,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         setIsLoggedIn(false);
         setIsAdmin(false);
         setLoading(false);
+        localStorage.removeItem("token");
       }, 1000);
     } catch (error) {
       console.error("Error logging out:", error);
@@ -64,26 +60,45 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   const checkAuthStatus = useMemo(
     () => async () => {
-      try {
-        const authData = await checkAuth();
-        if (!authData.isAuthenticated) {
-          setIsLoggedIn(false);
-          setIsAdmin(false);
-          return;
-        }
+      const token = localStorage.getItem("token");
 
-        setIsLoggedIn(true);
-        if (authData.user.role === "admin") {
-          setIsAdmin(true);
-        }
-      } catch {
-        // Handle error if needed
-      } finally {
+      console.log("Checking auth status");
+      if (!token) {
+        setIsLoggedIn(false);
+        setIsAdmin(false);
         setLoading(false);
+        return;
       }
+      console.log("Checking auth status2");
+      cheking(token);
     },
     []
   );
+  const cheking = async (token: string) => {
+    try {
+      const authData = await checkAuth(token);
+      console.log("authin", authData);
+      if (!authData.isAuthenticated) {
+        setIsLoggedIn(false);
+        setIsAdmin(false);
+        localStorage.removeItem("token");
+
+        return;
+      }
+
+      setIsLoggedIn(true);
+      if (authData.user.role === "admin") {
+        setIsAdmin(true);
+      }
+    } catch {
+      // Handle error if needed
+      setIsLoggedIn(false);
+      setIsAdmin(false);
+      localStorage.removeItem("token");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     checkAuthStatus();
@@ -99,6 +114,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         logout,
         setLoading,
         setIsLoggedIn,
+        cheking,
       }}>
       {children}
     </AuthContext.Provider>

@@ -5,7 +5,6 @@ import TopNavBar from "@/components/topNavBar";
 import { AuthProvider } from "@/context/AuthContext";
 import MainContent from "@/components/MainContent"; // Import the MainContent component
 import { UserProvider } from "@/context/UserContext";
-import { ShippingProvider } from "@/context/ShippingContext";
 import AlertProvider from "@/context/useAlert";
 
 const RootLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -17,15 +16,13 @@ const RootLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       </head>
       <body className="antialiased">
         <AlertProvider>
-          <ShippingProvider>
-            <UserProvider>
-              <AuthProvider>
-                <TopNavBar />
-                <Nav />
-                <MainContent>{children}</MainContent>
-              </AuthProvider>
-            </UserProvider>
-          </ShippingProvider>
+          <UserProvider>
+            <AuthProvider>
+              <TopNavBar />
+              <Nav />
+              <MainContent>{children}</MainContent>
+            </AuthProvider>
+          </UserProvider>
         </AlertProvider>
       </body>
     </html>

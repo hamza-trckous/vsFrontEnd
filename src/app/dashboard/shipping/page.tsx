@@ -1,9 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { wilayas } from "@/utils/shipping";
+import { fetchShippingPrices, wilayas } from "@/utils/shipping";
 import {
-  getShippingPrices,
   updateShippingPrice,
   deleteShippingPrice,
   createInitialShippingPrices,
@@ -23,39 +22,14 @@ const Shipping = () => {
   const [type, setType] = useState<"success" | "error">("success");
 
   useEffect(() => {
-    const fetchShippingPrices = async () => {
-      try {
-        const prices = await getShippingPrices();
-        console.log("prices bibi", prices);
-        if (prices.length > 0) {
-          setIsInitialPricesCreated(true);
-        }
-        const pricesMap = prices.reduce(
-          (
-            acc: {
-              [city: string]: { priceToDesktop: number; priceToHomme: number };
-            },
-            item: {
-              wilayas: string;
-              priceToDesktop: number;
-              priceToHomme: number;
-            }
-          ) => {
-            acc[item.wilayas] = {
-              priceToDesktop: item.priceToDesktop,
-              priceToHomme: item.priceToHomme,
-            };
-            return acc;
-          },
-          {}
-        );
-        setShippingPrices(pricesMap);
-      } catch (error) {
-        console.error("Error fetching shipping prices:", error);
+    const feetch = async () => {
+      const prices = await fetchShippingPrices();
+      if (prices) {
+        setIsInitialPricesCreated(true);
+        setShippingPrices(prices);
       }
     };
-
-    fetchShippingPrices();
+    feetch();
   }, []);
 
   const handlePriceChange = (
@@ -75,7 +49,6 @@ const Shipping = () => {
         shippingPrices
       )) {
         await updateShippingPrice(wilaya, priceToDesktop, priceToHomme);
-        console.log(wilaya, priceToDesktop, priceToHomme);
       }
 
       setAlertMessage("تم حفظ أسعار التوصيل بنجاح!");
@@ -144,7 +117,6 @@ const Shipping = () => {
       }
       return updated;
     });
-    console.log("stat", shippingPrices);
   };
 
   const handleApplyGlobalPrice2 = () => {

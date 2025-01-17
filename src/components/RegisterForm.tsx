@@ -38,7 +38,7 @@ const RegisterForm = () => {
   } = useForm<IFormInput>({
     resolver: zodResolver(registerSchema),
   });
-  const { setIsLoggedIn } = useAuth();
+  const { cheking } = useAuth();
   const [message, setMessage] = useState("");
   const router = useRouter();
 
@@ -47,7 +47,13 @@ const RegisterForm = () => {
       const response = await registerUser({ ...data, role: "user" });
       console.log("Success:", response);
       setMessage(response.message);
-      setIsLoggedIn(true);
+      const token = response.token;
+
+      if (!token) {
+        throw new Error("Token is null");
+      }
+      localStorage.setItem("token", token);
+      cheking(token);
       setTimeout(() => {
         router.push("/dashboard");
       }, 1000); // Delay of 1 second before redirecting
