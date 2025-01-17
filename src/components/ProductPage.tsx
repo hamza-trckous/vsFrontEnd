@@ -18,7 +18,8 @@ import AlertModal from "@/components/AlertModal";
 
 const ProductPage = () => {
   const router = useRouter();
-  const { ProductID } = useParams();
+  const params = useParams<{ ProductID: string }>();
+  const ProductID = params?.ProductID;
 
   const {
     unregister,
