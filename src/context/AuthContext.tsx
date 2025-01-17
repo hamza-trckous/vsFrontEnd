@@ -5,16 +5,15 @@ import React, {
   useContext,
   ReactNode,
   useEffect,
-  useMemo,
 } from "react";
-import { loginUser, logoutUser, checkAuth } from "@/api/auth"; // Import the checkAuth function
+import { loginUser, logoutUser, checkAuth } from "@/api/auth";
 
 interface AuthContextType {
   isLoggedIn: boolean;
   isAdmin: boolean;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<void>;
   setLoading: (loading: boolean) => void;
   setIsLoggedIn: (isLoggedIn: boolean) => void;
   cheking: (token: string) => Promise<void>;
@@ -31,73 +30,93 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   const login = async (email: string, password: string) => {
     try {
+      setLoading(true);
       const response = await loginUser({ email, password });
       const token = response.data.token;
-      console.log("Token:", token);
+
       if (!token) {
         throw new Error("Token is null");
       }
-      localStorage.setItem("token", token);
+
+      // Store token and verify storage
+      window.localStorage.setItem("token", token);
+      const storedToken = window.localStorage.getItem("token");
+
+      if (!storedToken) {
+        throw new Error("Failed to store token");
+      }
+
+      // Verify authentication
       await cheking(token);
     } catch (error) {
-      localStorage.removeItem("token"); // Clean up if error
+      console.error("Login error:", error);
+      window.localStorage.removeItem("token");
+      setIsLoggedIn(false);
+      setIsAdmin(false);
       throw error;
+    } finally {
+      setLoading(false);
     }
   };
 
   const logout = async () => {
     try {
       setLoading(true);
-      localStorage.removeItem("token");
+      // First remove token and update state
+      window.localStorage.removeItem("token");
+      setIsLoggedIn(false);
+      setIsAdmin(false);
+      // Then call logout API
       await logoutUser();
-      setTimeout(() => {
-        setIsLoggedIn(false);
-        setIsAdmin(false);
-      }, 1000);
     } catch (error) {
-      console.error("Error logging out:", error);
+      console.error("Logout error:", error);
     } finally {
       setLoading(false);
     }
   };
 
-  const checkAuthStatus = useMemo(
-    () => async () => {
-      const token = localStorage.getItem("token");
+  const cheking = async (token: string) => {
+    if (!token) {
+      setIsLoggedIn(false);
+      setIsAdmin(false);
+      return;
+    }
 
-      console.log("Checking auth status");
+    try {
+      const authData = await checkAuth(token);
+
+      if (authData && authData.isAuthenticated) {
+        setIsLoggedIn(true);
+        setIsAdmin(authData.user.role === "admin");
+        // Ensure token is still stored
+        window.localStorage.setItem("token", token);
+      } else {
+        throw new Error("Authentication failed");
+      }
+    } catch (error) {
+      console.error("Auth check error:", error);
+      window.localStorage.removeItem("token");
+      setIsLoggedIn(false);
+      setIsAdmin(false);
+    }
+  };
+
+  const checkAuthStatus = async () => {
+    try {
+      const token = window.localStorage.getItem("token");
+
       if (!token) {
         setIsLoggedIn(false);
         setIsAdmin(false);
-        setLoading(false);
-        return;
-      }
-      console.log("Checking auth status2");
-      cheking(token);
-    },
-    []
-  );
-  const cheking = async (token: string) => {
-    try {
-      const authData = await checkAuth(token);
-      console.log("authin", authData);
-      if (!authData.isAuthenticated) {
-        setIsLoggedIn(false);
-        setIsAdmin(false);
-        localStorage.removeItem("token");
-
         return;
       }
 
-      setIsLoggedIn(true);
-      if (authData.user.role === "admin") {
-        setIsAdmin(true);
-      }
-    } catch {
-      // Handle error if needed
+      await cheking(token);
+    } catch (error) {
+      console.error("Auth status check error:", error);
+      window.localStorage.removeItem("token");
       setIsLoggedIn(false);
       setIsAdmin(false);
-      localStorage.removeItem("token");
     } finally {
       setLoading(false);
     }
@@ -105,7 +124,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   useEffect(() => {
     checkAuthStatus();
-  }, [checkAuthStatus]);
+  }, []);
 
   return (
     <AuthContext.Provider
