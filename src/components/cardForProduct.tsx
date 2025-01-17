@@ -108,7 +108,7 @@ const CardForProduct: React.FC<CardForProductProps> = ({ product, id }) => {
     <>
       <div
         id={id}
-        className="flex h-[480px] flex-wrap justify-center items-center border rounded-lg shadow-md p-4 bg-white lg:w-[240px] w-full md:w-1/4 m-1 relative cursor-pointer transform transition-transform hover:scale-[102%] hover:border-teal-200  "
+        className="flex h-[480px] flex-wrap justify-center items-center border rounded-lg shadow-md p-4 bg-white lg:w-[240px] w-full md:w-1/4 m-1 relative cursor-pointer transform transition-transform hover:scale-[102%] hover:border-teal-200 up "
         onClick={() => setShowPreview(true)}>
         <button
           className="absolute top-2 right-2 text-gray-600 hover:text-teal-500"

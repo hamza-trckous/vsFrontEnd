@@ -52,3 +52,36 @@ a:hover {
   transition: all 0.7s;
   animation: showSide 0.4s ease-in-out;
 }
+
+#cover {
+  animation: smooth 2s;
+}
+#Up {
+  animation: showingUp 2s;
+}
+.up {
+  animation: smooth 2s;
+  animation: showingUp 2s;
+}
+@keyframes smooth {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes showingUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}
+#Loading {
+  animation: smooth 2s;
+}

@@ -333,17 +333,21 @@ const HomePage = () => {
         <Image
           width={1920}
           height={1080}
-          src="/cover.jpg"
+          src="/other.jpg"
           alt="Cover"
           className="w-full h-96 object-cover"
           loading="lazy"
+          id="cover"
         />
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-white bg-black bg-opacity-50">
-          <h1 className="text-4xl font-bold mb-4 text-center ">
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-white bg-black bg-opacity-20">
+          <h1 id="Up" className="text-4xl font-bold mb-4 text-center ">
             مرحبًا بكم في بيبي بلوم
           </h1>
-          <p className="text-xl mb-4">أفضل المنتجات لطفلك</p>
+          <p id="Up" className="text-xl mb-4">
+            أفضل المنتجات لطفلك
+          </p>
           <button
+            id="Up"
             onClick={scrollToProducts}
             className="bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition-colors duration-200">
             استعرض المنتجات
@@ -354,7 +358,7 @@ const HomePage = () => {
       <div ref={productsRef} className="flex flex-col md:flex-row">
         <div className="flex flex-wrap justify-evenly w-full md:w-11/12">
           {loading ? (
-            <p>Loading...</p>
+            <p id="Loading"> مرحبًا بكم في بيبي بلوم...</p>
           ) : (
             <Suspense fallback={<p>Loading...</p>}>{memoizedProducts}</Suspense>
           )}

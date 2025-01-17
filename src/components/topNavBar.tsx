@@ -1,5 +1,6 @@
 import React from "react";
 import Head from "next/head"; // Import Head for inlining CSS
+import { FaFacebook, FaInstagram } from "react-icons/fa"; // Import icons
 
 const TopNavBar = () => {
   return (
@@ -63,28 +64,35 @@ const TopNavBar = () => {
             margin-right: calc(1rem * var(--tw-space-x-reverse));
             margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
           }
+          .hover\\:text-teal-500:hover {
+            color: #38b2ac;
+          }
         `}</style>
         <script src="https://example.com/third-party-script.js" defer></script>
       </Head>
       <div className="bg-teal-400 p-2 shadow-sm">
         <div className="container mx-auto flex justify-between items-center text-sm">
-          {/* <div className="relative">
-            <select className="bg-gray-100 text-gray-800 focus:outline-none text-sm">
-              <option value="en">English</option>
-              <option value="ar">العربية</option>
-            </select>
-          </div> */}
+          <a
+            href="https://www.facebook.com/profile.php?id=61569429093427"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white hover:text-teal-500 transition-colors duration-200">
+            <FaFacebook size={20} />
+          </a>
 
-          {/* Slogan */}
-
-          {/* Motivational Speech */}
           <div
             className="text-gray-600 italic text-xs md:text-base w-full text-center"
             style={{ fontFamily: "Cairo, sans-serif" }}>
-            {"كل طفل هو فنان. المشكلة كيف تظل فنانًا عندما تكبر."}
+            {"ألعاب تنمي الذكاء وتزرع الإبداع!"}
           </div>
 
-          <div className="flex space-x-4"></div>
+          <a
+            href="https://www.instagram.com/babybloom_dz?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white  hover:text-teal-500 transition-colors duration-200">
+            <FaInstagram size={20} />
+          </a>
         </div>
       </div>
     </>
