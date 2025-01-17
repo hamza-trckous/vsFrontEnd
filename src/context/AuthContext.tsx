@@ -30,9 +30,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const [loading, setLoading] = useState(true);
 
   const login = async (email: string, password: string) => {
+    localStorage.setItem("blablabla", "vlavlalval");
+
     try {
       const response = await loginUser({ email, password });
       const token = response.data.token;
+      console.log("Token:", token);
       if (!token) {
         throw new Error("Token is null");
       }
