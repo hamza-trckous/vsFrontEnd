@@ -30,8 +30,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const [loading, setLoading] = useState(true);
 
   const login = async (email: string, password: string) => {
-    localStorage.setItem("blablabla", "vlavlalval");
-
     try {
       const response = await loginUser({ email, password });
       const token = response.data.token;
@@ -40,7 +38,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         throw new Error("Token is null");
       }
       localStorage.setItem("token", token);
-
       await cheking(token);
     } catch (error) {
       localStorage.removeItem("token"); // Clean up if error
@@ -87,6 +84,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       if (!authData.isAuthenticated) {
         setIsLoggedIn(false);
         setIsAdmin(false);
+        localStorage.removeItem("token");
 
         return;
       }
@@ -99,6 +97,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       // Handle error if needed
       setIsLoggedIn(false);
       setIsAdmin(false);
+      localStorage.removeItem("token");
     } finally {
       setLoading(false);
     }
