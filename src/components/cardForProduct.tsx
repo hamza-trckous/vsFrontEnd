@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, memo, startTransition } from "react";
+import React, { useState, memo, startTransition, useEffect } from "react";
 import { FaStar, FaEye } from "react-icons/fa";
 import PreviewProduct from "./PreviewProduct";
 import type { ProductWithreviews, Review } from "@/Types/ProductPart";
@@ -14,9 +14,10 @@ import { useAlert } from "@/context/useAlert";
 interface CardForProductProps {
   product?: ProductWithreviews;
   index: number; // Add index prop
+  id: string; // Add id prop
 }
 
-const CardForProduct: React.FC<CardForProductProps> = ({ product }) => {
+const CardForProduct: React.FC<CardForProductProps> = ({ product, id }) => {
   const [showPreview, setShowPreview] = useState(false);
   const { alertMessage, setAlertMessage, setAlertType, alertType } = useAlert();
   const { setLoading } = useAuth(); // Use the useTransition hook
@@ -84,12 +85,30 @@ const CardForProduct: React.FC<CardForProductProps> = ({ product }) => {
       setAlertType("error");
     }
   };
-
+  const [changeImage, setChangeImage] = useState(false);
+  useEffect(() => {
+    const productcard = document.getElementById(id);
+    if (!productcard) return;
+    const handleMouseEnter = () => {
+      console.log("Mouse entered the product card", id);
+      setChangeImage(true);
+    };
+    const handleMouseLeave = () => {
+      console.log("Mouse Leaved the product card", id);
+      setChangeImage(false);
+    };
+    productcard.addEventListener("mouseenter", handleMouseEnter);
+    productcard.addEventListener("mouseleave", handleMouseLeave);
+    return () => {
+      productcard.removeEventListener("mouseenter", handleMouseEnter);
+      productcard.removeEventListener("mouseleave", handleMouseLeave);
+    };
+  }, [id]);
   return (
     <>
       <div
-        id="product-card"
-        className="flex h-[480px] flex-wrap justify-center items-center border rounded-lg shadow-md p-4 bg-white lg:w-[240px] w-full md:w-1/4 m-1 relative cursor-pointer transform transition-transform hover:scale-[102%] hover:border-teal-200 "
+        id={id}
+        className="flex h-[480px] flex-wrap justify-center items-center border rounded-lg shadow-md p-4 bg-white lg:w-[240px] w-full md:w-1/4 m-1 relative cursor-pointer transform transition-transform hover:scale-[102%] hover:border-teal-200  "
         onClick={() => setShowPreview(true)}>
         <button
           className="absolute top-2 right-2 text-gray-600 hover:text-teal-500"
@@ -101,14 +120,26 @@ const CardForProduct: React.FC<CardForProductProps> = ({ product }) => {
         </button>
 
         {currentProduct.images && currentProduct.images.length > 0 ? (
-          <Image
-            src={currentProduct.images[0]}
-            alt={currentProduct.name}
-            width={625}
-            height={240}
-            className="w-full h-60 object-cover rounded-t-lg"
-            loading="lazy"
-          />
+          <div className="relative w-full h-60 object-cover rounded-t-lg transition-all duration-300 ">
+            <Image
+              src={currentProduct.images[0]}
+              alt={currentProduct.name}
+              width={625}
+              height={240}
+              className={`relative w-full h-60 object-cover rounded-t-lg transition-all duration-300 `}
+              loading="lazy"
+            />
+            {changeImage && currentProduct.images.length > 1 && (
+              <Image
+                src={currentProduct.images[1]}
+                alt={currentProduct.name}
+                width={625}
+                height={240}
+                className={`relative bottom-[100%]  w-full h-64 object-cover rounded-t-lg transition-all duration-300 preview  `}
+                loading="lazy"
+              />
+            )}
+          </div>
         ) : (
           <Image
             src={defaultProduct.images[0]}
@@ -120,7 +151,9 @@ const CardForProduct: React.FC<CardForProductProps> = ({ product }) => {
             loading="lazy"
           />
         )}
-        <div className="md:text-right sm:text-right p-2 text-center ">
+        <div
+          id="ImageCard"
+          className="md:text-right sm:text-right p-2 text-center ">
           <h2
             className="text-sm font-bold break-words mr-3"
             style={{ fontFamily: "Cairo, sans-serif" }}>

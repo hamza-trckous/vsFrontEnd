@@ -32,3 +32,23 @@ a:hover {
 .custom-number-input .decrement {
   @apply w-6 h-6 bg-gray-100 border border-gray-300 rounded flex items-center justify-center;
 }
+#ImageCard {
+  animation: showSide 1s;
+  animation-fill-mode: forwards;
+  transition: all 0.5s;
+}
+@keyframes showSide {
+  0% {
+    opacity: 0;
+    transform: translateX(-10%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+.preview {
+  transform: translateX(0%);
+  transition: all 0.7s;
+  animation: showSide 0.4s ease-in-out;
+}

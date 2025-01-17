@@ -62,6 +62,7 @@ const HomePage = () => {
         .map((product, index) => (
           <CardForProduct
             key={product._id}
+            id={product._id}
             product={{
               images: product.images,
               name: product.name,

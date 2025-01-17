@@ -7,8 +7,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { addToCart } from "@/api/cart";
 import AlertModal from "./AlertModal";
-import LandingPage from "@/components/LandingPageID";
 import trackFacebookEvent from "@/utils/trackFacebookEvent";
+import FormOrder from "./landingpage/FormOrder";
 interface PreviewProductProps {
   product?: ProductWithreviews;
   onClose: () => void;
@@ -39,16 +39,15 @@ const PreviewProduct: React.FC<PreviewProductProps> = ({
 
   const handleNextImage = () => {
     setCurrentImageIndex((prevIndex) =>
-      prevIndex === currentProduct.images.length ? 0 : prevIndex + 1
+      prevIndex === currentProduct.images.length - 1 ? 0 : prevIndex + 1
     );
   };
 
   const handlePrevImage = () => {
     setCurrentImageIndex((prevIndex) =>
-      prevIndex === 0 ? currentProduct.images.length : prevIndex - 1
+      prevIndex === 0 ? currentProduct.images.length - 1 : prevIndex - 1
     );
   };
-
   const handleImageClick = (index: number) => {
     setCurrentImageIndex(index);
   };
@@ -100,11 +99,7 @@ const PreviewProduct: React.FC<PreviewProductProps> = ({
           <div className="relative">
             {currentProduct.images.length > 0 && (
               <Image
-                src={
-                  currentImageIndex === 0
-                    ? currentProduct.images[0]
-                    : currentProduct.images[currentImageIndex - 1]
-                }
+                src={currentProduct.images[currentImageIndex]}
                 alt={currentProduct.name}
                 className="w-full h-48 md:h-60 object-contain rounded-t-lg"
                 layout="responsive"
@@ -171,7 +166,7 @@ const PreviewProduct: React.FC<PreviewProductProps> = ({
               ))}
             </div>
             <p
-              className="mt-4 text-gray-700 text-sm"
+              className="mt-4 text-gray-700 text-lg"
               style={{ fontFamily: "Cairo, sans-serif" }}>
               {currentProduct.description}
             </p>
@@ -229,7 +224,8 @@ const PreviewProduct: React.FC<PreviewProductProps> = ({
                 ))}
               </div>
             </div>
-            <LandingPage productId={currentProduct._id} />
+            <FormOrder product={currentProduct} />
+
             <div className="flex justify-center mt-4 space-x-2">
               <button
                 className="bg-teal-500 text-white px-3 py-1 rounded-lg hover:bg-teal-600 transition-colors duration-200 text-sm"
