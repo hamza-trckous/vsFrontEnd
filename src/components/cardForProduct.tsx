@@ -90,11 +90,9 @@ const CardForProduct: React.FC<CardForProductProps> = ({ product, id }) => {
     const productcard = document.getElementById(id);
     if (!productcard) return;
     const handleMouseEnter = () => {
-      console.log("Mouse entered the product card", id);
       setChangeImage(true);
     };
     const handleMouseLeave = () => {
-      console.log("Mouse Leaved the product card", id);
       setChangeImage(false);
     };
     productcard.addEventListener("mouseenter", handleMouseEnter);

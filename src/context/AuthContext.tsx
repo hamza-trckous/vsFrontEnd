@@ -37,8 +37,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         throw new Error("Token is null");
       }
       localStorage.setItem("token", token);
-      cheking(token);
+      await cheking(token);
     } catch (error) {
+      localStorage.removeItem("token"); // Clean up if error
       throw error;
     }
   };
@@ -46,15 +47,16 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const logout = async () => {
     try {
       setLoading(true);
+      localStorage.removeItem("token");
       await logoutUser();
       setTimeout(() => {
         setIsLoggedIn(false);
         setIsAdmin(false);
-        setLoading(false);
-        localStorage.removeItem("token");
       }, 1000);
     } catch (error) {
       console.error("Error logging out:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
