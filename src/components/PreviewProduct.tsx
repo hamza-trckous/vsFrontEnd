@@ -35,6 +35,8 @@ const PreviewProduct: React.FC<PreviewProductProps> = ({
     if (event.target === event.currentTarget) {
       onClose();
     }
+    const newUrl = `/`;
+    window.history.pushState({}, "", newUrl);
   };
 
   const handleNextImage = () => {
@@ -230,8 +232,9 @@ const PreviewProduct: React.FC<PreviewProductProps> = ({
               <button
                 className="bg-teal-500 text-white px-3 py-1 rounded-lg hover:bg-teal-600 transition-colors duration-200 text-sm"
                 onClick={handleOrderClick}>
-                طلب المنتج
+                صفحة المنتج
               </button>
+
               <button
                 className="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600 transition-colors duration-200 text-sm"
                 onClick={handleAddToCart}>

@@ -195,6 +195,11 @@ const Table = ({
                     className="bg-red-500  w-16 text-white px-2 py-1 rounded-lg hover:bg-red-600 transition-colors duration-200 text-xs ml-2">
                     حذف
                   </button>
+                  <button
+                    onClick={() => router.push(`/landingpage/${product._id}`)}
+                    className="bg-green-500 mt-1 w-16 text-white px-2 py-1 rounded-lg hover:bg-blue-600 transition-colors duration-200 text-xs">
+                    صفحة المنتج
+                  </button>
                 </td>
               </tr>
             ))}

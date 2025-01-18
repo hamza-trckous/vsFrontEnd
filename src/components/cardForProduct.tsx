@@ -1,14 +1,12 @@
 "use client";
-import React, { useState, memo, startTransition, useEffect } from "react";
-import { FaStar, FaEye } from "react-icons/fa";
+import React, { useState, memo, useEffect } from "react";
+import { FaStar, FaEye, FaCartArrowDown } from "react-icons/fa";
 import PreviewProduct from "./PreviewProduct";
 import type { ProductWithreviews, Review } from "@/Types/ProductPart";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 // import { addToCart } from "@/api/cart"; // Import the addToCart function
 import AlertModal from "./AlertModal"; // Import the AlertModal component
 import trackFacebookEvent from "@/utils/trackFacebookEvent"; // Import the trackFacebookEvent function
-import { useAuth } from "@/context/AuthContext";
 import { useAlert } from "@/context/useAlert";
 
 interface CardForProductProps {
@@ -20,8 +18,6 @@ interface CardForProductProps {
 const CardForProduct: React.FC<CardForProductProps> = ({ product, id }) => {
   const [showPreview, setShowPreview] = useState(false);
   const { alertMessage, setAlertMessage, setAlertType, alertType } = useAlert();
-  const { setLoading } = useAuth(); // Use the useTransition hook
-  const router = useRouter();
   const defaultProduct: ProductWithreviews = {
     _id: "default-id", // Add a default ID
     images: ["https://via.placeholder.com/150"],
@@ -37,16 +33,6 @@ const CardForProduct: React.FC<CardForProductProps> = ({ product, id }) => {
   };
 
   const currentProduct = product || defaultProduct;
-
-  const handleOrderClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setLoading(true);
-    e.stopPropagation();
-
-    startTransition(() => {
-      router.push(`/landingpage/${currentProduct._id}`);
-      setLoading(false);
-    });
-  };
 
   const handleAddToCart = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
@@ -106,25 +92,38 @@ const CardForProduct: React.FC<CardForProductProps> = ({ product, id }) => {
     <>
       <div
         id={id}
-        className="flex h-[480px] flex-wrap justify-center items-center border rounded-lg shadow-md p-4 bg-white lg:w-[240px] w-full md:w-1/4 m-1 relative cursor-pointer transform transition-transform hover:scale-[102%] hover:border-teal-200 up "
-        onClick={() => setShowPreview(true)}>
+        className="flex h-[330px] sm:h-[430px] lg:h-[430px] md:h-[330px] flex-wrap justify-center items-center border rounded-lg shadow-md p-2 bg-white lg:w-[240px] w-5/12 md:w-5/12  m-1 relative cursor-pointer transform transition-transform hover:scale-[102%] hover:border-teal-200 up "
+        onClick={() => {
+          setShowPreview(true);
+          const newUrl = `/landingpage/${currentProduct._id}`;
+
+          window.history.pushState({}, "", newUrl);
+        }}>
         <button
-          className="absolute top-2 right-2 text-gray-600 hover:text-teal-500"
+          className="absolute top-2 right-2 text-gray-600 hover:text-teal-500 z-10"
           onClick={(e) => {
             e.stopPropagation();
             setShowPreview(true);
           }}>
           <FaEye size={20} />
         </button>
+        <button
+          className="absolute top-2 left-2 text-gray-600 hover:text-teal-500 z-10"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleAddToCart(e);
+          }}>
+          <FaCartArrowDown size={20} />
+        </button>
 
         {currentProduct.images && currentProduct.images.length > 0 ? (
-          <div className="relative w-full h-60 object-cover rounded-t-lg transition-all duration-300 ">
+          <div className="relative w-full md:h-48  sm:h-64 lg:h-64 h-52 object-cover rounded-t-lg transition-all duration-300 ">
             <Image
               src={currentProduct.images[0]}
               alt={currentProduct.name}
               width={625}
               height={240}
-              className={`relative w-full h-60 object-cover rounded-t-lg transition-all duration-300 `}
+              className={`relative w-full md:h-48  sm:h-64 lg:h-64 h-52 object-cover rounded-t-lg transition-all duration-300 `}
               loading="lazy"
             />
             {changeImage && currentProduct.images.length > 1 && (
@@ -133,7 +132,7 @@ const CardForProduct: React.FC<CardForProductProps> = ({ product, id }) => {
                 alt={currentProduct.name}
                 width={625}
                 height={240}
-                className={`relative bottom-[100%]  w-full h-64 object-cover rounded-t-lg transition-all duration-300 preview  `}
+                className={`relative bottom-[100%]  w-full md:h-48  sm:h-64 lg:h-64 h-52 object-cover rounded-t-lg transition-all duration-300 preview  `}
                 loading="lazy"
               />
             )}
@@ -144,53 +143,41 @@ const CardForProduct: React.FC<CardForProductProps> = ({ product, id }) => {
             alt={currentProduct.name}
             width={625}
             height={240}
-            className="w-full h-60 object-cover rounded-t-lg"
+            className="w-full h-60 object-cover rounded-t-lg "
             unoptimized
             loading="lazy"
           />
         )}
+        <div className="flex items-center justify-end mt-2">
+          {Array.from({ length: 5 }, (_, index) => (
+            <FaStar
+              key={index}
+              className={
+                index < currentProduct.rating
+                  ? "text-yellow-500"
+                  : "text-gray-300"
+              }
+              size={11} // Smaller size for the rating stars
+            />
+          ))}
+        </div>
         <div
           id="ImageCard"
-          className="md:text-right sm:text-right p-2 text-center ">
+          className="text-center flex flex-col items-center w-full">
           <h2
-            className="text-sm font-bold break-words mr-3"
+            className=" break-words max-h-16 overflow-hidden text-[15px]  sm:text-[20px] w-[90%]"
             style={{ fontFamily: "Cairo, sans-serif" }}>
             {currentProduct.name}
           </h2>
-          <div className="flex items-center justify-end mt-2 flex-wrap ">
-            <span className="text-teal-500 font-bold text-sm break-words w-20">
+          <div className="flex items-center justify-end mt-1 sm:flex-wrap ">
+            <span className="text-teal-500 font-bold sm:text-[20px] text-[14px] break-words m-1 sm:m-0  w-15 sm:w-20">
               {currentProduct.discountedPrice} دج
             </span>
             {currentProduct.price !== 0 && (
-              <span className="text-red-400 line-through mr-2 text-sm break-words w-20 ">
+              <span className="text-red-400 line-through mr-2 sm:text-[20px]  text-[14px] break-words sm:m-0 m-1 w-15 sm:w-20 ">
                 {currentProduct.price} دج
               </span>
             )}
-          </div>
-          <div className="flex items-center justify-end mt-2">
-            {Array.from({ length: 5 }, (_, index) => (
-              <FaStar
-                key={index}
-                className={
-                  index < currentProduct.rating
-                    ? "text-yellow-500"
-                    : "text-gray-300"
-                }
-                size={14} // Smaller size for the rating stars
-              />
-            ))}
-          </div>
-          <div className="flex justify-between   mt-2">
-            <button
-              className="bg-teal-500 m-1 text-white px-3 py-1 rounded-lg hover:bg-teal-600 transition-colors duration-200 text-[10px]"
-              onClick={handleOrderClick}>
-              طلب المنتج
-            </button>
-            <button
-              className="bg-blue-500  m-1 text-white px-3 py-1 rounded-lg hover:bg-teal-600 transition-colors duration-200 text-[10px]"
-              onClick={handleAddToCart}>
-              أضف إلى السلة
-            </button>
           </div>
         </div>
       </div>

@@ -254,7 +254,7 @@ ${
 } دج`}
                 readOnly
                 className={`border-teal-800 border text-center m-auto w-[90%] sm:w-[70%] flex justify-center items-center content-center justify-items-center  rounded-lg p-2  resize-none  ${
-                  selectedWilayaStyle ? "bg-green-100" : "bg-red-100"
+                  selectedWilayaStyle ? "bg-green-100" : "bg-blue-100"
                 }`}
               />
               ➕
@@ -265,7 +265,7 @@ ${
 ${product.discountedPrice ? product.discountedPrice : product.price} دج`}
               readOnly
               className={`border-teal-800 border m-auto text-center  w-[90%] sm:w-[70%]   rounded-lg p-2  resize-none  ${
-                selectedWilayaStyle ? "bg-green-100" : "bg-red-100"
+                selectedWilayaStyle ? "bg-green-100" : "bg-blue-100"
               }`}
             />
           </>
@@ -327,7 +327,7 @@ const Quantité = ({
       <button
         type="button"
         onClick={handleDecrement}
-        className="bg-red-200 text-black border px-4 py-1 rounded-lg">
+        className="bg-blue-200 text-black border px-4 py-1 rounded-lg">
         -
       </button>
       <span className="mx-4">{quantity}</span>
@@ -389,7 +389,7 @@ const TotalPrice = ({
           selectedWilayaStyle
             ? "bg-green-100"
             : product.withShipping === "نعم"
-            ? "bg-red-100"
+            ? "bg-blue-100"
             : "bg-green-100"
         }`}
       />
