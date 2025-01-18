@@ -196,16 +196,13 @@ const FormOrder = ({ product }: { product: NewProduct }) => {
         <Phone register={register} />
 
         <Adrees register={register} />
-        <Quantité quantity={quantity} setQuantity={setQuantity} />
 
         {product.withShipping === "نعم" ? (
           <>
             <select
               {...register("wilaya", { required: true })}
               className={`border-teal-800 border  w-[90%] sm:w-[70%]  m-2 rounded-lg p-2 text-right ${
-                selectedWilayaStyle
-                  ? "bg-green-100"
-                  : "bg-amber-300 animate-pulse"
+                selectedWilayaStyle ? "bg-green-100" : " animate-pulse"
               }`}
               onChange={(e) => {
                 const value = e.target.value;
@@ -213,14 +210,13 @@ const FormOrder = ({ product }: { product: NewProduct }) => {
                 setSelectedWilayaStyle(value);
               }}
               value={selectedWilayaStyle}>
-              <option value="">اختر الولاية</option>
+              <option value="">اختر البلدية</option>
               {wilayas.map((wilaya) => (
                 <option key={wilaya.code} value={wilaya.name}>
                   {wilaya.arabicName}
                 </option>
               ))}
             </select>
-
             <div className="flex justify-center content-center align-middle items-center">
               {" "}
               <input
@@ -244,6 +240,8 @@ const FormOrder = ({ product }: { product: NewProduct }) => {
               />{" "}
               للمنزل
             </div>
+            <Quantité quantity={quantity} setQuantity={setQuantity} />
+
             <div className="w-full flex justify-between items-center text-center  ">
               <textarea
                 value={`سعر التوصيل : 🚚 
@@ -261,6 +259,7 @@ ${
               />
               ➕
             </div>
+
             <textarea
               value={`  سعر المنتج : 📦 
 ${product.discountedPrice ? product.discountedPrice : product.price} دج`}

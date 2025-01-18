@@ -161,9 +161,11 @@ const CardForProduct: React.FC<CardForProductProps> = ({ product, id }) => {
             <span className="text-teal-500 font-bold text-sm break-words w-20">
               {currentProduct.discountedPrice} دج
             </span>
-            <span className="text-red-400 line-through mr-2 text-sm break-words w-20 ">
-              {currentProduct.price} دج
-            </span>
+            {currentProduct.price !== 0 && (
+              <span className="text-red-400 line-through mr-2 text-sm break-words w-20 ">
+                {currentProduct.price} دج
+              </span>
+            )}
           </div>
           <div className="flex items-center justify-end mt-2">
             {Array.from({ length: 5 }, (_, index) => (
