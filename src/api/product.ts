@@ -25,9 +25,9 @@ export const getAllProducts = async ({
   }
 };
 // Fetch all products
-export const getAllProductsNormal = async (): Promise<Product[]> => {
+export const getAllProductsNormal = async (): Promise<ProductPagination> => {
   try {
-    const response = await api.get<Product[]>(``);
+    const response = await api.get<ProductPagination>(``);
     return response.data;
   } catch (error) {
     throw error;

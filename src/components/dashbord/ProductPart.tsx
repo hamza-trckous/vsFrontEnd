@@ -3,10 +3,14 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import {
   createProduct,
-  getAllProducts,
   deleteProduct,
+  getAllProductsNormal,
 } from "../../api/product"; // Adjust the import path as necessary
-import { NewProduct, ProductWithreviews } from "../../Types/ProductPart"; // Adjust the import path as necessary
+import {
+  NewProduct,
+  ProductPagination,
+  ProductWithreviews,
+} from "../../Types/ProductPart"; // Adjust the import path as necessary
 import AddNAme from "../ProductPart/AddNAme"; // Ensure correct import path
 import MethodAddingPhoto from "../ProductPart/methodAddingPhoto";
 import Description from "../ProductPart/description";
@@ -67,16 +71,16 @@ const ProductPart = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const fetchedProducts: ProductWithreviews[] = await getAllProducts();
-        const productsWithReviews: ProductWithreviews[] = fetchedProducts.map(
-          (product) => ({
+        const fetchedProducts: ProductPagination = await getAllProductsNormal();
+        console.log(fetchedProducts);
+        const productsWithReviews: ProductWithreviews[] =
+          fetchedProducts.products.map((product) => ({
             ...product,
             _id: product._id || "", // Ensure _id is always a string
             reviews: product.reviews || [],
             withShipping: product.withShipping || "لا", // Ensure withShipping is included
             discountedPrice: product.discountedPrice || 0, // Ensure discountedPrice is included
-          })
-        );
+          }));
         setProducts(productsWithReviews);
       } catch (error) {
         console.error("Error fetching products:", error);
