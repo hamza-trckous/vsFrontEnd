@@ -1,21 +1,9 @@
 // MainContent.tsx
 "use client";
 import React from "react";
-import { FaSpinner } from "react-icons/fa"; // Import the loading icon
-import { useAuth } from "@/context/AuthContext"; // Import the useAuth hook
-import dynamic from "next/dynamic";
-import useFetchSettings from "@/hooks/useFetchSettings";
+import { FaSpinner } from "react-icons/fa";
+import { useAuth } from "@/context/AuthContext";
 import useTrackPageView from "@/hooks/useTrackPageView";
-
-const FacebookPixelProvider = dynamic(
-  () =>
-    import("@/context/FacebookPixelContext").then(
-      (mod) => mod.FacebookPixelProvider
-    ),
-  {
-    ssr: false,
-  }
-);
 
 const Loading = () => (
   <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -28,17 +16,16 @@ const Loading = () => (
 
 const MainContent: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { loading: authLoading, isAdmin } = useAuth();
-  const { pixelId, loading: settingsLoading } = useFetchSettings();
 
-  if (authLoading || settingsLoading) {
+  if (authLoading) {
     return <Loading />;
   }
 
   return (
-    <FacebookPixelProvider pixelId={pixelId!}>
+    <>
       {!isAdmin && <PageViewTracker />}
       {children}
-    </FacebookPixelProvider>
+    </>
   );
 };
 

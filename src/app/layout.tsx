@@ -6,6 +6,7 @@ import { AuthProvider } from "@/context/AuthContext";
 import MainContent from "@/components/MainContent"; // Import the MainContent component
 import { UserProvider } from "@/context/UserContext";
 import AlertProvider from "@/context/useAlert";
+import ClientFacebookWrapper from "@/components/ClientFacebookWrapper";
 
 const RootLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
@@ -18,9 +19,11 @@ const RootLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         <AlertProvider>
           <UserProvider>
             <AuthProvider>
-              <TopNavBar />
-              <Nav />
-              <MainContent>{children}</MainContent>
+              <ClientFacebookWrapper>
+                <TopNavBar />
+                <Nav />
+                <MainContent>{children}</MainContent>
+              </ClientFacebookWrapper>
             </AuthProvider>
           </UserProvider>
         </AlertProvider>
