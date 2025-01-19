@@ -38,7 +38,3 @@ export interface NewProduct {
 export interface ProductWithreviews extends Product {
   reviews: Review[];
 }
-
-export interface ProductPaginationreviews extends ProductPagination {
-  reviews: Review[];
-}

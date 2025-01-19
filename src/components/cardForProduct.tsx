@@ -92,7 +92,7 @@ const CardForProduct: React.FC<CardForProductProps> = ({ product, id }) => {
     <>
       <div
         id={id}
-        className="flex h-[330px] sm:h-[430px] lg:h-[430px] md:h-[330px] flex-wrap justify-center items-center border rounded-lg shadow-md p-2 bg-white lg:w-[240px] w-5/12 md:w-5/12  m-1 relative cursor-pointer transform transition-transform hover:scale-[102%] hover:border-teal-200 up "
+        className="transition-all flex h-[330px] sm:h-[430px] lg:h-[430px] md:h-[330px] flex-wrap justify-center items-center border rounded-lg shadow-md p-2 bg-white lg:w-[240px] w-5/12 md:w-5/12  m-1 relative cursor-pointer transform  hover:scale-[102%] hover:shadow-2xl hover:border-teal-200 up "
         onClick={() => {
           setShowPreview(true);
           const newUrl = `/landingpage/${currentProduct._id}`;
