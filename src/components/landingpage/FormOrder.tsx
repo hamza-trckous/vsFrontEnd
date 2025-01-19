@@ -5,13 +5,13 @@ import { SubmitHandler, useForm } from "react-hook-form"; // Correct import stat
 import { createOrder } from "@/api/orders";
 import { fetchShippingPrices, wilayas } from "@/utils/shipping"; // Import wilayas
 import { trackConversion } from "@/api/TrackConversion"; // Import trackConversion
-import CryptoJS from "crypto-js"; // Import CryptoJS for hashing
 import { useUser } from "@/context/UserContext";
 import { NewProduct } from "@/Types/ProductPart";
 import AlertModal from "../AlertModal";
-import { getCookie } from "cookies-next"; // Correct import statement for cookies-next
-import axios from "axios"; // Import axios
 import { useAuth } from "@/context/AuthContext";
+import { OrderInformation } from "@/utils/order";
+import { getIp } from "@/api/ip";
+import { HashedInformation } from "@/utils/PixlFacebook/hashedinformation";
 
 const FormOrder = ({ product }: { product: NewProduct }) => {
   const [quantity, setQuantity] = useState(1); // Add state for quantity
@@ -20,14 +20,16 @@ const FormOrder = ({ product }: { product: NewProduct }) => {
   const [selectedWilayaStyle, setSelectedWilayaStyle] = useState("");
   const [isAnimating, setIsAnimating] = useState(true); // Add state to control animation
   const [ShippingMethode, setShippingMethode] = useState("للمكتب");
-
   const [shippingPrices, setShippingPrices] = useState<{
     [city: string]: { priceToDesktop: number; priceToHomme: number };
   }>({});
+
   const { isAdmin } = useAuth(); // Use the useUser hook to get the logged-in user
+
   const { user } = useUser(); // Use the useUser hook to get the logged-in user
   const { register, handleSubmit, reset, setValue, getValues, watch } =
     useForm<OrderDetails>(); // Add getValues and watch to useForm
+
   const selectedWilaya = watch("wilaya"); // Watch the selected wilaya
 
   useEffect(() => {
@@ -35,6 +37,7 @@ const FormOrder = ({ product }: { product: NewProduct }) => {
   }, [quantity, setValue]);
 
   useEffect(() => {
+    console.log(product, "product");
     const feetch = async () => {
       const prices = await fetchShippingPrices();
       if (prices) {
@@ -43,6 +46,7 @@ const FormOrder = ({ product }: { product: NewProduct }) => {
     };
     feetch();
   }, []); // Fetch shipping prices when the component mounts
+
   const calculateTotalAmount = React.useCallback(() => {
     const discountedPrice = product.discountedPrice ?? product.price;
     const shippingPrice = selectedWilaya
@@ -63,6 +67,7 @@ const FormOrder = ({ product }: { product: NewProduct }) => {
     quantity,
     ShippingMethode,
   ]);
+
   useEffect(() => {
     setValue("totalAmount", calculateTotalAmount());
   }, [selectedWilaya, quantity, setValue, calculateTotalAmount]); // Add setValue and calculateTotalAmount to the dependency array
@@ -76,25 +81,7 @@ const FormOrder = ({ product }: { product: NewProduct }) => {
 
       const totalAmount = calculateTotalAmount();
       setValue("totalAmount", totalAmount); // Set the totalAmount value
-
-      const orderData: {
-        phone: string;
-        address: string;
-        wilaya: string | undefined;
-        products: { product: string; quantity: number }[];
-        totalAmount: number;
-        status: string;
-        user?: string;
-        name: string; // Include name in orderData
-      } = {
-        phone: data.phone,
-        address: data.address,
-        wilaya: data.wilaya,
-        name: data.name, // Add name to orderData
-        products: [{ product: product._id, quantity: data.quantity }],
-        totalAmount: getValues("totalAmount")!, // Ensure totalAmount is included
-        status: "pending",
-      };
+      const orderData = OrderInformation({ product, data, getValues });
 
       // If the user is logged in, include the user ID in the order data
       if (user) {
@@ -110,63 +97,18 @@ const FormOrder = ({ product }: { product: NewProduct }) => {
       setIsAnimating(false);
 
       // Fetch the user's IP address from the backend using axios
-      const ipResponse = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/get-ip`
-      );
-      const userIpAddress = ipResponse.data.ip;
-      console.log("User IP address:", userIpAddress);
-      // Hash the email before sending it to Facebook
-      const hashedPhone = CryptoJS.SHA256(data.phone).toString();
-      // Get fbp and fbc from cookies
-      const fbp = getCookie("_fbp")?.toString() || "";
-      const fbc = getCookie("_fbc")?.toString() || "";
-      const hashedFirstName = CryptoJS.SHA256(data.name).toString();
-      const hashedState = CryptoJS.SHA256(data.wilaya || "").toString();
+      const userIpAddress = await getIp();
 
-      // Track conversion event
-      const eventData = {
-        event_name: "order",
-        event_time: Math.floor(Date.now() / 1000),
-        user_data: {
-          client_ip_address: userIpAddress,
-          client_user_agent: navigator.userAgent,
-          fbc: fbc || "",
-          ph: hashedPhone || "",
-          fbp: fbp || "",
-          external_id: "external_id",
-          fb_login_id: "facebook_login_id",
-          fn: hashedFirstName || "",
-          st: hashedState || "",
-        },
-        custom_data: {
-          currency: "DZD",
-          value: totalAmount,
-        },
-      };
-      console.log(
-        "Tracking conversion event:",
-        JSON.stringify(eventData, null, 2)
-      );
+      console.log("User IP address:", userIpAddress);
+
+      const { eventData } = HashedInformation({
+        data,
+        userIpAddress,
+        totalAmount,
+      });
       await trackConversion(eventData);
     } catch (error) {
-      console.error("Error placing order:", error);
-      if (axios.isAxiosError(error)) {
-        if (
-          error.response?.data?.error?.code === 190 &&
-          error.response?.data?.error?.error_subcode === 463
-        ) {
-          console.error("Access token has expired. Please refresh the token.");
-          // Optionally, you can implement a retry mechanism here
-        } else {
-          console.error(
-            `Error: ${error.response?.data?.message || error.message}`
-          );
-        }
-      } else if (error instanceof Error) {
-        console.error(`Error: ${error.message}`);
-      } else {
-        console.error("An unknown error occurred.");
-      }
+      console.error("Error creating order:", error);
       // Do not show token-related errors to the customer
       if (isAdmin) {
         setAlertMessage(
@@ -199,24 +141,13 @@ const FormOrder = ({ product }: { product: NewProduct }) => {
 
         {product.withShipping === "نعم" ? (
           <>
-            <select
-              {...register("wilaya", { required: true })}
-              className={`border-teal-800 border  w-[90%] sm:w-[70%]  m-2 rounded-lg p-2 text-right ${
-                selectedWilayaStyle ? "bg-green-100" : " animate-pulse"
-              }`}
-              onChange={(e) => {
-                const value = e.target.value;
-                setValue("wilaya", value); // Update the form value
-                setSelectedWilayaStyle(value);
-              }}
-              value={selectedWilayaStyle}>
-              <option value="">اختر البلدية</option>
-              {wilayas.map((wilaya) => (
-                <option key={wilaya.code} value={wilaya.name}>
-                  {wilaya.arabicName}
-                </option>
-              ))}
-            </select>
+            <SelectWilaya
+              register={register}
+              selectedWilayaStyle={selectedWilayaStyle}
+              setValue={setValue}
+              setSelectedWilayaStyle={setSelectedWilayaStyle}
+            />
+
             <div className="flex justify-center content-center align-middle items-center">
               {" "}
               <input
@@ -438,5 +369,38 @@ const Adrees = ({
       placeholder="العنوان   🏚️"
       className="border-teal-800 border   w-[90%] sm:w-[70%]   m-2 rounded-lg p-2 text-right"
     />
+  );
+};
+
+const SelectWilaya = ({
+  register,
+  selectedWilayaStyle,
+  setValue,
+  setSelectedWilayaStyle,
+}: {
+  register: ReturnType<typeof useForm<OrderDetails>>["register"];
+  selectedWilayaStyle: string;
+  setValue: ReturnType<typeof useForm<OrderDetails>>["setValue"];
+  setSelectedWilayaStyle: React.Dispatch<React.SetStateAction<string>>;
+}) => {
+  return (
+    <select
+      {...register("wilaya", { required: true })}
+      className={`border-teal-800 border  w-[90%] sm:w-[70%]  m-2 rounded-lg p-2 text-right ${
+        selectedWilayaStyle ? "bg-green-100" : " animate-pulse"
+      }`}
+      onChange={(e) => {
+        const value = e.target.value;
+        setValue("wilaya", value); // Update the form value
+        setSelectedWilayaStyle(value);
+      }}
+      value={selectedWilayaStyle}>
+      <option value="">اختر البلدية</option>
+      {wilayas.map((wilaya) => (
+        <option key={wilaya.code} value={wilaya.name}>
+          {wilaya.arabicName}
+        </option>
+      ))}
+    </select>
   );
 };
