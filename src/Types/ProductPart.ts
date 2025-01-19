@@ -17,6 +17,10 @@ export interface Product {
   withShipping: string;
 }
 
+export interface ProductPagination extends Product {
+  products: Product[];
+  totalProducts: number;
+}
 export interface NewProduct {
   _id?: string; // Ensure this is always a string
   name: string;

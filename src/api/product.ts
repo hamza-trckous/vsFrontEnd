@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Product, NewProduct } from "../Types/ProductPart";
+import { Product, NewProduct, ProductPagination } from "../Types/ProductPart";
 
 // Create an Axios instance with base configuration
 const api = axios.create({
@@ -8,9 +8,26 @@ const api = axios.create({
 });
 
 // Fetch all products
-export const getAllProducts = async (): Promise<Product[]> => {
+export const getAllProducts = async ({
+  page,
+  limit,
+}: {
+  page: number;
+  limit: number;
+}): Promise<ProductPagination> => {
   try {
-    const response = await api.get<Product[]>("");
+    const response = await api.get<ProductPagination>(
+      `?page=${page}&limit=${limit}`
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+// Fetch all products
+export const getAllProductsNormal = async (): Promise<Product[]> => {
+  try {
+    const response = await api.get<Product[]>(``);
     return response.data;
   } catch (error) {
     throw error;

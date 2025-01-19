@@ -15,70 +15,104 @@ const Footer = dynamic(() => import("@/components/Footer"), {
 
 import { getAllProducts } from "@/api/product";
 import { Product } from "@/Types/ProductPart";
-import useTrackPageView from "@/hooks/useTrackPageView";
 import { useAuth } from "@/context/AuthContext";
 import Image from "next/image";
+import { useFacebookPixel } from "@/context/FacebookPixelContext";
 
 const HomePage = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const { isLoggedIn } = useAuth();
   const [showSideBar, setShowSideBar] = useState(false);
+  const [totalProducts, setTotalProducts] = useState<number>(0);
   const productsRef = useRef<HTMLDivElement>(null);
+  const { trackPageView } = useFacebookPixel();
+  const [page, setPage] = useState(1);
+  const limit = 3; // عدد المنتجات في كل صفحة
 
-  const fetchProducts = useMemo(
-    () => async () => {
-      try {
-        const fetchedProducts = await getAllProducts();
-        setProducts(fetchedProducts);
-        if (fetchedProducts.length > 0) {
-          setTimeout(() => {
-            setShowSideBar(true);
-          }, 1000);
-        }
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      } finally {
-        setLoading(false);
+  const fetchProducts = async (page: number, limit: number) => {
+    try {
+      const fetchedProductsResponse = await getAllProducts({ page, limit });
+      const { products: fetchedProducts, totalProducts } =
+        fetchedProductsResponse;
+      setTotalProducts(totalProducts);
+      if (fetchedProducts.length === 0) {
+        return;
       }
-    },
-    []
-  );
+      setProducts((prevProducts) => [
+        ...prevProducts,
+        ...fetchedProducts.filter(
+          (product) => !prevProducts.some((p) => p._id === product._id)
+        ),
+      ]);
+      if (products.length > 0) {
+        setTimeout(() => {
+          setShowSideBar(true);
+        }, 1000);
+      }
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    fetchProducts();
-  }, [fetchProducts]);
+    console.log("fetching products");
 
-  useTrackPageView({
-    page_name: "AllProductsPage",
-    user_role: isLoggedIn ? "logged_in" : "guest",
-  });
+    const handleScroll = () => {
+      const scroll = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      if (
+        scroll + windowHeight >= documentHeight - 100 &&
+        products.length < totalProducts
+      ) {
+        console.log("scroll");
+        setPage((prevPage) => prevPage + 1); // زيادة الصفحة لجلب المزيد من المنتجات
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [products, totalProducts]);
+
+  useEffect(() => {
+    fetchProducts(page, limit);
+  }, [page]);
+
+  useEffect(() => {
+    trackPageView({
+      page_name: "AllProductsPage",
+      user_role: isLoggedIn ? "logged_in" : "guest",
+    });
+  }, [trackPageView, isLoggedIn]);
 
   const memoizedProducts = useMemo(
     () =>
-      products
-        .slice()
-        .reverse()
-        .map((product, index) => (
-          <CardForProduct
-            key={product._id}
-            id={product._id}
-            product={{
-              images: product.images,
-              name: product.name,
-              price: product.price,
-              discountedPrice: product.discountedPrice, // Adjust if you have a discount logic
-              rating: product.rating,
-              description: product.description,
-              reviews: product.reviews, // Assuming product.reviews is already of type Review[]
-              colors: product.colors,
-              sizes: product.sizes,
-              _id: product._id,
-              withShipping: product.withShipping,
-            }}
-            index={index} // Pass index to CardForProduct
-          />
-        )),
+      products.map((product, index) => (
+        <CardForProduct
+          key={product._id}
+          id={product._id}
+          product={{
+            images: product.images,
+            name: product.name,
+            price: product.price,
+            discountedPrice: product.discountedPrice, // Adjust if you have a discount logic
+            rating: product.rating,
+            description: product.description,
+            reviews: product.reviews, // Assuming product.reviews is already of type Review[]
+            colors: product.colors,
+            sizes: product.sizes,
+            _id: product._id,
+            withShipping: product.withShipping,
+          }}
+          index={index} // Pass index to CardForProduct
+        />
+      )),
     [products]
   );
 
