@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { getAllOrders, updateOrderStatus } from "@/api/orders";
+import { deleteAllOrders, getAllOrders, updateOrderStatus } from "@/api/orders";
 import { Order } from "@/Types/OrderPart"; // Define Order type in OrderPart.ts
 import trackFacebookEvent from "@/utils/trackFacebookEvent";
 import axios from "axios";
@@ -13,7 +13,14 @@ const StaticsPage = () => {
   const [selectedStatus, setSelectedStatus] = useState<{
     [key: string]: string;
   }>({});
-  const { alertMessage, setAlertMessage, setAlertType, alertType } = useAlert();
+  const {
+    withConfirm,
+    alertMessage,
+    setAlertMessage,
+    setAlertType,
+    alertType,
+    setWithConfirm,
+  } = useAlert();
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -107,6 +114,7 @@ const StaticsPage = () => {
       setAlertType("error");
     }
   };
+
   const handleExportToSheets = async () => {
     try {
       const values = orders.map((order) => [
@@ -153,7 +161,28 @@ const StaticsPage = () => {
         return "bg-gray-500";
     }
   };
+  const handleDeleteAll = async () => {
+    try {
+      await deleteAllOrders();
+      setOrders([]);
 
+      setAlertType("success");
+
+      setAlertMessage("تم حذف جميع الطلبيات بنجاح");
+      setAlertType("success");
+    } catch (error) {
+      console.error("Error deleting all orders:", error);
+      setAlertMessage("حدث خطأ أثناء حذف الطلبيات");
+      setAlertType("error");
+    } finally {
+      setWithConfirm(false);
+    }
+  };
+  const askingForConfirmation = () => {
+    setAlertMessage("هل انت متاكد من حذف جميع الطلبيات؟");
+    setWithConfirm(true);
+    setAlertType("error");
+  };
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -236,21 +265,33 @@ const StaticsPage = () => {
             </tbody>
           </table>
         </div>
-        <button
-          onClick={handleSaveAll}
-          className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors duration-200 self-end">
-          حفظ الكل
-        </button>
-        <button
-          onClick={handleExportToSheets}
-          className="mt-4 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors duration-200 self-end">
-          تصدير إلى Google Sheets
-        </button>
+        <div className="flex flex-col md:flex-row justify-between items-end">
+          <button
+            onClick={handleSaveAll}
+            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors duration-200 self-end">
+            حفظ الكل
+          </button>
+          <button
+            onClick={handleExportToSheets}
+            className="mt-4 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors duration-200 self-end">
+            تصدير إلى Google Sheets
+          </button>
+          <button
+            onClick={askingForConfirmation}
+            className="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors duration-200 self-end">
+            حذف كل الطلبيات{" "}
+          </button>
+        </div>
+
         {alertMessage && (
           <AlertModal
             message={alertMessage}
             onClose={() => setAlertMessage(null)}
             type={alertType}
+            withConfirm={withConfirm}
+            onConfirm={() => {
+              handleDeleteAll();
+            }}
           />
         )}
       </div>

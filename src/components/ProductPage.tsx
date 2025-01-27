@@ -31,6 +31,7 @@ const ProductPage = () => {
   } = useForm<NewProduct>();
 
   // State for product
+
   const [product, setProduct] = useState<ProductWithreviews | null>(null);
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const [alertType, setAlertType] = useState<"success" | "error">("success");
@@ -55,6 +56,9 @@ const ProductPage = () => {
           setValue("images", fetchedProduct.images);
           setValue("withShipping", fetchedProduct.withShipping);
           setValue("discountedPrice", fetchedProduct.discountedPrice);
+          if (fetchedProduct.LandingPageContent) {
+            setValue("LandingPageContent", fetchedProduct.LandingPageContent);
+          }
         } catch (error) {
           console.error("Error fetching product:", error);
         }

@@ -9,6 +9,8 @@ import { addToCart } from "@/api/cart";
 import AlertModal from "./AlertModal";
 import trackFacebookEvent from "@/utils/trackFacebookEvent";
 import FormOrder from "./landingpage/FormOrder";
+import { FaArrowCircleRight, FaArrowCircleLeft } from "react-icons/fa";
+import { IoMdCloseCircle } from "react-icons/io";
 interface PreviewProductProps {
   product?: ProductWithreviews;
   onClose: () => void;
@@ -95,7 +97,7 @@ const PreviewProduct: React.FC<PreviewProductProps> = ({
         <button
           className="absolute top-2 right-2 text-gray-600 hover:text-teal-500"
           onClick={onClose}>
-          &times;
+          <IoMdCloseCircle className="scale-[200%]" />
         </button>
         <div className="border rounded-lg shadow-md p-1 bg-white w-full m-1 overflow-y-auto max-h-screen scrollbar-hide">
           <div className="relative">
@@ -115,12 +117,12 @@ const PreviewProduct: React.FC<PreviewProductProps> = ({
                 <button
                   className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-gray-800 text-white rounded-full p-1"
                   onClick={handlePrevImage}>
-                  &lt;
+                  <FaArrowCircleLeft className="text-teal-300 hover:text-teal-500" />
                 </button>
                 <button
                   className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-gray-800 text-white rounded-full p-1"
                   onClick={handleNextImage}>
-                  &gt;
+                  <FaArrowCircleRight className="text-teal-300 hover:text-teal-500 " />
                 </button>
               </>
             )}

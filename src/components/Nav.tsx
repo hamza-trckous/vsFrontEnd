@@ -5,16 +5,19 @@ import { FaShoppingCart } from "react-icons/fa";
 import { useAuth } from "@/context/AuthContext"; // Import the useAuth hook
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useProfile } from "@/hooks/useProfile";
 
 const Nav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { isLoggedIn, loading, logout, isAdmin, setLoading } = useAuth(); // Use the AuthContext
+  const { Profile } = useProfile();
   const router = useRouter();
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
   useEffect(() => {
+    console.log("Profile", Profile);
     if (isLoggedIn) {
       console.log("User is logged in");
     }
@@ -44,17 +47,22 @@ const Nav = () => {
           <Image
             width={200}
             height={200}
-            src="/download (3) 1.png"
+            src={"/download (3) 1.png"}
             alt="BabyBloom Logo"
             className="w-8 h-8 cursor-pointer"
-            onClick={() => window.location.replace("/")} // Redirect to the home page
+            onClick={() => window.location.replace("/")}
           />
           <div
-            className="text-xl font-bold text-gray-800"
-            style={{ fontFamily: "Cairo, sans-serif" }}>
+            onClick={() => window.location.replace("/")}
+            className="cursor-pointer text-2xl font-bold bg-gradient-to-r from-teal-600 to-teal-400 bg-clip-text text-transparent hover:scale-105 transform transition-all duration-300 tracking-wide"
+            style={{
+              fontFamily: "Macondo, sans-serif",
+              textShadow: "0px 2px 4px rgba(0,0,0,0.1)",
+            }}>
             BabyBloom
           </div>
         </div>
+
         {/* Search Bar */}
         {/* <div className="hidden md:flex items-center space-x-2 flex-grow justify-center mx-20 relative">
           <Image src="/search.svg" width={20} height={20} alt="Search Icon" />
@@ -151,7 +159,7 @@ const Nav = () => {
             onClick={(e) => handleClick(e, "/cart")}
             href="/categories"
             className="block text-gray-800 hover:text-teal-500 no-underline transition duration-300 ease-in-out"
-            style={{ fontFamily: "Cairo, sans-serif" }}>
+            style={{ fontFamily: "fantasy" }}>
             الصفحة الرئيسية
           </Link>
           {isLoggedIn ? (

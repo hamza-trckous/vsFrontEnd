@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Product, NewProduct, ProductPagination } from "../Types/ProductPart";
+import { LandingPageUpdateData } from "@/Types/LandingEditing";
 
 // Create an Axios instance with base configuration
 const api = axios.create({
@@ -79,4 +80,29 @@ export const deleteProduct = async (
   } catch (error) {
     throw error;
   }
+};
+
+// Add new method for landing page updates
+export const updateLandingPage = async (
+  id: string,
+  landingPageData: LandingPageUpdateData
+): Promise<Product> => {
+  try {
+    const response = await api.patch<Product>(
+      `/${id}/landing`,
+      landingPageData
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+// Delete a landing content
+export const deleteLandingContent = async (
+  productId: string,
+  index: number
+): Promise<Product> => {
+  const response = await api.delete(`/${productId}/landing/${index}`);
+  return response.data;
 };

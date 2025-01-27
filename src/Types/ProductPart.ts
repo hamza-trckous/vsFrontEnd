@@ -1,3 +1,5 @@
+import { LandingEditingProps } from "./LandingEditing";
+
 export interface Review {
   text: string;
   images?: string[];
@@ -15,6 +17,7 @@ export interface Product {
   sizes: string[];
   images: string[];
   withShipping: string;
+  LandingPageContent?: LandingEditingProps[];
 }
 
 export interface ProductPagination extends Product {
@@ -33,6 +36,7 @@ export interface NewProduct {
   sizes: string[];
   images: string[];
   withShipping: string;
+  LandingPageContent?: LandingEditingProps[];
 }
 
 export interface ProductWithreviews extends Product {

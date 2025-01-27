@@ -5,13 +5,23 @@ interface AlertModalProps {
   message: string;
   type: "success" | "error";
   onClose: () => void;
+  onConfirm?: () => void;
+  withConfirm?: boolean;
 }
 
-const AlertModal: React.FC<AlertModalProps> = ({ message, type, onClose }) => {
+const AlertModal: React.FC<AlertModalProps> = ({
+  message,
+  type,
+  onClose,
+  withConfirm,
+  onConfirm,
+}) => {
   useEffect(() => {
-    const timer = setTimeout(onClose, 2000); // Close after 2 seconds
-    return () => clearTimeout(timer); // Cleanup the timer on unmount
-  }, [onClose]);
+    if (!withConfirm) {
+      const timer = setTimeout(onClose, 2000); // Close after 2 seconds
+      return () => clearTimeout(timer); // Cleanup the timer on unmount
+    }
+  }, [onClose, withConfirm]);
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 text-center">
@@ -32,6 +42,21 @@ const AlertModal: React.FC<AlertModalProps> = ({ message, type, onClose }) => {
             {message}
           </p>
         </div>
+        {withConfirm && (
+          <div className="mt-4">
+            <button
+              className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg m-2"
+              onClick={onClose}>
+              Cancel
+            </button>
+
+            <button
+              className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg"
+              onClick={onConfirm}>
+              Confirm
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

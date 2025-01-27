@@ -6,6 +6,8 @@ interface AlertContextProps {
   alertType: "success" | "error";
   setAlertMessage: (message: string | null) => void;
   setAlertType: (type: "success" | "error") => void;
+  withConfirm: boolean;
+  setWithConfirm: (value: boolean) => void;
 }
 
 const AlertContext = createContext<AlertContextProps | undefined>(undefined);
@@ -22,13 +24,21 @@ export const AlertProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
+  const [withConfirm, setWithConfirm] = useState<boolean>(false);
   const [alertType, setAlertType] = React.useState<"success" | "error">(
     "success"
   );
 
   return (
     <AlertContext.Provider
-      value={{ alertMessage, alertType, setAlertMessage, setAlertType }}>
+      value={{
+        alertMessage,
+        alertType,
+        setAlertMessage,
+        setAlertType,
+        withConfirm,
+        setWithConfirm,
+      }}>
       {children}
     </AlertContext.Provider>
   );

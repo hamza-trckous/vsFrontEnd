@@ -11,6 +11,7 @@ import { useAuth } from "@/context/AuthContext";
 
 import FormOrder from "@/components/landingpage/FormOrder";
 import { injectFacebookPixel } from "@/api/TrackConversion";
+import { LandingEditingProps } from "@/Types/LandingEditing";
 
 interface LandingPageIDProps {
   productId: string;
@@ -54,6 +55,7 @@ const LandingPageId: React.FC<LandingPageIDProps> = ({ productId }) => {
         const fetchedProduct = await getProductById(productId);
         setProduct(fetchedProduct);
         viewContent(fetchedProduct);
+        console.log("Fetched product:", fetchedProduct);
       } catch (error) {
         console.error("Error fetching product:", error);
       } finally {
@@ -260,9 +262,47 @@ const LandingPageId: React.FC<LandingPageIDProps> = ({ productId }) => {
 
         {/* Order Form */}
         <FormOrder product={product} />
+        {product.LandingPageContent &&
+          product.LandingPageContent.length > 0 &&
+          product.LandingPageContent.map((newProduct, index) => (
+            <LandigPageContent key={index} newProduct={newProduct} />
+          ))}
       </div>
     </div>
   );
 };
 
 export default LandingPageId;
+
+const LandigPageContent = ({
+  newProduct,
+}: {
+  newProduct: LandingEditingProps;
+}) => {
+  useEffect(() => {
+    console.log("newProduct", newProduct);
+  }, [newProduct]);
+  return (
+    <div className="grid grid-cols-2 gap-4 ">
+      <div className=" whitespace-pre-wrap break-all w-full overflow-hidden flex flex-col flex-end">
+        <h1 className="text-[20px]  text-center  items-center">
+          {" "}
+          {newProduct.title}
+        </h1>
+        <div className="text-[10px] items-end w-full flex flex-end content-end justify-start">
+          {" "}
+          {newProduct.description}
+        </div>
+      </div>
+      <div className="whitespace-pre-wrap break-all w-full overflow-hidden flex flex-col flex-end items-center">
+        <Image
+          src={newProduct.image}
+          alt={`Landing page image`}
+          width={200}
+          height={200}
+          className="object-cover rounded"
+        />
+      </div>
+    </div>
+  );
+};

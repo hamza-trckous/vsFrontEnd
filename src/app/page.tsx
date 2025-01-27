@@ -16,7 +16,6 @@ const Footer = dynamic(() => import("@/components/Footer"), {
 import { getAllProducts } from "@/api/product";
 import { Product } from "@/Types/ProductPart";
 import { useAuth } from "@/context/AuthContext";
-import Image from "next/image";
 import { useFacebookPixel } from "@/context/FacebookPixelContext";
 
 const HomePage = () => {
@@ -90,6 +89,13 @@ const HomePage = () => {
       user_role: isLoggedIn ? "logged_in" : "guest",
     });
   }, [trackPageView, isLoggedIn]);
+
+  useEffect(() => {
+    const videoElement = document.getElementById("cover") as HTMLVideoElement;
+    if (videoElement) {
+      videoElement.playbackRate = 0.9; // Adjust the playback rate to make the video smoother
+    }
+  }, []);
 
   const memoizedProducts = useMemo(
     () =>
@@ -364,16 +370,18 @@ const HomePage = () => {
         <script src="https://example.com/third-party-script.js" defer></script>
       </Head>
       <div className="relative overflow-hidden">
-        <Image
+        <video
           width={1920}
           height={1080}
-          src="/other.jpg"
-          alt="Cover"
-          className="w-full h-96 object-cover"
-          loading="lazy"
+          src="/video (2).mp4"
+          className="w-full h-screen object-cover "
+          loop
+          muted
+          autoPlay
+          playsInline
           id="cover"
         />
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-white bg-black bg-opacity-20">
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-white bg-black bg-opacity-20 cover">
           <h1 id="Up" className="text-4xl font-bold mb-4 text-center ">
             مرحبًا بكم في بيبي بلوم
           </h1>

@@ -70,7 +70,8 @@ const TopNavBar = () => {
         `}</style>
         <script src="https://example.com/third-party-script.js" defer></script>
       </Head>
-      <div className="bg-teal-400 p-2 shadow-sm">
+      <div className="bg-gradient-to-r from-teal-400 via-teal-500 to-teal-300 p-2 shadow-lg transition-all duration-300 hover:shadow-xl opacity-85 ">
+        {" "}
         <div className="container mx-auto flex justify-between items-center text-sm">
           <a
             href="https://www.facebook.com/profile.php?id=61569429093427"
@@ -81,7 +82,7 @@ const TopNavBar = () => {
           </a>
 
           <div
-            className="text-gray-600 italic text-xs md:text-base w-full text-center"
+            className="text-white italic text-xs md:text-base w-full text-center"
             style={{ fontFamily: "Cairo, sans-serif" }}>
             {"ألعاب تنمي الذكاء وتزرع الإبداع!"}
           </div>

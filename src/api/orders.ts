@@ -42,3 +42,22 @@ export const updateOrderStatus = async (orderId: string, status: string) => {
   );
   return response.data;
 };
+
+export const deleteOrder = async (orderId: string) => {
+  const response = await axios.delete(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/orders/${orderId}`,
+    {
+      withCredentials: true,
+    }
+  );
+  return response.data;
+};
+export const deleteAllOrders = async () => {
+  const response = await axios.delete(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/orders`,
+    {
+      withCredentials: true,
+    }
+  );
+  return response.data;
+};

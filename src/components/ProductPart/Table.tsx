@@ -6,9 +6,11 @@ import Image from "next/image";
 const Table = ({
   products = [],
   onDelete,
+  landingPage = false,
 }: {
   products: ProductWithreviews[];
-  onDelete: (id: string) => void;
+  onDelete?: (id: string) => void;
+  landingPage?: boolean;
 }) => {
   const router = useRouter();
   const [showMoreImages, setShowMoreImages] = useState<{
@@ -184,28 +186,42 @@ const Table = ({
                 <td className="px-2 py-1 border border-gray-400  text-right break-words">
                   {product.withShipping}
                 </td>
-                <td className="px-2 py-1 border border-gray-400 w-20 text-right break-words">
-                  <button
-                    onClick={() => handleEdit(product._id)}
-                    className="bg-blue-500 mb-1 w-16 text-white px-2 py-1 rounded-lg hover:bg-blue-600 transition-colors duration-200 text-xs">
-                    تعديل
-                  </button>
-                  <button
-                    onClick={() => onDelete(product._id)}
-                    className="bg-red-500  w-16 text-white px-2 py-1 rounded-lg hover:bg-red-600 transition-colors duration-200 text-xs ml-2">
-                    حذف
-                  </button>
-                  <button
-                    onClick={() => router.push(`/landingpage/${product._id}`)}
-                    className="bg-green-500 mt-1 w-16 text-white px-2 py-1 rounded-lg hover:bg-blue-600 transition-colors duration-200 text-xs">
-                    صفحة المنتج
-                  </button>
-                </td>
+                {!landingPage ? (
+                  <td className="px-2 py-1 border border-gray-400 w-20 text-right break-words">
+                    <button
+                      onClick={() => handleEdit(product._id)}
+                      className="bg-blue-500 mb-1 w-16 text-white px-2 py-1 rounded-lg hover:bg-blue-600 transition-colors duration-200 text-xs">
+                      تعديل
+                    </button>
+                    <button
+                      onClick={() => onDelete && onDelete(product._id)}
+                      className="bg-red-500  w-16 text-white px-2 py-1 rounded-lg hover:bg-red-600 transition-colors duration-200 text-xs ml-2">
+                      حذف
+                    </button>
+                    <button
+                      onClick={() => router.push(`/landingpage/${product._id}`)}
+                      className="bg-green-500 mt-1 w-16 text-white px-2 py-1 rounded-lg hover:bg-blue-600 transition-colors duration-200 text-xs">
+                      صفحة المنتج
+                    </button>
+                  </td>
+                ) : (
+                  <td className="px-2 py-1 border border-gray-400 w-20 text-right break-words">
+                    <button
+                      onClick={() =>
+                        router.push(
+                          `/dashboard/landingpageEditing/${product._id}`
+                        )
+                      }
+                      className="bg-green-500 w-16 text-white px-2 py-1 rounded-lg hover:bg-blue-600 transition-colors duration-200 text-xs">
+                      عرض
+                    </button>
+                  </td>
+                )}
               </tr>
             ))}
         </tbody>
       </table>
-      <div className="absolute top-0 right-0 h-full w-8 bg-gradient-to-l from-white to-transparent pointer-events-none"></div>
+
       <div className="absolute top-0 right-0 h-full w-8 flex items-center justify-center pointer-events-none">
         <svg
           className="w-4 h-4 text-gray-500"

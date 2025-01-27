@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Macondo";
+  src: url("/Macondo-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 body {
   @apply bg-gray-100;
   font-family: "Cairo", Arial, Helvetica, sans-serif;

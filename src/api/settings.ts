@@ -1,3 +1,4 @@
+import { settings } from "@/Types/Settings";
 import axios from "axios";
 
 export const getSettings = async () => {
@@ -10,10 +11,7 @@ export const getSettings = async () => {
   return response.data;
 };
 
-export const saveSettings = async (settings: {
-  pixelId: string;
-  accessToken: string;
-}) => {
+export const saveSettings = async (settings: settings) => {
   const response = await axios.post(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/settings`,
     settings,
