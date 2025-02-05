@@ -30,6 +30,7 @@ const CardForProduct: React.FC<CardForProductProps> = ({
     colors: ["أحمر", "أزرق", "أخضر"],
     sizes: ["S", "M", "L"],
     withShipping: "نعم",
+    category: "default-category",
   };
 
   const currentProduct = product || defaultProduct;
