@@ -1,3 +1,4 @@
+import { url } from "@/utils/api";
 import axios from "axios";
 
 interface User {
@@ -8,32 +9,22 @@ interface User {
 }
 
 export const getAllUsers = async () => {
-  const response = await axios.get(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users`,
-    {
-      withCredentials: true,
-    }
-  );
+  const response = await axios.get(`${url}/api/users`, {
+    withCredentials: true,
+  });
   return response.data;
 };
 
 export const deleteUser = async (id: string) => {
-  const response = await axios.delete(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/${id}`,
-    {
-      withCredentials: true,
-    }
-  );
+  const response = await axios.delete(`${url}/api/users/${id}`, {
+    withCredentials: true,
+  });
   return response.data;
 };
 
 export const updateUser = async (id: string, userData: Partial<User>) => {
-  const response = await axios.put(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/${id}`,
-    userData,
-    {
-      withCredentials: true,
-    }
-  );
+  const response = await axios.put(`${url}/api/users/${id}`, userData, {
+    withCredentials: true,
+  });
   return response.data;
 };

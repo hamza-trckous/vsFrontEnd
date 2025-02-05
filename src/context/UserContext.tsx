@@ -1,15 +1,18 @@
 "use client";
-import React, { createContext, useContext, useState, ReactNode } from "react";
-
-interface User {
-  _id: string;
-  username: string;
-  // Add other user fields as needed
-}
+import { deleteUser, getAllUsers } from "@/api/users";
+import { User } from "@/Types/UserPart";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
 
 interface UserContextProps {
-  user: User | null;
-  setUser: React.Dispatch<React.SetStateAction<User | null>>;
+  users: User[] | null;
+  setUsers: React.Dispatch<React.SetStateAction<User[] | null>>;
+  handleDelete: (id: string) => Promise<void>;
 }
 
 const UserContext = createContext<UserContextProps | undefined>(undefined);
@@ -17,10 +20,37 @@ const UserContext = createContext<UserContextProps | undefined>(undefined);
 export const UserProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [users, setUsers] = useState<User[] | null>(null);
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const fetchedUsers = await getAllUsers();
+        setUsers(fetchedUsers);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
 
+    fetchUsers();
+  }, []);
+
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteUser(id);
+      setUsers((prevUsers) =>
+        prevUsers ? prevUsers.filter((user) => user._id !== id) : null
+      );
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
+  };
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider
+      value={{
+        handleDelete,
+        users,
+        setUsers,
+      }}>
       {children}
     </UserContext.Provider>
   );

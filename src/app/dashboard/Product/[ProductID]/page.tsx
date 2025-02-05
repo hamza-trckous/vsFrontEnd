@@ -1,5 +1,5 @@
-import ProductPage from "../../../../components/ProductPage";
+import ProductPartForEditing from "../../../../components/ProductPartForEditing";
 
 export default function Page() {
-  return <ProductPage />;
+  return <ProductPartForEditing />;
 }

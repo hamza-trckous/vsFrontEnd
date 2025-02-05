@@ -1,10 +1,9 @@
+import { url } from "@/utils/api";
 import axios from "axios";
 
 export const getShippingPrices = async () => {
   try {
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/shipping`
-    );
+    const response = await axios.get(`${url}/api/shipping`);
     console.log("response", response);
     return response.data;
   } catch (error) {
@@ -19,10 +18,11 @@ export const updateShippingPrice = async (
   priceToHomme: number
 ) => {
   try {
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/shipping/update`,
-      { wilaya, priceToDesktop, priceToHomme }
-    );
+    const response = await axios.post(`${url}/api/shipping/update`, {
+      wilaya,
+      priceToDesktop,
+      priceToHomme,
+    });
     return response.data;
   } catch (error) {
     console.error("Error updating shipping price:", error);
@@ -32,12 +32,9 @@ export const updateShippingPrice = async (
 
 export const deleteShippingPrice = async (wilaya: string) => {
   try {
-    const response = await axios.delete(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/shipping/delete`,
-      {
-        data: { wilaya },
-      }
-    );
+    const response = await axios.delete(`${url}/api/shipping/delete`, {
+      data: { wilaya },
+    });
     return response.data;
   } catch (error) {
     console.error("Error deleting shipping price:", error);
@@ -53,10 +50,9 @@ export const createInitialShippingPrices = async (
   }[]
 ) => {
   try {
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/shipping/create`,
-      { shippingPrices }
-    );
+    const response = await axios.post(`${url}/api/shipping/create`, {
+      shippingPrices,
+    });
     return response.data;
   } catch (error) {
     throw error;

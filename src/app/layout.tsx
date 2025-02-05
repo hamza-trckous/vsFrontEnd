@@ -7,7 +7,8 @@ import MainContent from "@/components/MainContent"; // Import the MainContent co
 import { UserProvider } from "@/context/UserContext";
 import AlertProvider from "@/context/useAlert";
 import ClientFacebookWrapper from "@/components/ClientFacebookWrapper";
-
+import { CategoryProvider } from "@/context/CategoryContext";
+import UseQueryProvider from "@/components/useQueryProvider";
 const RootLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <html lang="en">
@@ -16,17 +17,21 @@ const RootLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         <title>Babybloom</title>
       </head>
       <body className="antialiased">
-        <AlertProvider>
-          <UserProvider>
-            <AuthProvider>
-              <ClientFacebookWrapper>
-                <TopNavBar />
-                <Nav />
-                <MainContent>{children}</MainContent>
-              </ClientFacebookWrapper>
-            </AuthProvider>
-          </UserProvider>
-        </AlertProvider>
+        <UseQueryProvider>
+          <AlertProvider>
+            <CategoryProvider>
+              <UserProvider>
+                <AuthProvider>
+                  <ClientFacebookWrapper>
+                    <TopNavBar />
+                    <Nav />
+                    <MainContent>{children}</MainContent>
+                  </ClientFacebookWrapper>
+                </AuthProvider>
+              </UserProvider>
+            </CategoryProvider>
+          </AlertProvider>{" "}
+        </UseQueryProvider>
       </body>
     </html>
   );

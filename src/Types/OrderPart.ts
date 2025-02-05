@@ -1,8 +1,4 @@
-export interface Product {
-  _id: string;
-  name: string;
-  // ...other product fields...
-}
+import { Product } from "./ProductPart";
 
 export interface OrderProduct {
   product: Product;

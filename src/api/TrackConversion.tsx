@@ -1,46 +1,15 @@
-interface UserData {
-  client_ip_address: string;
-  client_user_agent: string;
-  fbc: string;
-  ph: string;
-  fbp: string;
-  external_id: string;
-  fb_login_id: string;
-  fn: string;
-  st: string;
-}
-
-declare global {
-  interface Window {
-    fbq?: (...args: unknown[]) => void;
-    _fbq?: (...args: unknown[]) => void;
-  }
-}
-
-interface CustomData {
-  currency: string;
-  value: number;
-}
-
-interface EventData {
-  event_name: string;
-  event_time: number;
-  user_data: UserData;
-  custom_data: CustomData;
-}
+import { EventData } from "@/Types/TrackConversion";
+import { url } from "@/utils/api";
 
 export const trackConversion = async (eventData: EventData): Promise<void> => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/track-conversion`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(eventData),
-      }
-    );
+    const response = await fetch(`${url}/api/sheets/api/track-conversion`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(eventData),
+    });
 
     if (!response.ok) {
       const errorData = await response.json();

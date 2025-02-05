@@ -1,10 +1,11 @@
 import axios from "axios";
 import { Product, NewProduct, ProductPagination } from "../Types/ProductPart";
 import { LandingPageUpdateData } from "@/Types/LandingEditing";
+import { url } from "@/utils/api";
 
 // Create an Axios instance with base configuration
 const api = axios.create({
-  baseURL: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/products`, // Backend API base URL
+  baseURL: `${url}/api/products`, // Backend API base URL
   withCredentials: true, // Include cookies in requests
 });
 

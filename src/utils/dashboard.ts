@@ -13,7 +13,16 @@ export const Links = ({
 }: logos) => {
   const items = [
     { name: "إدارة المستخدمين", icon: Logo1, Link: "/dashboard/users" },
-    { name: "إدارة المنتجات", icon: Logo2, Link: "/dashboard/Product" },
+    {
+      name: "إدارة المنتجات",
+      icon: Logo2,
+      Link: "/dashboard/Product",
+      // DFault /dashboard/Product
+      sections: [
+        { name: "المنتجات", Link: "/dashboard/Product" },
+        { name: "الفئات", Link: "/dashboard/Product/category" },
+      ],
+    },
     { name: "إحصائيات الموقع", icon: Logo3, Link: "/dashboard/statics" },
     { name: "إدارة الشحن", icon: Logo4, Link: "/dashboard/shipping" },
     {

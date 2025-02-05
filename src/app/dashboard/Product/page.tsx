@@ -1,8 +1,8 @@
 import React from "react";
-import ProductsPart from "@/components/dashbord/ProductPart";
+import ProductsPartForAddingProduct from "@/components/dashbord/ProductsPartForAddingProduct";
 
 const products = () => {
-  return <ProductsPart />;
+  return <ProductsPartForAddingProduct />;
 };
 
 export default products;

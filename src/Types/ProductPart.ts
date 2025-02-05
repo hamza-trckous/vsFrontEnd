@@ -23,6 +23,7 @@ export interface Product {
 export interface ProductPagination extends Product {
   products: Product[];
   totalProducts: number;
+  hasMore: boolean;
 }
 export interface NewProduct {
   _id?: string; // Ensure this is always a string
@@ -37,8 +38,31 @@ export interface NewProduct {
   images: string[];
   withShipping: string;
   LandingPageContent?: LandingEditingProps[];
+  category: string;
 }
 
 export interface ProductWithreviews extends Product {
   reviews: Review[];
+}
+
+export interface Categoryoption {
+  category: true;
+  categoryId: string;
+  initialProducts: Product[];
+  productsRef?: React.RefObject<HTMLDivElement>;
+  searchParams: { name: string };
+}
+
+export interface Productoption {
+  category: false;
+  initialProducts: Product[];
+  productsRef?: React.RefObject<HTMLDivElement>;
+  categoryId?: string;
+  searchParams?: { name: string };
+}
+
+export interface ProductPaginationOnly {
+  products: Product[];
+  totalProducts: number;
+  hasMore: boolean;
 }

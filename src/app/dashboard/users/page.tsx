@@ -1,39 +1,19 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { getAllUsers, deleteUser } from "@/api/users";
-import { User } from "@/Types/UserPart";
+import { useUser } from "@/context/UserContext";
+import React, { useState } from "react";
 
 const UsersPage = () => {
-  const [users, setUsers] = useState<User[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const fetchedUsers = await getAllUsers();
-        setUsers(fetchedUsers);
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      }
-    };
+  const { users, handleDelete } = useUser();
 
-    fetchUsers();
-  }, []);
-
-  const handleDelete = async (id: string) => {
-    try {
-      await deleteUser(id);
-      setUsers(users.filter((user) => user._id !== id));
-    } catch (error) {
-      console.error("Error deleting user:", error);
-    }
-  };
-
-  const filteredUsers = users.filter(
-    (user) =>
-      user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredUsers = users
+    ? users.filter(
+        (user) =>
+          user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          user.email.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    : [];
 
   return (
     <div

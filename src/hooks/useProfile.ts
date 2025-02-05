@@ -1,8 +1,9 @@
 import { getSettingsProfile } from "@/api/profile";
+import { profile } from "@/Types/Profile";
 import { useEffect, useState } from "react";
 
 export const useProfile = () => {
-  const [Profile, setProfile] = useState(null);
+  const [Profile, setProfile] = useState<profile | null>(null);
 
   useEffect(() => {
     const fetchProducts = async () => {

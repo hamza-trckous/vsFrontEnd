@@ -6,11 +6,12 @@ import { useAuth } from "@/context/AuthContext"; // Import the useAuth hook
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useProfile } from "@/hooks/useProfile";
+import { profile } from "@/Types/Profile";
 
 const Nav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { isLoggedIn, loading, logout, isAdmin, setLoading } = useAuth(); // Use the AuthContext
-  const { Profile } = useProfile();
+  const { Profile }: { Profile: profile | null } = useProfile();
   const router = useRouter();
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -47,7 +48,7 @@ const Nav = () => {
           <Image
             width={200}
             height={200}
-            src={"/download (3) 1.png"}
+            src={Profile?.logo || "/LogoPrincipal.png"}
             alt="BabyBloom Logo"
             className="w-8 h-8 cursor-pointer"
             onClick={() => window.location.replace("/")}
@@ -59,7 +60,7 @@ const Nav = () => {
               fontFamily: "Macondo, sans-serif",
               textShadow: "0px 2px 4px rgba(0,0,0,0.1)",
             }}>
-            BabyBloom
+            {Profile?.nameOfBrand || "BabyBloom"}
           </div>
         </div>
 

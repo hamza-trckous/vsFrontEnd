@@ -1,6 +1,5 @@
+import { url } from "@/utils/api";
 import axios from "axios";
-
-const url = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 interface IFormInput {
   username: string;

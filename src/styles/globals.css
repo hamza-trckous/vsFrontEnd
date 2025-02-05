@@ -93,3 +93,44 @@ a:hover {
 #Loading {
   animation: smooth 2s;
 }
+.AlertModal {
+  animation: forAlert 3s;
+  transition: all 0.5s;
+}
+
+@keyframes forAlert {
+  0% {
+    scale: 0.8;
+    opacity: 0;
+    transform: translateY(20%);
+  }
+  50% {
+    scale: 1.1;
+    opacity: 1;
+    transform: translateY(0%);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-100%);
+    /* transform: translateX(50%); */
+    scale: 0.5;
+  }
+}
+#subLink {
+  opacity: 0;
+  transform: translateX(-20px);
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-name: slideIn;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

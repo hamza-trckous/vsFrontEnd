@@ -6,16 +6,16 @@ import type { ProductWithreviews, Review } from "@/Types/ProductPart";
 import Image from "next/image";
 // import { addToCart } from "@/api/cart"; // Import the addToCart function
 import AlertModal from "./AlertModal"; // Import the AlertModal component
-import trackFacebookEvent from "@/utils/trackFacebookEvent"; // Import the trackFacebookEvent function
 import { useAlert } from "@/context/useAlert";
+import { handleAddToCart } from "@/utils/cardForProduct";
+import HandlRemoVeForCart from "./cart/HandleRemove";
+import { CardForProductProps } from "@/Types/CardForProduct";
 
-interface CardForProductProps {
-  product?: ProductWithreviews;
-  index: number; // Add index prop
-  id: string; // Add id prop
-}
-
-const CardForProduct: React.FC<CardForProductProps> = ({ product, id }) => {
+const CardForProduct: React.FC<CardForProductProps> = ({
+  product,
+  id,
+  forCart,
+}) => {
   const [showPreview, setShowPreview] = useState(false);
   const { alertMessage, setAlertMessage, setAlertType, alertType } = useAlert();
   const defaultProduct: ProductWithreviews = {
@@ -34,43 +34,6 @@ const CardForProduct: React.FC<CardForProductProps> = ({ product, id }) => {
 
   const currentProduct = product || defaultProduct;
 
-  const handleAddToCart = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
-    try {
-      const { addToCart } = await import("@/api/cart"); // استيراد ديناميكي للوحدة addToCart
-      if (product) {
-        await addToCart(product._id, 1);
-      } else {
-        throw new Error("Product is undefined");
-      }
-      setAlertMessage("تمت الإضافة إلى السلة!");
-      setAlertType("success");
-
-      trackFacebookEvent({
-        eventName: "AddToCart",
-        data: {
-          content_ids: product._id,
-          content_name: product.name,
-          content_type: "product",
-          value: product.price,
-          currency: "DZD",
-          contents: JSON.stringify([
-            {
-              id: product._id,
-              quantity: 1,
-            },
-          ]),
-        },
-        isAdmin: false, // or true, depending on your logic
-      });
-    } catch (error) {
-      console.error("Error adding to cart:", error);
-      setAlertMessage(
-        "حدث خطأ أثناء الإضافة إلى السلة أو يرجي التسجيل للاضافة للسلة."
-      );
-      setAlertType("error");
-    }
-  };
   const [changeImage, setChangeImage] = useState(false);
   useEffect(() => {
     const productcard = document.getElementById(id);
@@ -92,7 +55,7 @@ const CardForProduct: React.FC<CardForProductProps> = ({ product, id }) => {
     <>
       <div
         id={id}
-        className="transition-all flex h-[330px] sm:h-[430px] lg:h-[430px] md:h-[330px] flex-wrap justify-center items-center border rounded-lg shadow-md p-2 bg-white lg:w-[240px] w-5/12 md:w-5/12  m-1 relative cursor-pointer transform  hover:scale-[102%] hover:shadow-2xl hover:border-teal-200 up "
+        className="transition-all flex min-h-[330px] sm:min-h-[430px] lg:min-h-[430px] md:min-h-[330px] flex-wrap justify-center items-center border rounded-lg shadow-md p-2 bg-white lg:w-[240px] w-5/12 md:w-5/12  m-1 relative cursor-pointer transform  hover:scale-[102%] hover:shadow-2xl hover:border-teal-200 up "
         onClick={() => {
           setShowPreview(true);
           const newUrl = `/landingpage/${currentProduct._id}`;
@@ -107,15 +70,16 @@ const CardForProduct: React.FC<CardForProductProps> = ({ product, id }) => {
           }}>
           <FaEye size={20} />
         </button>
-        <button
-          className="absolute top-2 left-2 text-gray-600 hover:text-teal-500 z-10"
-          onClick={(e) => {
-            e.stopPropagation();
-            handleAddToCart(e);
-          }}>
-          <FaCartArrowDown size={20} />
-        </button>
-
+        {!forCart && (
+          <button
+            className="absolute top-2 left-2 text-gray-600 hover:text-teal-500 z-10"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleAddToCart(e, currentProduct, setAlertMessage, setAlertType);
+            }}>
+            <FaCartArrowDown size={20} />
+          </button>
+        )}
         {currentProduct.images && currentProduct.images.length > 0 ? (
           <div className="relative w-full md:h-48  sm:h-64 lg:h-64 h-52 object-cover rounded-t-lg transition-all duration-300 ">
             <Image
@@ -180,6 +144,13 @@ const CardForProduct: React.FC<CardForProductProps> = ({ product, id }) => {
             )}
           </div>
         </div>
+        {forCart && (
+          <HandlRemoVeForCart
+            id={currentProduct._id}
+            setAlertMessage={setAlertMessage}
+            setAlertType={setAlertType}
+          />
+        )}
       </div>
 
       {showPreview && (
