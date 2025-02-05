@@ -8,9 +8,6 @@ interface PageProps {
   searchParams: { name: string };
 }
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
-
 const Page = async ({ params, searchParams }: PageProps) => {
   // No need to await params.Show as it's already a string
   const resolvedParams = await params;
