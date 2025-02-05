@@ -18,6 +18,7 @@ export interface Product {
   images: string[];
   withShipping: string;
   LandingPageContent?: LandingEditingProps[];
+  category: string;
 }
 
 export interface ProductPagination extends Product {

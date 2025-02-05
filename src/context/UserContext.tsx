@@ -13,6 +13,8 @@ interface UserContextProps {
   users: User[] | null;
   setUsers: React.Dispatch<React.SetStateAction<User[] | null>>;
   handleDelete: (id: string) => Promise<void>;
+  user: User | null;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
 const UserContext = createContext<UserContextProps | undefined>(undefined);
@@ -21,6 +23,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [users, setUsers] = useState<User[] | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -33,6 +36,9 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
 
     fetchUsers();
   }, []);
+  useEffect(() => {
+    console.log(users, "users");
+  }, [users]);
 
   const handleDelete = async (id: string) => {
     try {
@@ -50,6 +56,8 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
         handleDelete,
         users,
         setUsers,
+        user,
+        setUser,
       }}>
       {children}
     </UserContext.Provider>

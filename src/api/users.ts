@@ -15,6 +15,13 @@ export const getAllUsers = async () => {
   return response.data;
 };
 
+export const getUserById = async (id: string) => {
+  const response = await axios.get(`${url}/api/users/${id}`, {
+    withCredentials: true,
+  });
+  return response.data;
+};
+
 export const deleteUser = async (id: string) => {
   const response = await axios.delete(`${url}/api/users/${id}`, {
     withCredentials: true,

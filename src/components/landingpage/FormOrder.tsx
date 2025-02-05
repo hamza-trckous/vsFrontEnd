@@ -89,6 +89,7 @@ const FormOrder = ({ product }: { product: NewProduct }) => {
       }
       console.log("Order data after:", orderData);
       await createOrder(orderData);
+
       setAlertMessage("تم تقديم الطلب بنجاح! سنتصل بك قريبًا.");
       setAlertType("success");
       reset();
