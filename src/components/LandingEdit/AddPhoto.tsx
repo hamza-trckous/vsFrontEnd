@@ -12,8 +12,8 @@ const AddPhoto = ({
 }) => {
   return (
     <div className="w-full flex flex-col">
-      {errors.images && (
-        <span className="text-red-500">{errors.images.message}</span>
+      {errors.image && (
+        <span className="text-red-500">{errors.image.message}</span>
       )}
 
       <label
