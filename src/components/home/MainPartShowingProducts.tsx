@@ -105,6 +105,7 @@ const MainPartShowingProducts = ({
             sizes: product.sizes,
             _id: product._id,
             withShipping: product.withShipping,
+            category: product.category,
           }}
           index={index}
         />

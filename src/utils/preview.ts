@@ -15,4 +15,5 @@ export const defaultProduct: NewProduct = {
   colors: ["أحمر", "أزرق", "أخضر"],
   sizes: ["S", "M", "L"],
   withShipping: "true",
+  category: "default-category",
 };
