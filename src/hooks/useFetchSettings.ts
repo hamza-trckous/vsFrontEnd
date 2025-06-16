@@ -16,7 +16,6 @@ const useFetchSettings = () => {
       requestAnimationFrame(() => {
         requestAnimationFrame(async () => {
           try {
-            console.log("Fetching settings...");
             const settings = await getSettings();
             setPixelId(settings.pixelId || "");
           } catch (error) {

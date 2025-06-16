@@ -6,7 +6,7 @@ import trackFacebookEvent from "@/utils/trackFacebookEvent";
 import { useAuth } from "@/context/AuthContext";
 import { Title } from "@/components/cart/Title";
 import { ShowingItems } from "@/components/cart/ShowingItems";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getCartServerAction } from "@/app/actions/cart";
 
 interface CartItem {
@@ -20,43 +20,38 @@ const CartPage = () => {
     queryKey: ["cart"],
     queryFn: getCartServerAction,
     select: (data) => ({
-      cart: data.cart.map((item: CartItem) => item.productId),
-    }),
-    onSuccess: (data) => {
-      console.log("Query succeeded:", data);
-      if (data?.cart?.length > 0) {
-        trackFacebookEvent({
-          eventName: "PageView",
-          data: {
-            page_name: "CartPage",
-          },
-          isAdmin,
-        });
-      }
-      data?.cart?.forEach((product: Product) => {
-        if (!product) return;
-
-        trackFacebookEvent({
-          eventName: "ViewContent",
-          data: {
-            content_type: "product",
-            content_ids: product._id,
-            content_name: product.name,
-            value: product.price,
-            currency: "DZD",
-          },
-          isAdmin,
-        });
-      });
-    },
-    onError: (error) => {
-      console.error("Query failed:", error);
-    },
+      cart: data.cart.map((item: CartItem) => item.productId)
+    })
   });
 
   useEffect(() => {
-    console.log("Data", data);
-  }, [data]);
+    if (data?.cart?.length > 0) {
+      trackFacebookEvent({
+        eventName: "PageView",
+        data: {
+          page_name: "CartPage"
+        },
+        isAdmin
+      });
+    }
+    data?.cart?.forEach((product: Product) => {
+      if (!product) return;
+
+      trackFacebookEvent({
+        eventName: "ViewContent",
+        data: {
+          content_type: "product",
+          content_ids: product._id,
+          content_name: product.name,
+          value: product.price,
+          currency: "DZD"
+        },
+        isAdmin
+      });
+    });
+  });
+
+  useEffect(() => {}, [data]);
 
   const cartItems = data?.cart || [];
   const productNames = cartItems
@@ -66,7 +61,7 @@ const CartPage = () => {
 
   useTrackPageView({
     page_name: "CartPage",
-    product_names: productNames || "",
+    product_names: productNames || ""
   });
 
   if (isLoading) {

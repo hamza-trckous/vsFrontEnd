@@ -1,33 +1,41 @@
 "use client";
+import { useLanguage } from "@/context/languageColorContext";
 import { Category } from "@/Types/Categorys";
 import Image from "next/image";
-import React, { useState } from "react";
+import React from "react";
 import {
   FieldErrors,
+  UseFormClearErrors,
   UseFormRegister,
   UseFormSetError,
-  UseFormSetValue,
+  UseFormSetValue
 } from "react-hook-form";
 
 const AddPhoto = ({
   setError,
   setValue,
   errors,
+  clearErrors,
+  imagePreviews,
+  setImagePreviews
 }: {
+  imagePreviews: string;
+  clearErrors: UseFormClearErrors<Category>;
   setError: UseFormSetError<Category>;
   setValue: UseFormSetValue<Category>;
   register: UseFormRegister<Category>;
+  setImagePreviews: React.Dispatch<React.SetStateAction<string>>;
 
   errors: FieldErrors<Category>;
 }) => {
-  const [imagePreviews, setImagePreviews] = useState("");
+  const { dataOflang } = useLanguage();
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) {
       setError("image", {
         type: "required",
-        message: "الصورة مطلوبة",
+        message: "الصورة مطلوبة"
       });
       setValue("image", "");
       return;
@@ -38,6 +46,7 @@ const AddPhoto = ({
       const newImage = reader.result as string;
       setImagePreviews(newImage);
 
+      clearErrors("image");
       setValue("image", newImage, { shouldValidate: true });
     };
     reader.readAsDataURL(file);
@@ -49,7 +58,9 @@ const AddPhoto = ({
 
   return (
     <div className="mb-2">
-      <label className="block text-right">إضافة صور:</label>
+      <label className="block text-right">
+        {dataOflang?.addingProduct.addingPhoto || "إضافة صور"}
+      </label>
       <input
         type="file"
         accept="image/*"

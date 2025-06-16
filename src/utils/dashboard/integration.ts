@@ -56,15 +56,13 @@ export const testingintegration = async ({ pixelId }: { pixelId: string }) => {
       fbp: typeof fbp === "string" ? fbp : "",
       fbc: "fb_click_id",
       external_id: "external_id",
-      fb_login_id: "facebook_login_id",
+      fb_login_id: "facebook_login_id"
     },
     custom_data: {
       currency: "USD",
-      value: 0,
-    },
+      value: 0
+    }
   };
-
-  console.log("Event data:", eventData);
 
   await trackConversion(eventData);
 };

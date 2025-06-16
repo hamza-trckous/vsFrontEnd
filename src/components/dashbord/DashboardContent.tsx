@@ -5,14 +5,15 @@ import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 
 const DashboardContent = ({ children }: { children: ReactNode }) => {
-  const { isAdmin, isLoggedIn } = useAuth();
+  const { isAdmin, isLoggedIn, loading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
     if (!isAdmin) {
       router.push("/");
     }
-  }, [isAdmin, router, isLoggedIn]);
+    console.log(isAdmin, "isAdmin", "isLoggedIn", isLoggedIn);
+  }, [isAdmin, router, isLoggedIn, loading]);
   return (
     <>
       {isAdmin && isLoggedIn && (

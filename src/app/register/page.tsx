@@ -48,8 +48,7 @@
 //         ...formData,
 //         dateOfbirth: new Date(formData.dateOfbirth), // Convert date string to Date object
 //       };
-//       console.log("Data to send:", dataToSend);
-//       const response = await registerUser(dataToSend);
+//       //       const response = await registerUser(dataToSend);
 //       setAlert({ message: response.message, type: "success" });
 //     } catch (error) {
 //       if (axios.isAxiosError(error)) {
@@ -183,7 +182,13 @@ import RegisterForm from "@/components/RegisterForm";
 import React from "react";
 
 const page = () => {
-  return <RegisterForm />;
+  return (
+    <div
+      className="flex align-middle"
+      style={{ backgroundImage: "url('/background 2.jpg')" }}>
+      <RegisterForm />;
+    </div>
+  );
 };
 
 export default page;

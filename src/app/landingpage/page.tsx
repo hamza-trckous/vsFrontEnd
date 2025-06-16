@@ -6,6 +6,8 @@ import FormOrder from "@/components/landingpage/FormOrder";
 import { injectFacebookPixel } from "@/api/TrackConversion";
 import Image from "next/image"; // Import next/image
 import { useRouter } from "next/router"; // Import useRouter
+import { themeColors } from "@/utils/theme";
+import { useTheme } from "@/context/themeContext";
 
 const LandingPage: React.FC = () => {
   const router = useRouter();
@@ -71,6 +73,7 @@ const ShowProduct = ({ product }: { product: NewProduct }) => {
   const handleImageClick = (index: number) => {
     setCurrentImageIndex(index);
   };
+  const { currentColor } = useTheme();
   return (
     <div className="flex flex-col md:flex-row">
       <div className="md:w-1/2 p-4">
@@ -83,7 +86,10 @@ const ShowProduct = ({ product }: { product: NewProduct }) => {
           <span className="text-gray-600 line-through mr-2 text-md">
             {product.price} $
           </span>
-          <span className="text-teal-500 font-bold text-md">
+          <span
+            className={`text-${
+              themeColors[currentColor ?? "teal"]?.basics
+            }-500 font-bold text-md`}>
             {product.discountedPrice ?? product.price} ${" "}
             {/* Display discountedPrice or price */}
           </span>
@@ -197,7 +203,9 @@ const ShowProduct = ({ product }: { product: NewProduct }) => {
                   height={64}
                   className={`w-16 h-16 object-cover mt-5 rounded-lg cursor-pointer m-2 ${
                     currentImageIndex === index
-                      ? "border-2 border-teal-500"
+                      ? `border-2 border-${
+                          themeColors[currentColor ?? "teal"]?.basics
+                        }-500`
                       : ""
                   }`}
                   onClick={() => handleImageClick(index)}

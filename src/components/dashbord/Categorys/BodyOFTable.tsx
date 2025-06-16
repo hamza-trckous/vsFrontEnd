@@ -4,20 +4,17 @@ import DescriptionProductTable from "@/components/Table/DescriptionProductTable"
 import ImagesProductTable from "@/components/Table/ImagesProductTable";
 import NAmeProductsTable from "@/components/Table/NAmeProductsTable";
 import { useCategory } from "@/context/CategoryContext";
+import { useLanguage } from "@/context/languageColorContext";
 import React from "react";
 
 const BodyOFTableCategory = () => {
   const { category, deleateCategory } = useCategory();
-  const handleEdit = (id: string) => {
-    console.log(id);
-  };
+  const handleEdit = () => {};
   const onDelete = (id: string) => {
     deleateCategory(id);
   };
-  const ShowItem = (id: string) => {
-    console.log(id);
-  };
-
+  const ShowItem = () => {};
+  const { dataOflang } = useLanguage();
   return (
     <tbody>
       {category &&
@@ -27,9 +24,9 @@ const BodyOFTableCategory = () => {
             <DescriptionProductTable item={item} />
             <ImagesProductTable forproduct={false} items={item} />
             <ActionsForTable
-              itemNAme="القسم"
+              itemNAme={dataOflang?.addingProduct.categoryTitle || " الفئة"}
               item={item}
-              ShowItem={() => ShowItem(item._id)}
+              ShowItem={() => ShowItem()}
               handleEdit={handleEdit}
               onDelete={onDelete}
             />

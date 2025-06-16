@@ -4,8 +4,12 @@ import { useRouter } from "next/navigation";
 import Login from "../../components/Login";
 import { useAuth } from "@/context/AuthContext";
 import { FaSpinner } from "react-icons/fa";
+import { themeColors } from "@/utils/theme";
+import { useTheme } from "@/context/themeContext";
 
 const LoginPage: React.FC = () => {
+  const { currentColor } = useTheme();
+
   const { isLoggedIn } = useAuth();
   const router = useRouter();
 
@@ -26,15 +30,20 @@ const LoginPage: React.FC = () => {
   return (
     <>
       {!isLoggedIn ? (
-        <div
-          className="min-h-screen flex items-center justify-center bg-cover bg-center"
-          style={{ backgroundImage: "url('/background 2.jpg')" }}>
+        <div className="min-h-screen flex items-center justify-center bg-gray-300">
           <Login onLoginSuccess={handleLoginSuccess} />
         </div>
       ) : (
-        <div className="w-full flex flex-wrap justify-center align-middle content-center bg-slate-500 text-green-400  text-2xl font-bold h-screen">
+        <div
+          className={`w-full flex flex-wrap justify-center align-middle content-center bg-slate-500 text-${
+            themeColors[currentColor ?? "teal"]?.basics
+          }-400  text-2xl font-bold h-screen`}>
           You already loggedin ...
-          <FaSpinner className="animate-spin text-teal-500 text-4xl mb-4" />
+          <FaSpinner
+            className={`animate-spin text-${
+              themeColors[currentColor ?? "teal"]?.basics
+            }-500 text-4xl mb-4`}
+          />
         </div>
       )}
     </>

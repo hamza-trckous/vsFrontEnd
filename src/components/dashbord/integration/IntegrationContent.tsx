@@ -4,13 +4,14 @@ import AlertModal from "@/components/AlertModal"; // Import AlertModal
 
 import Title from "@/components/dashbord/integration/Title";
 import Main from "@/components/dashbord/integration/main";
+import Container from "../multualCompenents/Container";
 
 const IntegrationPage = () => {
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const [alertType, setAlertType] = useState<"success" | "error">("success");
 
   return (
-    <div className="container mx-auto p-4 w-1/3">
+    <Container>
       <Title title={"setting"} />
       <Main setAlertType={setAlertType} setAlertMessage={setAlertMessage} />
       {alertMessage && (
@@ -20,7 +21,7 @@ const IntegrationPage = () => {
           onClose={() => setAlertMessage(null)}
         />
       )}
-    </div>
+    </Container>
   );
 };
 

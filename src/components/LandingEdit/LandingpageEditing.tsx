@@ -12,16 +12,17 @@ import { updateLandingPage } from "@/api/product";
 import Image from "next/image";
 import AlertModal from "../AlertModal";
 import { useAlert } from "@/context/useAlert";
+import Container from "../dashbord/multualCompenents/Container";
 
 const LandingpageEditing = ({ ProductID }: { ProductID: string }) => {
   const { setAlertMessage, alertType, setAlertType, alertMessage } = useAlert();
   const [newProduct, setNewProduct] = useState<LandingEditingProps>({
     title: "",
     description: "",
-    image: "",
+    image: ""
   });
   return (
-    <div className="w-full flex">
+    <Container>
       <div className="w-4/12">
         <LandingPageId productId={ProductID} />
         <div className="grid grid-cols-2 gap-4 ">
@@ -62,7 +63,7 @@ const LandingpageEditing = ({ ProductID }: { ProductID: string }) => {
           onClose={() => setAlertMessage(null)}
         />
       )}
-    </div>
+    </Container>
   );
 };
 
@@ -73,7 +74,7 @@ const AddPart = ({
   setAlertType,
   ProductID,
   setNewProduct,
-  newProduct,
+  newProduct
 }: {
   setAlertMessage: (message: string | null) => void;
   setAlertType: (type: "success" | "error") => void;
@@ -85,21 +86,18 @@ const AddPart = ({
     register,
     handleSubmit,
     setValue,
-    formState: { errors },
+    formState: { errors }
   } = useForm<LandingEditingProps>();
 
   const onSubmit = (data: LandingEditingProps) => {
-    console.log("transformedData");
-
     const transformedData = {
       LandingPageContent: {
         title: data.title,
         description: data.description,
-        image: data.image && data.image.length > 0 ? data.image[0] : "",
-      },
+        image: data.image && data.image.length > 0 ? data.image[0] : ""
+      }
     };
     try {
-      console.log("data", data);
       const updating = async () => {
         await updateLandingPage(ProductID, transformedData);
         setAlertMessage("تم تحديث المنتج بنجاح!");
@@ -112,9 +110,7 @@ const AddPart = ({
       console.error("Error updating product:", error);
     }
   };
-  const handlAdd = () => {
-    console.log("add");
-  };
+  const handlAdd = () => {};
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -122,7 +118,7 @@ const AddPart = ({
       reader.onload = (event) => {
         setNewProduct({
           ...newProduct,
-          image: event.target?.result as string,
+          image: event.target?.result as string
         });
         setValue("image", event.target?.result as string);
       };

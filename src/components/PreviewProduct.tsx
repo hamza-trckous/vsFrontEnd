@@ -11,6 +11,9 @@ import trackFacebookEvent from "@/utils/trackFacebookEvent";
 import FormOrder from "./landingpage/FormOrder";
 import { FaArrowCircleRight, FaArrowCircleLeft } from "react-icons/fa";
 import { IoMdCloseCircle } from "react-icons/io";
+import { useTheme } from "@/context/themeContext";
+import { themeColors } from "@/utils/theme";
+import { useLanguage } from "@/context/languageColorContext";
 interface PreviewProductProps {
   product?: ProductWithreviews;
   onClose: () => void;
@@ -20,6 +23,8 @@ const PreviewProduct: React.FC<PreviewProductProps> = ({
   product,
   onClose,
 }) => {
+  const { currentColor } = useTheme();
+
   const [alertType, setAlertType] = useState<"success" | "error">("success");
 
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
@@ -89,13 +94,21 @@ const PreviewProduct: React.FC<PreviewProductProps> = ({
       setAlertType("error");
     }
   };
+  const { dataOflang, lang } = useLanguage();
+
   return (
     <div
+      dir={lang === "AR" ? "rtl" : "ltr"}
       className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50   "
       onClick={handleClickOutside}>
-      <div className="p-4 rounded-lg shadow-lg w-11/12 md:w-3/5 relative overflow-y-auto max-h-full bg-teal-50">
+      <div
+        className={`p-4 rounded-lg shadow-lg w-11/12 md:w-3/5 relative overflow-y-auto max-h-full bg-${
+          themeColors[currentColor ?? "teal"]?.basics
+        }-50`}>
         <button
-          className="absolute top-2 right-2 text-gray-600 hover:text-teal-500"
+          className={`absolute top-2 right-2 text-gray-600 hover:text-${
+            themeColors[currentColor ?? "teal"]?.basics
+          }-500`}
           onClick={onClose}>
           <IoMdCloseCircle className="scale-[200%]" />
         </button>
@@ -117,12 +130,24 @@ const PreviewProduct: React.FC<PreviewProductProps> = ({
                 <button
                   className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-gray-800 text-white rounded-full p-1"
                   onClick={handlePrevImage}>
-                  <FaArrowCircleLeft className="text-teal-300 hover:text-teal-500" />
+                  <FaArrowCircleLeft
+                    className={`text-${
+                      themeColors[currentColor ?? "teal"]?.basics
+                    }-300 hover:text-${
+                      themeColors[currentColor ?? "teal"]?.basics
+                    }-500`}
+                  />
                 </button>
                 <button
                   className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-gray-800 text-white rounded-full p-1"
                   onClick={handleNextImage}>
-                  <FaArrowCircleRight className="text-teal-300 hover:text-teal-500 " />
+                  <FaArrowCircleRight
+                    className={`text-${
+                      themeColors[currentColor ?? "teal"]?.basics
+                    }-300 hover:text-${
+                      themeColors[currentColor ?? "teal"]?.basics
+                    }-500 `}
+                  />
                 </button>
               </>
             )}
@@ -134,7 +159,11 @@ const PreviewProduct: React.FC<PreviewProductProps> = ({
                 src={image}
                 alt={`صورة ${index + 1}`}
                 className={`w-12 h-12 md:w-16 md:h-16 object-cover mt-5 rounded-lg cursor-pointer ${
-                  currentImageIndex === index ? "border-2 border-teal-500" : ""
+                  currentImageIndex === index
+                    ? `border-2 border-${
+                        themeColors[currentColor ?? "teal"]?.basics
+                      }-500`
+                    : ""
                 }`}
                 onClick={() => handleImageClick(index)}
                 width={64}
@@ -142,21 +171,24 @@ const PreviewProduct: React.FC<PreviewProductProps> = ({
               />
             ))}
           </div>
-          <div className="text-right p-2">
+          <div className=" p-2">
             <h2
               className="text-md font-bold"
               style={{ fontFamily: "Cairo, sans-serif" }}>
               {currentProduct.name}
             </h2>
-            <div className="flex items-center justify-end mt-2">
+            <div className="flex items-center  mt-2">
               <span className="text-gray-600 line-through mr-2 text-md">
-                {currentProduct.price} دج
+                {currentProduct.price} {dataOflang?.addingProduct?.da || " دج"}{" "}
               </span>
-              <span className="text-teal-500 font-bold text-md">
-                {currentProduct.price} دج
+              <span
+                className={`text-${
+                  themeColors[currentColor ?? "teal"]?.basics
+                }-500 font-bold text-md`}>
+                {currentProduct.price} {dataOflang?.addingProduct?.da || " دج"}
               </span>
             </div>
-            <div className="flex items-center justify-end mt-2">
+            <div className="flex items-center  mt-2">
               {Array.from({ length: 5 }, (_, index) => (
                 <FaStar
                   key={index}
@@ -175,13 +207,14 @@ const PreviewProduct: React.FC<PreviewProductProps> = ({
               {currentProduct.description}
             </p>
             {currentProduct.colors && currentProduct.colors.length > 0 && (
-              <div className="mt-4 text-right">
+              <div className="mt-4 ">
                 <h3
                   className="text-sm font-bold"
                   style={{ fontFamily: "Cairo, sans-serif" }}>
-                  الألوان:
+                  {currentProduct.price}{" "}
+                  {dataOflang?.addingProduct?.color || "الألوان:"}
                 </h3>
-                <div className="flex flex-wrap justify-end">
+                <div className="flex flex-wrap ">
                   {currentProduct.colors.map((color, index) => (
                     <span
                       key={index}
@@ -193,13 +226,13 @@ const PreviewProduct: React.FC<PreviewProductProps> = ({
               </div>
             )}
             {currentProduct.sizes && currentProduct.sizes.length > 0 && (
-              <div className="mt-4 text-right">
+              <div className="mt-4 ">
                 <h3
                   className="text-sm font-bold"
                   style={{ fontFamily: "Cairo, sans-serif" }}>
-                  الأحجام:
+                  {dataOflang?.addingProduct?.sizes || " الأحجام:"}
                 </h3>
-                <div className="flex flex-wrap justify-end">
+                <div className="flex flex-wrap ">
                   {currentProduct.sizes.map((size, index) => (
                     <span
                       key={index}
@@ -210,11 +243,11 @@ const PreviewProduct: React.FC<PreviewProductProps> = ({
                 </div>
               </div>
             )}
-            <div className="mt-4 text-right">
+            <div className="mt-4 ">
               <h3
                 className="text-sm font-bold"
                 style={{ fontFamily: "Cairo, sans-serif" }}>
-                مراجعات:
+                {dataOflang?.addingProduct?.reviews || "مراجعات:"}
               </h3>
               <div className="flex flex-col space-y-2">
                 {currentProduct.reviews.map((review, index) => (
@@ -232,15 +265,19 @@ const PreviewProduct: React.FC<PreviewProductProps> = ({
 
             <div className="flex justify-center mt-4 space-x-2">
               <button
-                className="bg-teal-500 text-white px-3 py-1 rounded-lg hover:bg-teal-600 transition-colors duration-200 text-sm"
+                className={`bg-${
+                  themeColors[currentColor ?? "teal"]?.basics
+                }-500 text-white px-3 py-1 rounded-lg hover:bg-${
+                  themeColors[currentColor ?? "teal"]?.basics
+                }-600 transition-colors duration-200 text-sm`}
                 onClick={handleOrderClick}>
-                صفحة المنتج
+                {dataOflang?.CardPreview.pageOfProduct || "صفحة المنتج"}
               </button>
 
               <button
                 className="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600 transition-colors duration-200 text-sm"
                 onClick={handleAddToCart}>
-                أضف إلى السلة
+                {dataOflang?.CardPreview?.AddToCard || "أضف إلى السلة"}
               </button>
             </div>
           </div>

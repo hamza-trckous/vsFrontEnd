@@ -1,15 +1,28 @@
+"use client";
 import React from "react";
 import OneCategory from "./OneCategory";
-import { useCategory } from "@/context/CategoryContext";
+import { screenSizes } from "@/utils/categoryBar/helper";
+import { Category } from "@/Types/Categorys";
+import { useProfileContext } from "@/context/ProfileContext";
 
-const CategoryBar = () => {
-  const { category } = useCategory();
+const CategoryBar = ({ Category }: { Category: Category[] }) => {
+  const { Profile } = useProfileContext();
   return (
-    <section className=" bg-gray-50 m-2 flex justify-between items-center rounded-t-lg  flex-wrap">
-      {category?.map((item) => (
-        <OneCategory key={item._id} item={item} />
-      ))}
-    </section>
+    <>
+      {Profile?.category?.enable && (
+        <section className=" bg-gray-50 m-1 flex  rounded-t-lg  flex-wrap w-full justify-around">
+          {screenSizes.map((a) => (
+            <div key={a.name} className={a.classes}>
+              {Category?.filter((e) => e.name !== "Principal Category")
+                .slice(0, a.number)
+                .map((item) => (
+                  <OneCategory key={item._id} item={item} />
+                ))}
+            </div>
+          ))}
+        </section>
+      )}
+    </>
   );
 };
 

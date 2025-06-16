@@ -18,7 +18,7 @@ export const handleOnChange = (
     if (setEditingPolicy && editingPolicy) {
       setEditingPolicy({
         ...editingPolicy,
-        [item]: e.target.value,
+        [item]: e.target.value
       });
     }
   } else {
@@ -26,7 +26,7 @@ export const handleOnChange = (
     if (setNewPolicy && newPolicy) {
       setNewPolicy({
         ...newPolicy,
-        [item]: e.target.value,
+        [item]: e.target.value
       });
     }
   }
@@ -36,7 +36,7 @@ export const getValue = ({
   forEditing,
   newPolicy,
   editingPolicy,
-  item,
+  item
 }: {
   forEditing: boolean;
   newPolicy: Policy;
@@ -56,7 +56,7 @@ export const handleCreatePolicy = async ({
   newPolicy,
   setAlertMessage,
   setAlertType,
-  fetchPolicies,
+  fetchPolicies
 }: {
   newPolicy: Policy;
   setAlertMessage: (message: string) => void;
@@ -108,6 +108,7 @@ export const handleUpdate = async (
     }
   } catch (error) {
     console.log(error);
+
     setAlertMessage("لم يتم تحديث السياسة");
     setAlertType("error");
   }
@@ -125,6 +126,7 @@ export const handleDelete = async (
     setAlertType("success");
   } catch (error) {
     console.log(error);
+
     setAlertMessage("لم يتم حذف السياسة");
     setAlertType("error");
   }

@@ -1,0 +1,30 @@
+#Card1,
+#Card2,
+#Card3,
+#Card4 {
+  animation: showUp 0.5s ease-in-out forwards;
+}
+#move,
+#move2,
+#move3 {
+  animation: showleft 0.5s ease-in-out forwards;
+}
+
+@keyframes showUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+@keyframes showleft {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

@@ -1,15 +1,20 @@
 "use client";
+import { LanguageConfig } from "@/Types/LanguageConfig";
 import { NewProduct } from "@/Types/ProductPart";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import { FieldErrors, UseFormRegister, UseFormSetValue } from "react-hook-form";
 
 const MethodAddingPhoto = ({
+  lang,
+  dataOfLang,
   setNewProduct,
   newProduct,
   setValue,
   errors,
 }: {
+  dataOfLang: LanguageConfig | undefined;
+  lang: "AR" | "EN" | undefined;
   setNewProduct: React.Dispatch<React.SetStateAction<NewProduct>>;
   newProduct: NewProduct;
   register: UseFormRegister<NewProduct>;
@@ -56,14 +61,16 @@ const MethodAddingPhoto = ({
   };
 
   return (
-    <div className="mb-2">
-      <label className="block text-right">إضافة صور:</label>
+    <div className="m-2" dir={lang === "AR" ? "rtl" : "ltr"}>
+      <label className="block text-gray-700 text-sm font-bold mb-2">
+        {dataOfLang?.addingProduct.addingPhoto || "إضافة صور:"}
+      </label>
       <input
         type="file"
         accept="image/*"
         multiple
         onChange={handleImageChange}
-        className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+        className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 "
       />
       <div className="flex flex-wrap mt-2">
         {imagePreviews.map((src, index) => (

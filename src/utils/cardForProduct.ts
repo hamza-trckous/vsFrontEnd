@@ -1,5 +1,6 @@
 import { Product } from "@/Types/ProductPart";
 import trackFacebookEvent from "./trackFacebookEvent";
+import { addToCart } from "@/api/cart";
 
 export const handleAddToCart = async (
   e: React.MouseEvent<HTMLButtonElement>,
@@ -9,7 +10,6 @@ export const handleAddToCart = async (
 ) => {
   e.stopPropagation();
   try {
-    const { addToCart } = await import("@/api/cart"); // استيراد ديناميكي للوحدة addToCart
     if (product) {
       await addToCart(product._id, 1);
     } else {

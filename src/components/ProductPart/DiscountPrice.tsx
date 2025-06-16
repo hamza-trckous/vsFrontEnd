@@ -1,19 +1,27 @@
 import React from "react";
 import { UseFormRegister, FieldErrors } from "react-hook-form";
 import { NewProduct } from "../../Types/ProductPart";
+import { LanguageConfig } from "@/Types/LanguageConfig";
 
 interface DiscountPriceProps {
   register: UseFormRegister<NewProduct>;
   errors: FieldErrors<NewProduct>;
+  dataOfLang: LanguageConfig | undefined;
+  lang: "AR" | "EN" | undefined;
 }
 
-const DiscountPrice: React.FC<DiscountPriceProps> = ({ register, errors }) => {
+const DiscountPrice: React.FC<DiscountPriceProps> = ({
+  dataOfLang,
+  lang,
+  register,
+  errors,
+}) => {
   return (
-    <div className="mb-4">
+    <div dir={lang === "AR" ? "rtl" : "ltr"} className="mb-4">
       <label
-        className="block text-gray-700 text-sm font-bold mb-2"
+        className="block text-gray-700 text-sm font-bold m-2"
         htmlFor="discountedPrice">
-        السعر بعد التخفيض
+        {dataOfLang?.addingProduct.priceAfterDiscount || "السعر بعد التخفيض "}
       </label>
       <input
         id="discountedPrice"
@@ -23,7 +31,7 @@ const DiscountPrice: React.FC<DiscountPriceProps> = ({ register, errors }) => {
           errors.discountedPrice ? "border-red-500" : ""
         }`}
       />{" "}
-      دج
+      {dataOfLang?.addingProduct.da || "دج"}
       {errors.discountedPrice && (
         <p className="text-red-500 text-xs italic">
           {errors.discountedPrice.message}

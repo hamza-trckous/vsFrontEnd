@@ -1,12 +1,19 @@
+/* eslint-disable */
+
 "use client";
 import React, {
   createContext,
   useState,
   useContext,
   ReactNode,
-  useEffect,
+  useEffect
 } from "react";
-import { loginUser, logoutUser, checkAuth } from "@/api/auth";
+import {
+  loginUser,
+  logoutUser,
+  checkAuth,
+  CheckAuthResponse
+} from "@/api/auth";
 
 interface AuthContextType {
   isLoggedIn: boolean;
@@ -16,13 +23,13 @@ interface AuthContextType {
   logout: () => Promise<void>;
   setLoading: (loading: boolean) => void;
   setIsLoggedIn: (isLoggedIn: boolean) => void;
-  cheking: (token: string) => Promise<void>;
+  cheking: (token: string) => Promise<CheckAuthResponse | void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
-  children,
+  children
 }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -38,7 +45,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         throw new Error("Token is null");
       }
 
-      // Store token and verify storage
       window.localStorage.setItem("token", token);
       const storedToken = window.localStorage.getItem("token");
 
@@ -46,7 +52,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         throw new Error("Failed to store token");
       }
 
-      // Verify authentication
       await cheking(token);
     } catch (error) {
       console.error("Login error:", error);
@@ -62,11 +67,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const logout = async () => {
     try {
       setLoading(true);
-      // First remove token and update state
+      // Clear all storage
       window.localStorage.removeItem("token");
+      window.localStorage.removeItem("isAdmin");
+
       setIsLoggedIn(false);
       setIsAdmin(false);
-      // Then call logout API
+
       await logoutUser();
     } catch (error) {
       console.error("Logout error:", error);
@@ -75,10 +82,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
-  const cheking = async (token: string) => {
+  const cheking = async (token: string): Promise<CheckAuthResponse | void> => {
     if (!token) {
       setIsLoggedIn(false);
       setIsAdmin(false);
+      await logout();
+      console.log("logout - no token");
       return;
     }
 
@@ -87,36 +96,45 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
       if (authData && authData.isAuthenticated) {
         setIsLoggedIn(true);
-        setIsAdmin(authData.user.role === "admin");
-        // Ensure token is still stored
+        setIsAdmin(authData?.user?.role === "admin");
         window.localStorage.setItem("token", token);
+        return authData;
       } else {
+        // Token is invalid or expired
+        console.log("Authentication failed - logging out");
+        await logout();
         throw new Error("Authentication failed");
       }
     } catch (error) {
       console.error("Auth check error:", error);
-      window.localStorage.removeItem("token");
-      setIsLoggedIn(false);
-      setIsAdmin(false);
+      // Force logout on any auth error
+      await logout();
+      throw error; // Re-throw to handle in calling code
     }
   };
 
   const checkAuthStatus = async () => {
-    try {
-      const token = window.localStorage.getItem("token");
+    console.log("checking auth status...");
+    const token = window.localStorage.getItem("token");
 
-      if (!token) {
-        setIsLoggedIn(false);
-        setIsAdmin(false);
-        return;
-      }
-
-      await cheking(token);
-    } catch (error) {
-      console.error("Auth status check error:", error);
-      window.localStorage.removeItem("token");
+    if (!token) {
+      setLoading(false);
       setIsLoggedIn(false);
       setIsAdmin(false);
+      return;
+    }
+
+    try {
+      const response = await cheking(token);
+      if (response?.isAuthenticated) {
+        setIsLoggedIn(true);
+        setIsAdmin(response?.user?.role === "admin");
+      } else {
+        await logout();
+      }
+    } catch (error) {
+      console.error("Auth status check failed:", error);
+      await logout();
     } finally {
       setLoading(false);
     }
@@ -136,7 +154,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         logout,
         setLoading,
         setIsLoggedIn,
-        cheking,
+        cheking
       }}>
       {children}
     </AuthContext.Provider>

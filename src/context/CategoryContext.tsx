@@ -7,7 +7,7 @@ import React, {
   useState,
   ReactNode,
   useEffect,
-  useCallback,
+  useCallback
 } from "react";
 
 interface CategoryContextProps {
@@ -27,16 +27,14 @@ const CategoryContext = createContext<CategoryContextProps | undefined>(
 );
 
 export const CategoryProvider: React.FC<{ children: ReactNode }> = ({
-  children,
+  children
 }) => {
   const [category, setcategory] = useState<Category[]>([]);
   const getCategorys = useCallback(async () => {
     const getcategory = await getCategories();
     if (getcategory) {
       setcategory(getcategory);
-      console.log("category2", category);
     }
-    console.log("category", getcategory);
   }, []);
   useEffect(() => {
     getCategorys();
@@ -45,13 +43,13 @@ export const CategoryProvider: React.FC<{ children: ReactNode }> = ({
     try {
       const deleat = await deleteCategory(id);
       if (deleat) {
-        console.log("deleat", deleat);
         setcategory(category.filter((item) => item._id !== id));
         getCategorys();
         return "  تم حذف القسم بنجاح";
       }
     } catch (error) {
-      console.log("error", error);
+      console.log(error);
+
       return "حدث خطأ ما";
     }
   };

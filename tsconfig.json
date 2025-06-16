@@ -1,36 +1,37 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "downlevelIteration": true,
+    "types": ["next"],
+    "target": "es2015",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
+    "module": "Node16",
+    "moduleResolution": "node16",
+    "jsx": "preserve",
     "strict": true,
-    "noEmit": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler", // Changed from "node" to "bundler"
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true,
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
     "plugins": [
       {
         "name": "next"
       }
     ],
-    "paths": {
-      "@/*": ["./src/*"]
-    },
-    "allowImportingTsExtensions": true, // Added
-    "forceConsistentCasingInFileNames": true,
-    "baseUrl": "."
+    "allowJs": true,
+    "incremental": true
   },
   "include": [
-    "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts",
-    "src"
+    "next-env.d.ts",
+    "src",
+    ".next/types/**/*.ts"
   ],
   "exclude": ["node_modules"]
 }

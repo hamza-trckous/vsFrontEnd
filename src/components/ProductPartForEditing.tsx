@@ -18,6 +18,7 @@ import AlertModal from "@/components/AlertModal";
 import BtnSubmit from "./ProductPart/BtnSubmit";
 import Title from "./dashbord/multualCompenents/Title";
 import Container from "./dashbord/multualCompenents/Container";
+import { useLanguage } from "@/context/languageColorContext";
 
 const ProductPage = () => {
   const router = useRouter();
@@ -30,11 +31,11 @@ const ProductPage = () => {
     handleSubmit,
     setValue,
     getValues,
-    formState: { errors },
+    formState: { errors }
   } = useForm<NewProduct>();
 
   // State for product
-
+  const { dataOflang, lang } = useLanguage();
   const [product, setProduct] = useState<ProductWithreviews | null>(null);
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const [alertType, setAlertType] = useState<"success" | "error">("success");
@@ -47,7 +48,6 @@ const ProductPage = () => {
           const fetchedProduct = await getProductById(ProductID as string);
           setProduct(fetchedProduct);
 
-          console.log("Fetched product:", fetchedProduct);
           // Populate form fields with product details
           setValue("name", fetchedProduct.name);
           setValue("description", fetchedProduct.description);
@@ -92,10 +92,8 @@ const ProductPage = () => {
       })
       .filter((image) => image !== ""); // Remove invalid entries
 
-    console.log("Submitting data: ", data);
     try {
       await updateProduct(ProductID as string, data);
-      console.log("Updated product: ", data);
       setAlertMessage("تم تحديث المنتج بنجاح!");
       setAlertType("success");
       setTimeout(() => {
@@ -128,8 +126,16 @@ const ProductPage = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="mb-4 text-sm">
         <Title title={"تعديل المنتج"} />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-          <AddNAme nameOfInput="الفئة" register={register} errors={errors} />{" "}
+          <AddNAme
+            dataOfLang={dataOflang}
+            lang={lang}
+            nameOfInput="الفئة"
+            register={register}
+            errors={errors}
+          />{" "}
           <MethodAddingPhoto
+            lang={lang}
+            dataOfLang={dataOflang}
             register={register}
             errors={errors}
             setNewProduct={(value: SetStateAction<NewProduct>) =>
@@ -140,11 +146,28 @@ const ProductPage = () => {
             newProduct={product}
             setValue={setValue}
           />
-          <Description register={register} errors={errors} />
-          <Price register={register} errors={errors} />
-          <DiscountPrice register={register} errors={errors} />
+          <Description
+            dataOflang={dataOflang}
+            lang={lang}
+            register={register}
+            errors={errors}
+          />
+          <Price
+            dataOfLang={dataOflang}
+            lang={lang}
+            register={register}
+            errors={errors}
+          />
+          <DiscountPrice
+            dataOfLang={dataOflang}
+            lang={lang}
+            register={register}
+            errors={errors}
+          />
           {/* Colors Section */}
           <Color
+            dataOflang={dataOflang}
+            lang={lang}
             setValue={setValue}
             register={register}
             errors={errors}
@@ -152,6 +175,8 @@ const ProductPage = () => {
           />
           {/* Sizes Section */}
           <Size
+            dataOflang={dataOflang}
+            lang={lang}
             setValue={setValue}
             register={register}
             errors={errors}
@@ -159,6 +184,8 @@ const ProductPage = () => {
           />
           {/* Rating Section */}
           <Ration
+            dataOflang={dataOflang}
+            lang={lang}
             register={register}
             setValue={setValue}
             errors={errors}
@@ -166,6 +193,8 @@ const ProductPage = () => {
           />
           {/* Reviews Section */}
           <Reviews
+            dataOflang={dataOflang}
+            lang={lang}
             register={register}
             errors={errors}
             setValue={setValue}

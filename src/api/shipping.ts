@@ -4,7 +4,6 @@ import axios from "axios";
 export const getShippingPrices = async () => {
   try {
     const response = await axios.get(`${url}/api/shipping`);
-    console.log("response", response);
     return response.data;
   } catch (error) {
     console.error("Error fetching shipping prices:", error);
@@ -21,7 +20,7 @@ export const updateShippingPrice = async (
     const response = await axios.post(`${url}/api/shipping/update`, {
       wilaya,
       priceToDesktop,
-      priceToHomme,
+      priceToHomme
     });
     return response.data;
   } catch (error) {
@@ -33,7 +32,7 @@ export const updateShippingPrice = async (
 export const deleteShippingPrice = async (wilaya: string) => {
   try {
     const response = await axios.delete(`${url}/api/shipping/delete`, {
-      data: { wilaya },
+      data: { wilaya }
     });
     return response.data;
   } catch (error) {
@@ -51,7 +50,7 @@ export const createInitialShippingPrices = async (
 ) => {
   try {
     const response = await axios.post(`${url}/api/shipping/create`, {
-      shippingPrices,
+      shippingPrices
     });
     return response.data;
   } catch (error) {

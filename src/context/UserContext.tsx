@@ -6,7 +6,7 @@ import React, {
   useContext,
   useState,
   ReactNode,
-  useEffect,
+  useEffect
 } from "react";
 
 interface UserContextProps {
@@ -20,7 +20,7 @@ interface UserContextProps {
 const UserContext = createContext<UserContextProps | undefined>(undefined);
 
 export const UserProvider: React.FC<{ children: ReactNode }> = ({
-  children,
+  children
 }) => {
   const [users, setUsers] = useState<User[] | null>(null);
   const [user, setUser] = useState<User | null>(null);
@@ -36,9 +36,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
 
     fetchUsers();
   }, []);
-  useEffect(() => {
-    console.log(users, "users");
-  }, [users]);
+  useEffect(() => {}, [users]);
 
   const handleDelete = async (id: string) => {
     try {
@@ -57,7 +55,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
         users,
         setUsers,
         user,
-        setUser,
+        setUser
       }}>
       {children}
     </UserContext.Provider>

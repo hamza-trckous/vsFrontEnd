@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Container from "@/components/dashbord/multualCompenents/Container";
 
 const Page = () => {
   const [config, setConfig] = useState({
@@ -54,7 +55,7 @@ const Page = () => {
   };
 
   return (
-    <div className="max-w-xl mx-auto p-6 border border-gray-300 rounded-lg bg-gray-50">
+    <Container>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label className="block mb-2 font-bold">Spreadsheet ID:</label>
@@ -82,7 +83,7 @@ const Page = () => {
           Save
         </button>
       </form>
-    </div>
+    </Container>
   );
 };
 

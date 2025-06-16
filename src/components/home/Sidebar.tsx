@@ -1,7 +1,13 @@
 "use client";
+import { useLanguage } from "@/context/languageColorContext";
+import { useTheme } from "@/context/themeContext";
+import { themeColors } from "@/utils/theme";
 import React, { useEffect, useState } from "react";
 
 const Sidebar = () => {
+  const { dataOflang } = useLanguage();
+  const { currentColor } = useTheme();
+
   const [isFixed, setIsFixed] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -38,36 +44,69 @@ const Sidebar = () => {
         isVisible && isFixed
           ? " visible opacity-100 block"
           : "invisible opacity-0 hidden"
-      }   md:visible md:text-sm`}>
+      }`}>
       <h2
-        className="text-lg text-teal-500 font-bold mb-2"
+        className={`text-lg text-${
+          themeColors[currentColor ?? "teal"]?.basics
+        }-500 font-bold mb-2`}
         style={{ fontFamily: "Cairo, sans-serif" }}>
-        قواعد التوصيل
+        {dataOflang?.delivery_rules?.title || "قواعد التوصيل"}
       </h2>
       <ul className="list-disc list-inside mb-2">
-        <li>الشحن مجاني للطلبات فوق 100$</li>
-        <li>توصيل خلال 3-5 أيام عمل</li>
-        <li>تتبع الطلب متاح</li>
+        <li>
+          {dataOflang?.delivery_rules?.free_shipping ||
+            "الشحن مجاني للطلبات فوق 100$"}
+        </li>
+        <li>
+          {dataOflang?.delivery_rules?.delivery_time ||
+            "توصيل خلال 3-5 أيام عمل"}
+        </li>
+        <li>{dataOflang?.delivery_rules?.track_order || "تتبع الطلب متاح"}</li>
       </ul>
+
       <h2
-        className="text-lg text-teal-500  font-bold mb-2"
+        className={`text-lg text-${
+          themeColors[currentColor ?? "teal"]?.basics
+        }-500 font-bold mb-2`}
         style={{ fontFamily: "Cairo, sans-serif" }}>
-        قواعد الدفع عند الاستلام
+        {dataOflang?.cash_on_delivery_rules?.title ||
+          "قواعد الدفع عند الاستلام"}
       </h2>
       <ul className="list-disc list-inside mb-2">
-        <li>الدفع نقدًا عند الاستلام</li>
-        <li>رسوم إضافية 50 دج خمسة ألآف فرنك</li>
-        <li>متاح في مناطق محددة فقط</li>
+        <li>
+          {dataOflang?.cash_on_delivery_rules?.cash_on_delivery ||
+            "الدفع نقدًا عند الاستلام"}
+        </li>
+        <li>
+          {dataOflang?.cash_on_delivery_rules?.additional_fee ||
+            "رسوم إضافية 50 دج خمسة ألآف فرنك"}
+        </li>
+        <li>
+          {dataOflang?.cash_on_delivery_rules?.available_in_areas ||
+            "متاح في مناطق محددة فقط"}
+        </li>
       </ul>
+
       <h2
-        className="text-lg font-bold text-teal-500  mb-2"
+        className={`text-lg text-${
+          themeColors[currentColor ?? "teal"]?.basics
+        }-500 font-bold mb-2`}
         style={{ fontFamily: "Cairo, sans-serif" }}>
-        تأكيد الطلب
+        {dataOflang?.order_confirmation?.title || "تأكيد الطلب"}
       </h2>
       <ul className="list-disc list-inside">
-        <li>سنتصل لتأكيد الطلب</li>
-        <li>يرجى التحقق من تفاصيل الطلب</li>
-        <li>اتصل بخدمة العملاء لأي استفسار</li>
+        <li>
+          {dataOflang?.order_confirmation?.contact_to_confirm ||
+            "سنتصل لتأكيد الطلب"}
+        </li>
+        <li>
+          {dataOflang?.order_confirmation?.check_details ||
+            "يرجى التحقق من تفاصيل الطلب"}
+        </li>
+        <li>
+          {dataOflang?.order_confirmation?.contact_customer_service ||
+            "اتصل بخدمة العملاء لأي استفسار"}
+        </li>
       </ul>
     </div>
   );

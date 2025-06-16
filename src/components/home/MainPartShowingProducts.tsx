@@ -3,55 +3,65 @@ import { getAllProducts } from "@/api/product";
 import {
   Categoryoption,
   Productoption,
-  ProductPaginationOnly,
+  ProductPaginationOnly
 } from "@/Types/ProductPart";
-import dynamic from "next/dynamic";
-import React, { Suspense, useEffect, useMemo, useState } from "react";
-import { useInfiniteQuery } from "react-query";
-import { useInView } from "react-intersection-observer";
-import { getCategoryProducts } from "@/api/category";
+import React, { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { getCategoryProductsWithPagination } from "@/api/category";
 import TitleRtl from "../dashbord/multualCompenents/Title";
-
-const Sidebar = dynamic(() => import("@/components/home/Sidebar"), {
-  ssr: false,
-});
-const CardForProduct = dynamic(() => import("@/components/cardForProduct"), {
-  ssr: false,
-});
+import CardForProduct from "../cardForProduct";
+import Sidebar from "./Sidebar";
+import { useInView } from "react-intersection-observer";
+import { useTheme } from "@/context/themeContext";
+import { themeColors } from "@/utils/theme";
 
 const MainPartShowingProducts = ({
   initialProducts,
-  productsRef,
+
   category,
   categoryId,
-  searchParams,
+  searchParams
 }: Categoryoption | Productoption) => {
-  const { ref, inView } = useInView();
-  const [showSideBar, setShowSideBar] = useState(false);
+  const productsRef = useRef<HTMLDivElement>(null);
+  const { currentColor } = useTheme();
 
+  const [showSideBar, setShowSideBar] = useState(false);
+  const { ref, inView } = useInView();
+  useEffect(() => {
+    if (inView && showSideBar) {
+      fetchNextPage();
+    }
+  }, [showSideBar, inView]);
   const {
     data: products,
     isLoading,
-    hasNextPage,
+
     fetchNextPage,
-    isFetchingNextPage,
+    isFetchingNextPage
   } = useInfiniteQuery<ProductPaginationOnly>({
     queryKey: category ? ["productsCategory", categoryId] : ["products"],
     queryFn: async ({ pageParam = 1 }) => {
       try {
         if (category) {
-          const data = await getCategoryProducts(categoryId);
-          return {
-            products: data || [],
-            totalProducts: (data || []).length,
-            hasMore: false,
-          };
-        } else {
-          const data = await getAllProducts({ page: pageParam, limit: 3 });
+          const data = await getCategoryProductsWithPagination(
+            categoryId,
+            pageParam as number,
+            4
+          );
           return {
             products: data.products || [],
             totalProducts: data.totalProducts || 0,
-            hasMore: !category && (data.products || []).length === 3,
+            hasMore: (data.products || []).length === 4
+          };
+        } else {
+          const data = await getAllProducts({
+            page: pageParam as number,
+            limit: 4
+          });
+          return {
+            products: data.products || [],
+            totalProducts: data.totalProducts || 0,
+            hasMore: !category && (data.products || []).length === 4
           };
         }
       } catch (error) {
@@ -59,7 +69,7 @@ const MainPartShowingProducts = ({
         return {
           products: [],
           totalProducts: 0,
-          hasMore: false,
+          hasMore: false
         };
       }
     },
@@ -70,26 +80,22 @@ const MainPartShowingProducts = ({
         {
           products: initialProducts || [],
           totalProducts: (initialProducts || []).length,
-          hasMore: !category,
-        },
+          hasMore: (initialProducts || []).length === 4
+        }
       ],
-      pageParams: [1],
+      pageParams: [1]
     },
+    initialPageParam: 1
   });
-
-  useEffect(() => {
-    if (!category && inView && hasNextPage) {
-      setShowSideBar(true);
-      fetchNextPage();
-    }
-  }, [inView, hasNextPage, fetchNextPage, category]);
 
   const memoizedProducts = useMemo(() => {
     if (!products?.pages) return [];
-
-    return products.pages.flatMap((page) =>
-      (page?.products || []).map((product, index) => (
+    const allProducts = products.pages.flatMap((page) => page.products || []);
+    return allProducts.map((product, index) => {
+      const isLast = index === allProducts.length - 1;
+      return (
         <CardForProduct
+          ref={showSideBar && isLast ? ref : null}
           forCart={false}
           key={product._id}
           id={product._id}
@@ -105,13 +111,13 @@ const MainPartShowingProducts = ({
             sizes: product.sizes,
             _id: product._id,
             withShipping: product.withShipping,
-            category: product.category,
+            category: product.category
           }}
           index={index}
         />
-      ))
-    );
-  }, [products]);
+      );
+    });
+  }, [products, ref]);
 
   const renderProducts = () => {
     if (isLoading) {
@@ -127,21 +133,28 @@ const MainPartShowingProducts = ({
 
   return (
     <div ref={productsRef} className="flex flex-col md:flex-row">
-      <div className="flex flex-wrap justify-evenly w-full md:w-11/12">
+      <div className="flex flex-wrap justify-evenly w-full md:w-11/12 mt-4 relative">
         <Suspense fallback={<p>Loading...</p>}>
           <br />
-          <TitleRtl title={searchParams?.name || "Category"} />
+          <TitleRtl title={searchParams?.name || "Products"} />
           {renderProducts()}
         </Suspense>
-
+        <div className=" w-full flex justify-center items-center m-[1rem]  ">
+          {!showSideBar && (
+            <button
+              className={`p-[1rem] bg-${
+                themeColors[currentColor ?? "teal"]?.basics
+              }-200 flex items-end justify-end h-[3rem] rounded-xl`}
+              onClick={() => {
+                setShowSideBar(true);
+                fetchNextPage();
+              }}>
+              Show More
+            </button>
+          )}
+        </div>
         {/* Only show infinite scroll for non-category pages */}
-        {!category && (
-          <div
-            ref={ref}
-            className="w-full h-10 flex items-center justify-center">
-            {isFetchingNextPage && <p>Loading more...</p>}
-          </div>
-        )}
+        {isFetchingNextPage && <p>Loading more...</p>}
       </div>
 
       <div className="w-full md:w-1/4">

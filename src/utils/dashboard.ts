@@ -1,4 +1,9 @@
 import { logos } from "@/Types/dashboard";
+import { LanguageConfig } from "@/Types/LanguageConfig";
+
+interface LogosD extends logos {
+  dataOflang: LanguageConfig | undefined;
+}
 
 export const Links = ({
   Logo1,
@@ -10,42 +15,69 @@ export const Links = ({
   Logo7,
   Logo8,
   Logo9,
-}: logos) => {
+  dataOflang,
+}: LogosD) => {
   const items = [
-    { name: "إدارة المستخدمين", icon: Logo1, Link: "/dashboard/users" },
     {
-      name: "إدارة المنتجات",
+      name: dataOflang?.dashboardBar.manageUsers || "إدارة المستخدمين",
+      icon: Logo1,
+      Link: "/dashboard/users",
+    },
+    {
+      name: dataOflang?.dashboardBar.manageProducts || "إدارة المنتجات",
       icon: Logo2,
       Link: "/dashboard/Product",
-      // DFault /dashboard/Product
       sections: [
-        { name: "المنتجات", Link: "/dashboard/Product" },
-        { name: "الفئات", Link: "/dashboard/Product/category" },
+        {
+          name: dataOflang?.dashboardBar.products || "المنتجات",
+          Link: "/dashboard/Product",
+        },
+        {
+          name: dataOflang?.dashboardBar.PrincipalCategory || "الفئات",
+          Link: "/dashboard/Product/category",
+        },
       ],
     },
-    { name: "إحصائيات الموقع", icon: Logo3, Link: "/dashboard/statics" },
-    { name: "إدارة الشحن", icon: Logo4, Link: "/dashboard/shipping" },
     {
-      name: "التكامل مع Facebook Pixel",
+      name: dataOflang?.dashboardBar.siteStats || "إحصائيات الموقع",
+      icon: Logo3,
+      Link: "/dashboard/statics",
+    },
+    {
+      name: dataOflang?.dashboardBar.shippingManagement || "إدارة الشحن",
+      icon: Logo4,
+      Link: "/dashboard/shipping",
+    },
+    {
+      name:
+        dataOflang?.dashboardBar.facebookPixelIntegration ||
+        "التكامل مع Facebook Pixel",
       icon: Logo5,
       Link: "/dashboard/integration",
     },
     {
-      name: "Google Sheets التكامل مع",
+      name:
+        dataOflang?.dashboardBar.googleSheetsIntegration ||
+        "Google Sheets التكامل مع",
       icon: Logo6,
       Link: "/dashboard/sheets",
     },
-    { name: "تعديل صفحات السياسات", icon: Logo7, Link: "/dashboard/policy" },
     {
-      name: "تعديل صفحة عرض المنتج",
+      name: dataOflang?.dashboardBar.editPolicyPages || "تعديل صفحات السياسات",
+      icon: Logo7,
+      Link: "/dashboard/policy",
+    },
+    {
+      name: dataOflang?.dashboardBar.editProductPage || "تعديل صفحة عرض المنتج",
       icon: Logo8,
       Link: "/dashboard/landingpageEditing",
     },
     {
-      name: "تعديل الصفحة الرئيسية",
+      name: dataOflang?.dashboardBar.editHomePage || "تعديل الصفحة الرئيسية",
       icon: Logo9,
       Link: "/dashboard/profile",
     },
   ];
+
   return { items };
 };

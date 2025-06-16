@@ -1,4 +1,6 @@
 "use client";
+import { useTheme } from "@/context/themeContext";
+import { themeColors } from "@/utils/theme";
 import React, { useEffect } from "react";
 
 interface AlertModalProps {
@@ -16,6 +18,8 @@ const AlertModal: React.FC<AlertModalProps> = ({
   withConfirm,
   onConfirm,
 }) => {
+  const { currentColor } = useTheme();
+
   useEffect(() => {
     if (!withConfirm) {
       const timer = setTimeout(onClose, 2500); // Close after 2 seconds
@@ -27,7 +31,9 @@ const AlertModal: React.FC<AlertModalProps> = ({
     <div className="fixed inset-0 flex items-center justify-center z-50 text-center  AlertModal">
       <div className="bg-white p-4 rounded-lg shadow-lg w-11/12 md:w-1/3 relative">
         <button
-          className="absolute top-2 right-2 text-gray-600 hover:text-teal-500"
+          className={`absolute top-2 right-2 text-gray-600 hover:text-${
+            themeColors[currentColor ?? "teal"]?.basics
+          }-500`}
           onClick={onClose}>
           &times;
         </button>

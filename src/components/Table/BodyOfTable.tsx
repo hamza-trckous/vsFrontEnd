@@ -1,4 +1,4 @@
-import { ProductWithreviews } from "@/Types/ProductPart";
+import { NewProduct, ProductWithreviews } from "@/Types/ProductPart";
 import { useRouter } from "next/navigation";
 import React from "react";
 import NAmeProductsTable from "./NAmeProductsTable";
@@ -11,13 +11,14 @@ import SizeProductTable from "./SizeProductTable";
 import RatingProductTable from "./RatingProductTable";
 import ReviewsProductTable from "./ReviewsProductTable";
 import ShippingProductTable from "./ShippingProductTable";
+import { useLanguage } from "@/context/languageColorContext";
 
 const BodyOfTableLandingAndProductEdit = ({
   items,
   landingPage = false,
   onDelete,
 }: {
-  items: ProductWithreviews[];
+  items: NewProduct[] | ProductWithreviews[];
   landingPage?: boolean;
   onDelete?: (id: string) => void;
 }) => {
@@ -30,6 +31,7 @@ const BodyOfTableLandingAndProductEdit = ({
   const ShowItem = (id: string) => {
     router.push(`/landingpage/${id}`);
   };
+  const { dataOflang } = useLanguage();
 
   return (
     <tbody>
@@ -39,7 +41,10 @@ const BodyOfTableLandingAndProductEdit = ({
           .reverse()
           .map((product, index) => (
             <tr key={index} className="border-t">
-              <ImagesProductTable forproduct={true} items={product} />
+              <ImagesProductTable
+                forproduct={true}
+                items={{ ...product, _id: product._id || "" }}
+              />
               <NAmeProductsTable items={product} />
               <DescriptionProductTable item={product} />
               <PriceProductTable
@@ -78,9 +83,9 @@ const BodyOfTableLandingAndProductEdit = ({
               />
               {!landingPage ? (
                 <ActionsForTable
-                  itemNAme="المنتج"
-                  item={product}
-                  ShowItem={() => ShowItem(product._id)}
+                  itemNAme={dataOflang?.dashboardProduct.name || "المنتج"}
+                  item={{ ...product, _id: product._id || "" }}
+                  ShowItem={() => product._id && ShowItem(product._id)}
                   handleEdit={handleEdit}
                   onDelete={onDelete}
                 />
@@ -102,7 +107,7 @@ const BodyOfTableLandingAndProductEdit = ({
       ) : (
         <tr>
           <td colSpan={100} className="text-center text-red-600">
-            لا يوجد منتجات
+            {dataOflang?.dashboardProduct.noProducts || "لا يوجد منتجات"}
           </td>
         </tr>
       )}

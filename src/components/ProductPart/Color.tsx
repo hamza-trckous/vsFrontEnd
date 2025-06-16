@@ -1,41 +1,46 @@
 "use client";
 
+import { LanguageConfig } from "@/Types/LanguageConfig";
 import { NewProduct } from "@/Types/ProductPart";
 import React, { useEffect, useState } from "react";
 import {
   FieldErrors,
   UseFormRegister,
   UseFormSetValue,
-  UseFormGetValues,
+  UseFormGetValues
 } from "react-hook-form";
+import ButtonSecondary from "./ButtonSecondary";
 
 interface ColorProps {
   register: UseFormRegister<NewProduct>;
   errors: FieldErrors<NewProduct>;
   setValue: UseFormSetValue<NewProduct>;
   getValues: UseFormGetValues<NewProduct>;
+  dataOflang: LanguageConfig | undefined;
+  lang: "AR" | "EN" | undefined;
 }
 
 const Color: React.FC<ColorProps> = ({
+  dataOflang,
+  lang,
   register,
   errors,
   setValue,
-  getValues,
+  getValues
 }) => {
   const [customColor, setCustomColor] = useState("");
 
   const [colors, setColors] = useState([
-    "أحمر",
-    "أزرق",
-    "أخضر",
-    "أصفر",
-    "أسود",
-    "أبيض",
+    dataOflang?.addingProduct.Red || "أحمر",
+    dataOflang?.addingProduct.Blue || "أزرق",
+    dataOflang?.addingProduct.Green || "أخضر",
+    dataOflang?.addingProduct.Yellow || "أصفر",
+    dataOflang?.addingProduct.Black || "أسود",
+    dataOflang?.addingProduct.White || "أبيض"
   ]);
 
   useEffect(() => {
     const initialColors = getValues("colors");
-    console.log("Initial colors:", initialColors);
     if (initialColors && initialColors.length > 0) {
       setColors(initialColors);
     }
@@ -50,8 +55,10 @@ const Color: React.FC<ColorProps> = ({
   };
 
   return (
-    <div className="mb-2">
-      <label className="block text-right">الألوان:</label>
+    <div dir={lang === "AR" ? "rtl" : "ltr"} className="mb-2">
+      <label className="block text-gray-700 text-sm font-bold mb-2">
+        {dataOflang?.addingProduct.color || "الألوان:"}
+      </label>
       <div className="flex flex-wrap">
         {colors.map((color) => (
           <label key={color} className="mr-2">
@@ -73,19 +80,22 @@ const Color: React.FC<ColorProps> = ({
         ))}
       </div>
       <div className="flex mt-2">
+        <ButtonSecondary
+          lang={lang}
+          TitleOfButton={`${
+            dataOflang?.addingProduct.addingNewColor || "أضف لونًا جديدًا"
+          }`}
+          handleAddSize={handleAddColor}
+        />
         <input
           type="text"
           value={customColor}
           onChange={(e) => setCustomColor(e.target.value)}
           className="border rounded px-2 py-1 text-sm"
-          placeholder="أضف لونًا جديدًا"
+          placeholder={`${
+            dataOflang?.addingProduct.addingNewColor || "أضف لونًا جديدًا"
+          }`}
         />
-        <button
-          type="button"
-          onClick={handleAddColor}
-          className="ml-2 bg-blue-500 text-white px-2 py-1 rounded-lg hover:bg-blue-600 transition-colors duration-200 text-xs">
-          أضف
-        </button>
       </div>
       {errors.colors && (
         <p className="text-red-500 text-xs mt-1">{errors.colors.message}</p>

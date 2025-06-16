@@ -1,12 +1,14 @@
 import { deleteProduct } from "@/api/product";
-import { ProductWithreviews } from "@/Types/ProductPart";
+import { NewProduct, ProductWithreviews } from "@/Types/ProductPart";
 
 export const handleDelete = async (
   id: string,
-  setProducts: (value: React.SetStateAction<ProductWithreviews[]>) => void,
+  setProducts: React.Dispatch<
+    React.SetStateAction<NewProduct[] | ProductWithreviews[]>
+  >,
   setAlertType: (value: React.SetStateAction<"success" | "error">) => void,
   setAlertMessage: (value: React.SetStateAction<string | null>) => void,
-  products: ProductWithreviews[]
+  products: NewProduct[] | ProductWithreviews[]
 ) => {
   try {
     await deleteProduct(id);

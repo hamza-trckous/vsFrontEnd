@@ -22,7 +22,7 @@ export const fetchProducts = async (
       ...prevProducts,
       ...fetchedProducts.filter(
         (product) => !prevProducts.some((p) => p._id === product._id)
-      ),
+      )
     ]);
     if (products.length > 0) {
       setTimeout(() => {

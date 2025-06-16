@@ -12,12 +12,19 @@ import { useAuth } from "@/context/AuthContext";
 import FormOrder from "@/components/landingpage/FormOrder";
 import { injectFacebookPixel } from "@/api/TrackConversion";
 import { LandingEditingProps } from "@/Types/LandingEditing";
+import { themeColors } from "@/utils/theme";
+import { useTheme } from "@/context/themeContext";
+import { useLanguage } from "@/context/languageColorContext";
 
 interface LandingPageIDProps {
   productId: string;
 }
 
 const LandingPageId: React.FC<LandingPageIDProps> = ({ productId }) => {
+  const { dataOflang, lang } = useLanguage();
+
+  const { currentColor } = useTheme();
+
   const [product, setProduct] = useState<NewProduct | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const { isLoggedIn, isAdmin } = useAuth();
@@ -35,9 +42,9 @@ const LandingPageId: React.FC<LandingPageIDProps> = ({ productId }) => {
           content_ids: [product._id],
           content_name: product.name,
           value: product.price,
-          currency: "DZD",
+          currency: "DZD"
         },
-        isAdmin,
+        isAdmin
       });
     },
     [isAdmin]
@@ -55,7 +62,6 @@ const LandingPageId: React.FC<LandingPageIDProps> = ({ productId }) => {
         const fetchedProduct = await getProductById(productId);
         setProduct(fetchedProduct);
         viewContent(fetchedProduct);
-        console.log("Fetched product:", fetchedProduct);
       } catch (error) {
         console.error("Error fetching product:", error);
       } finally {
@@ -71,7 +77,7 @@ const LandingPageId: React.FC<LandingPageIDProps> = ({ productId }) => {
   // Track page view
   useTrackPageView({
     page_name: "ProductPage",
-    user_role: isLoggedIn ? "logged_in" : "guest",
+    user_role: isLoggedIn ? "logged_in" : "guest"
   });
 
   // Image navigation handlers
@@ -104,11 +110,11 @@ const LandingPageId: React.FC<LandingPageIDProps> = ({ productId }) => {
   }
 
   return (
-    <div className="  p-1 " dir="rtl">
-      <div className="bg-white shadow-md rounded-lg p-1">
+    <div className="  p-1 " dir={lang === "AR" ? "rtl" : "ltr"}>
+      <div className="bg-white shadow-md rounded-lg  p-4">
         <div className="flex flex-col md:flex-row">
           {/* Product Details Section */}
-          <div className="md:w-1/2 p-1">
+          <div className="md:w-1/2 p-1 ">
             <h2
               className="text-lg font-bold"
               style={{ fontFamily: "Cairo, sans-serif" }}>
@@ -118,10 +124,15 @@ const LandingPageId: React.FC<LandingPageIDProps> = ({ productId }) => {
             {/* Price Information */}
             <div className="flex items-center justify-start mt-2 ">
               <span className="text-gray-600 line-through mr-2 text-md">
-                {product.price} دينار جزائري
+                {product.price}{" "}
+                {dataOflang?.addingProduct?.dinarAlgeria || "دينار جزائري"}
               </span>
-              <span className="text-teal-500 font-bold text-md mr-2">
-                {product.discountedPrice ?? product.price} دينار جزائري
+              <span
+                className={`text-${
+                  themeColors[currentColor ?? "teal"]?.basics
+                }-500 font-bold text-md mr-2`}>
+                {product.discountedPrice ?? product.price}
+                {dataOflang?.addingProduct?.dinarAlgeria || "دينار جزائري"}
               </span>
             </div>
 
@@ -147,7 +158,7 @@ const LandingPageId: React.FC<LandingPageIDProps> = ({ productId }) => {
 
             {/* Colors Section */}
             {product.colors && product.colors.length > 0 && (
-              <div className="mt-4 text-right">
+              <div className="mt-4 ">
                 <h3
                   className="text-sm font-bold"
                   style={{ fontFamily: "Cairo, sans-serif" }}>
@@ -167,7 +178,7 @@ const LandingPageId: React.FC<LandingPageIDProps> = ({ productId }) => {
 
             {/* Sizes Section */}
             {product.sizes && product.sizes.length > 0 && (
-              <div className="mt-4 text-right">
+              <div className="mt-4 ">
                 <h3
                   className="text-sm font-bold"
                   style={{ fontFamily: "Cairo, sans-serif" }}>
@@ -186,11 +197,11 @@ const LandingPageId: React.FC<LandingPageIDProps> = ({ productId }) => {
             )}
 
             {/* Reviews Section */}
-            <div className="mt-4 text-right">
+            <div className="mt-4 ">
               <h3
                 className="text-sm font-bold"
                 style={{ fontFamily: "Cairo, sans-serif" }}>
-                مراجعات:
+                {dataOflang?.addingProduct?.reviews || " مراجعات:"}
               </h3>
               <div className="flex flex-col space-y-2">
                 {product.reviews.map((review, index) => (
@@ -213,7 +224,7 @@ const LandingPageId: React.FC<LandingPageIDProps> = ({ productId }) => {
                   alt={product.name}
                   width={625}
                   height={240}
-                  className="w-full h-96 object-fill rounded-lg"
+                  className="w-full  object-cover rounded-lg"
                   loading="eager"
                 />
               )}
@@ -246,7 +257,9 @@ const LandingPageId: React.FC<LandingPageIDProps> = ({ productId }) => {
                       height={64}
                       className={`w-16 h-16 object-cover mt-5 rounded-lg cursor-pointer m-2 ${
                         currentImageIndex === index
-                          ? "border-2 border-teal-500"
+                          ? `border-2 border-${
+                              themeColors[currentColor ?? "teal"]?.basics
+                            }-500`
                           : ""
                       }`}
                       onClick={() => handleImageClick(index)}
@@ -275,13 +288,11 @@ const LandingPageId: React.FC<LandingPageIDProps> = ({ productId }) => {
 export default LandingPageId;
 
 const LandigPageContent = ({
-  newProduct,
+  newProduct
 }: {
   newProduct: LandingEditingProps;
 }) => {
-  useEffect(() => {
-    console.log("newProduct", newProduct);
-  }, [newProduct]);
+  useEffect(() => {}, [newProduct]);
   return (
     <div className="grid grid-cols-2 gap-4 ">
       <div className=" whitespace-pre-wrap break-all w-full overflow-hidden flex flex-col flex-end">

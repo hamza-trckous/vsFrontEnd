@@ -2,54 +2,64 @@ import { saveSettingsProfile } from "@/api/profile";
 import {
   fileToBase64,
   LOGO_VALIDATION,
-  validateImage,
+  validateImage
 } from "../validationMedia/validationPhoto";
 import { ValidationResult } from "@/Types/ValidationMedia";
 import {
   COVER_VALIDATION,
-  validateVideo,
+  validateVideo
 } from "../validationMedia/validationVideo";
-
+import { ColorName } from "../theme";
+import { profile } from "@/Types/Profile";
 export const handleSave = async ({
-  logo,
-  nameOfBrand,
-  cover,
+  currentColor,
+  profile,
   setIsSaved,
   setAlertMessage,
   setAlertType,
-  fetchSettings,
+  fetchSettings
 }: {
-  logo: string;
-  nameOfBrand: string;
-  cover: string;
+  profile: profile;
+  currentColor: ColorName | undefined;
   setIsSaved: React.Dispatch<React.SetStateAction<boolean>>;
   setAlertMessage: (message: string | null) => void;
   setAlertType: (type: "success" | "error") => void;
   fetchSettings: () => Promise<void>;
 }) => {
   try {
-    await saveSettingsProfile({ logo, nameOfBrand, cover });
+    console.log("here2:");
+
+    await saveSettingsProfile({
+      logo: profile.logo,
+      nameOfBrand: profile.nameOfBrand,
+      cover: profile.cover,
+      color: currentColor as ColorName,
+      slogon: profile.slogon,
+      category: profile.category
+    });
+
+    console.log("here2:");
+
     setIsSaved(true);
-    console.log("Settings saved successfully!");
-    await fetchSettings(); // Fetch the updated settings after saving
+    await fetchSettings(); // Refresh the profile info
   } catch (error) {
-    console.error("Error saving settings:", error);
-    if (error instanceof Error) {
-      setAlertMessage(`Error: ${error.message}`);
-    } else {
-      setAlertMessage("An unknown error occurred.");
-    }
+    console.log(error);
+
+    setAlertMessage(
+      error instanceof Error
+        ? `Error: ${error.message}`
+        : "An unknown error occurred."
+    );
     setAlertType("error");
   }
 };
 
 // for Changing logo
-
 export const handlePhotoChange = async (
   e: React.ChangeEvent<HTMLInputElement>,
   setAlertMessage: (message: string | null) => void,
   setAlertType: (type: "success" | "error") => void,
-  setlogo: React.Dispatch<React.SetStateAction<string>>
+  setprofile: React.Dispatch<React.SetStateAction<profile>>
 ) => {
   const file = e.target.files?.[0];
   if (file) {
@@ -58,15 +68,23 @@ export const handlePhotoChange = async (
       if (!validation.isValid) {
         setAlertMessage(validation.error || "An unknown error occurred.");
         setAlertType("error");
+        e.target.value = "";
+        return; // <--- Return early if invalid
       }
-      e.target.value = "";
+
       const base64String = await fileToBase64(file);
-      setlogo(base64String);
+      setprofile((prev) => ({
+        ...prev,
+        logo: {
+          ...(prev.logo ?? {}), // <--- safe fallback if prev.logo is undefined
+          src: base64String
+        }
+      }));
+      e.target.value = ""; // Reset after successful upload
     } catch (error) {
+      console.log(error);
       setAlertMessage("Error processing image");
       setAlertType("error");
-      console.log("Error processing image", error);
-      // Reset the input
       e.target.value = "";
     }
   }
@@ -77,8 +95,9 @@ export const handleCoverChange = async (
   e: React.ChangeEvent<HTMLInputElement>,
   setAlertMessage: (message: string | null) => void,
   setAlertType: (type: "success" | "error") => void,
-  setCover: React.Dispatch<React.SetStateAction<string>>,
-  setCoverType: React.Dispatch<React.SetStateAction<"image" | "video">>
+  setCoverType: React.Dispatch<React.SetStateAction<"image" | "video">>,
+
+  setprofile: React.Dispatch<React.SetStateAction<profile>>
 ) => {
   const file = e.target.files?.[0];
   if (file) {
@@ -93,7 +112,7 @@ export const handleCoverChange = async (
       }
       let validation: ValidationResult;
       if (isImage) {
-        validation = await validateImage(file, LOGO_VALIDATION);
+        validation = await validateImage(file, COVER_VALIDATION.image);
       } else {
         validation = await validateVideo(file, COVER_VALIDATION.video);
       }
@@ -104,7 +123,10 @@ export const handleCoverChange = async (
         return;
       }
       const base64String = await fileToBase64(file);
-      setCover(base64String);
+      setprofile((pre) => ({
+        ...pre,
+        cover: { ...pre.cover, name: base64String }
+      }));
       setCoverType(isImage ? "image" : "video");
     } catch (error) {
       setAlertMessage("Error processing file");
@@ -116,7 +138,10 @@ export const handleCoverChange = async (
   if (e.target.files && e.target.files[0]) {
     const reader = new FileReader();
     reader.onloadend = () => {
-      setCover(reader.result as string);
+      setprofile((pre) => ({
+        ...pre,
+        cover: { ...pre.cover, name: reader.result as string }
+      }));
     };
     reader.readAsDataURL(e.target.files[0]);
   }

@@ -1,13 +1,8 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { createProduct, getAllProductsNormal } from "../../api/product"; // Adjust the import path as necessary
-import {
-  NewProduct,
-  Product,
-  ProductPagination,
-  ProductWithreviews,
-} from "../../Types/ProductPart"; // Adjust the import path as necessary
+import { createProduct } from "../../api/product"; // Adjust the import path as necessary
+import { NewProduct } from "../../Types/ProductPart"; // Adjust the import path as necessary
 import AddNAme from "../ProductPart/AddNAme"; // Ensure correct import path
 import MethodAddingPhoto from "../ProductPart/methodAddingPhoto";
 import Description from "../ProductPart/description";
@@ -27,15 +22,18 @@ import BtnSubmit from "../ProductPart/BtnSubmit";
 import Container from "./multualCompenents/Container";
 import SelectCategory from "../ProductPart/SelectCategory";
 import ShowCategory from "../ProductPart/ShowCategory";
-import { getCategoryProducts } from "@/api/category";
+import { useLanguage } from "@/context/languageColorContext";
+import { useProducts } from "@/hooks/UseProducts";
+import { useCategory } from "@/context/CategoryContext";
 const ProductPart = () => {
+  const { lang, dataOflang } = useLanguage();
   const {
     unregister,
     register,
     handleSubmit,
     setValue,
     formState: { errors },
-    getValues,
+    getValues
   } = useForm<NewProduct>({
     defaultValues: {
       name: "",
@@ -47,12 +45,13 @@ const ProductPart = () => {
       rating: 0,
       reviews: [],
       images: [],
-      withShipping: "",
-    },
+      withShipping: ""
+    }
   });
 
   // State for new product
   const [newProduct, setNewProduct] = useState<NewProduct>({
+    _id: "",
     name: "",
     description: "",
     price: 0,
@@ -63,11 +62,11 @@ const ProductPart = () => {
     reviews: [],
     images: [], // Ensure the property name matches the backend schema
     withShipping: "",
-    category: "",
+    category: ""
   });
 
   // State for products
-  const [products, setProducts] = useState<ProductWithreviews[]>([]);
+  // const [products, setProducts] = useState<ProductWithreviews[]>([]);
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const [alertType, setAlertType] = useState<"success" | "error">("success");
   const [selectCategory, setSelectCategory] = useState<{
@@ -75,53 +74,20 @@ const ProductPart = () => {
     name: string;
   }>({
     id: "",
-    name: "",
+    name: ""
   });
   // Fetch all products when the component mounts
-
+  const { category } = useCategory();
+  const { products, setProducts } = useProducts();
+  const [productsInTAble, setproductsInTAble] = useState(products);
   useEffect(() => {
-    const fetchProducts = async () => {
-      if (selectCategory.name !== "") {
-        const fetchedProducts: Product[] = await getCategoryProducts(
-          selectCategory.id
-        );
-        console.log(fetchedProducts, "ProductsCategory");
-        const productsWithReviews: ProductWithreviews[] = fetchedProducts.map(
-          (product) => ({
-            ...product,
-            _id: product._id || "", // Ensure _id is always a string
-            reviews: product.reviews || [],
-            withShipping: product.withShipping || "لا", // Ensure withShipping is included
-            discountedPrice: product.discountedPrice || 0, // Ensure discountedPrice is included
-          })
-        );
-        setProducts(productsWithReviews);
-      } else {
-        try {
-          const fetchedProducts: ProductPagination =
-            await getAllProductsNormal();
-          console.log(fetchedProducts);
-          const productsWithReviews: ProductWithreviews[] =
-            fetchedProducts.products.map((product) => ({
-              ...product,
-              _id: product._id || "", // Ensure _id is always a string
-              reviews: product.reviews || [],
-              withShipping: product.withShipping || "لا", // Ensure withShipping is included
-              discountedPrice: product.discountedPrice || 0, // Ensure discountedPrice is included
-            }));
-          setProducts(productsWithReviews);
-        } catch (error) {
-          console.error("Error fetching products:", error);
-        }
-      }
-    };
-
-    fetchProducts();
-  }, [selectCategory]);
-
+    setproductsInTAble(
+      category
+        ?.filter((cat) => cat._id === selectCategory.id)
+        .flatMap((cat) => cat.products || []) || []
+    );
+  }, [selectCategory, category]);
   const onSubmit = async (data: NewProduct) => {
-    console.log(data, "data showing ");
-
     // Ensure images is an array and contains valid URLs or base64 strings
     if (typeof data.images === "string") {
       data.images = [data.images];
@@ -143,32 +109,40 @@ const ProductPart = () => {
 
     // Ensure withShipping is provided
     if (!data.withShipping) {
-      data.withShipping = "لا"; // Default value if not provided
+      data.withShipping =
+        dataOflang?.addingProduct.no || dataOflang?.addingProduct.no || "لا"; // Default value if not provided
     }
 
     try {
       const createdProduct = await createProduct(data);
       setProducts([...products, createdProduct]);
       setAlertType("success");
-      setAlertMessage("تمت إضافة المنتج بنجاح!");
+      setAlertMessage(
+        dataOflang?.addingProduct.successCreate || "تمت إضافة المنتج بنجاح!"
+      );
     } catch (error) {
       if (error instanceof AxiosError && error.response?.data.errors) {
         console.error(
-          "Error updating product:",
+          "Error  Adding Poduct:",
           error.response.data.errors[0].message
         );
         setAlertMessage(
-          error.response.data.errors[0].message || "حدث خطأ أثناء تحديث المنتج."
+          error.response.data.errors[0].message ||
+            dataOflang?.addingProduct.errorCreate ||
+            "حدث خطأ أثناء تحديث المنتج."
         );
       } else {
         console.error("Error updating product:", error);
-        setAlertMessage("حدث خطأ أثناء تحديث المنتج.");
+        setAlertMessage(
+          dataOflang?.addingProduct.errorCreate || "حدث خطأ أثناء تحديث المنتج."
+        );
       }
       setAlertType("error");
     }
 
     // Reset new product state
     setNewProduct({
+      _id: "",
       name: "",
       description: "",
       price: 0,
@@ -179,38 +153,65 @@ const ProductPart = () => {
       reviews: [],
       images: [],
       withShipping: "",
-      category: "",
+      category: ""
     });
   };
 
   return (
-    <Container>
+    <Container lang={lang}>
       {/* Add Product Form */}
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="mb-4 text-sm mt-20  md:mt-0">
-        <TitleRtl title=" إضافةالمنتجات" />
+      <form onSubmit={handleSubmit(onSubmit)} className="mb-4 text-sm ">
+        <TitleRtl
+          title={dataOflang?.addingProduct.addProductTitle || "إضافةالمنتجات"}
+        />
         <SelectCategory
+          lang={lang}
+          dataOfLang={dataOflang}
           setSelectCategory={setSelectCategory}
           register={register}
           errors={errors}
         />
         <ShowCategory />
         <div className="md:grid flex flex-wrap md:grid-cols-2 gap-2">
-          <AddNAme register={register} errors={errors} nameOfInput="name" />
+          <AddNAme
+            lang={lang}
+            dataOfLang={dataOflang}
+            register={register}
+            errors={errors}
+            nameOfInput="product"
+          />
 
           <MethodAddingPhoto
+            lang={lang}
             register={register}
             errors={errors}
             setNewProduct={setNewProduct}
             newProduct={newProduct}
             setValue={setValue}
+            dataOfLang={dataOflang}
           />
 
-          <Description register={register} errors={errors} />
-          <Price register={register} errors={errors} />
-          <DiscountPrice register={register} errors={errors} />
+          <Description
+            dataOflang={dataOflang}
+            lang={lang}
+            register={register}
+            errors={errors}
+          />
+          <Price
+            lang={lang}
+            dataOfLang={dataOflang}
+            register={register}
+            errors={errors}
+          />
+          <DiscountPrice
+            lang={lang}
+            dataOfLang={dataOflang}
+            register={register}
+            errors={errors}
+          />
           <WithShipping
+            lang={lang}
+            dataOflang={dataOflang}
             getValues={getValues}
             register={register}
             setValue={setValue}
@@ -218,6 +219,8 @@ const ProductPart = () => {
           />
           {/* Colors Section */}
           <Color
+            lang={lang}
+            dataOflang={dataOflang}
             getValues={getValues}
             setValue={setValue}
             register={register}
@@ -225,6 +228,8 @@ const ProductPart = () => {
           />
           {/* Sizes Section */}
           <Size
+            lang={lang}
+            dataOflang={dataOflang}
             getValues={getValues}
             setValue={setValue}
             register={register}
@@ -232,6 +237,8 @@ const ProductPart = () => {
           />
           {/* Rating Section */}
           <Ration
+            lang={lang}
+            dataOflang={dataOflang}
             getValues={getValues}
             register={register}
             setValue={setValue}
@@ -240,6 +247,8 @@ const ProductPart = () => {
 
           {/* Reviews Section */}
           <Reviews
+            lang={lang}
+            dataOflang={dataOflang}
             register={register}
             errors={errors}
             setValue={setValue}
@@ -247,20 +256,24 @@ const ProductPart = () => {
             initialReviews={newProduct.reviews || []}
           />
         </div>
-        <BtnSubmit BtnName={"إضافةالمنتج"} />
+        <BtnSubmit
+          BtnName={dataOflang?.addingProduct.addProductTitle || "إضافةالمنتجات"}
+        />
       </form>
 
       <hr className="mb-4" />
 
       {/* Products List */}
-      <h2 className="text-lg font-bold mb-2 text-right">إدارة المنتجات</h2>
+      <h2 className="text-lg font-bold mb-2 ">
+        {dataOflang?.addingProduct.manageProducts || "إدارة المنتجات"}
+      </h2>
       {selectCategory && (
         <>
           <TitleRtl title={selectCategory.name} />
         </>
       )}
       <Table
-        products={products}
+        products={productsInTAble}
         onDelete={async (id: string) => {
           await handleDelete(
             id,

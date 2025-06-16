@@ -1,6 +1,20 @@
-// src/app/productsCategorys/[Show]/page.tsx
+/* eslint-disable */
+
 import { getCategoryProducts } from "@/api/category";
 import CategoryPage from "@/components/Category/CategorysAll/CategoryOne/CategoryPage";
+import { Metadata } from "next";
+export async function generateMetadata({
+  params,
+  searchParams
+}: Props): Promise<Metadata> {
+  const resolvedParams = await params;
+  const resolvedSearchParams = await searchParams;
+
+  const products = await getCategoryProducts(resolvedParams.Show);
+  return {
+    // title: resolvedSearchParams.name,
+  };
+}
 
 // Use the correct type definition for Next.js pages
 type Props = {
@@ -8,14 +22,10 @@ type Props = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
-
 const Page = async ({ params, searchParams }: Props) => {
   // Await the promises
   const resolvedParams = await params;
   const resolvedSearchParams = await searchParams;
-
   const products = await getCategoryProducts(resolvedParams.Show);
 
   return (

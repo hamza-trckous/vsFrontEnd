@@ -3,20 +3,25 @@ import {
   useForm,
   SubmitHandler,
   UseFormRegister,
-  FieldErrors,
+  FieldErrors
 } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { IFormInput, registerSchema } from "@/utils/schema";
 import RegisterFormUtils from "@/utils/registerForm";
+import { useLanguage } from "@/context/languageColorContext";
+import { LanguageConfig } from "@/Types/LanguageConfig";
+import { themeColors } from "@/utils/theme";
+import { useTheme } from "@/context/themeContext";
 
 const RegisterForm = () => {
+  const { dataOflang } = useLanguage();
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors }
   } = useForm<IFormInput>({
-    resolver: zodResolver(registerSchema),
+    resolver: zodResolver(registerSchema)
   });
 
   const registerFormUtils = RegisterFormUtils();
@@ -26,27 +31,43 @@ const RegisterForm = () => {
     await registerFormUtils.LogicOnSubmitRegister(data);
   };
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <Name register={register} errors={errors} />
-      <LastName register={register} errors={errors} />
-      <DateOfBirthday register={register} errors={errors} />
-      <PlaceOfBirthday register={register} errors={errors} />
-      <UserName register={register} errors={errors} />
-      <Email register={register} errors={errors} />
-      <Password register={register} errors={errors} />
-      <PasswordConfirm register={register} errors={errors} />
-      <RegisterButton />
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="space-y-4 mt-16 mb-mt-16 w-[80%] mx-auto ">
+      <div className=" space-y-8 p-10 bg-white rounded-xl shadow-lg z-10 flex justify-center items-center content-center align-middle flex-col">
+        <Name dataOflang={dataOflang} register={register} errors={errors} />
+        <LastName dataOflang={dataOflang} register={register} errors={errors} />
+        <DateOfBirthday
+          dataOflang={dataOflang}
+          register={register}
+          errors={errors}
+        />
+        <PlaceOfBirthday
+          dataOflang={dataOflang}
+          register={register}
+          errors={errors}
+        />
+        <UserName dataOflang={dataOflang} register={register} errors={errors} />
+        <Email dataOflang={dataOflang} register={register} errors={errors} />
+        <Password dataOflang={dataOflang} register={register} errors={errors} />
+        <PasswordConfirm
+          dataOflang={dataOflang}
+          register={register}
+          errors={errors}
+        />
+        <RegisterButton dataOflang={dataOflang} />
 
-      {message && (
-        <div
-          className={`text-center p-2 rounded ${
-            message.includes("بنجاح")
-              ? "bg-green-100 text-green-700"
-              : "bg-red-100 text-red-700"
-          }`}>
-          <p className="text-sm font-medium">{message}</p>
-        </div>
-      )}
+        {message && (
+          <div
+            className={`text-center p-2 rounded ${
+              message.includes("بنجاح")
+                ? "bg-green-100 text-green-700"
+                : "bg-red-100 text-red-700"
+            }`}>
+            <p className="text-md font-bold ">{message}</p>
+          </div>
+        )}
+      </div>
     </form>
   );
 };
@@ -56,11 +77,14 @@ export default RegisterForm;
 interface NameProps {
   register: UseFormRegister<IFormInput>;
   errors: FieldErrors<IFormInput>;
+  dataOflang: LanguageConfig | undefined;
 }
-const Name = ({ register, errors }: NameProps) => {
+const Name = ({ register, errors, dataOflang }: NameProps) => {
   return (
-    <div className="flex flex-col items-center">
-      <label className="block text-sm font-medium text-gray-700">الاسم:</label>
+    <div className="flex flex-col items-center  mt-2 w-full">
+      <label className="block text-md font-bold  text-gray-700">
+        {dataOflang?.name || "الاسم"}:
+      </label>
       <input
         data-tribute="true"
         {...register("name")}
@@ -73,11 +97,11 @@ const Name = ({ register, errors }: NameProps) => {
   );
 };
 
-const LastName = ({ register, errors }: NameProps) => {
+const LastName = ({ register, errors, dataOflang }: NameProps) => {
   return (
-    <div className="flex flex-col items-center">
-      <label className="block text-sm font-medium text-gray-700">
-        اسم العائلة:
+    <div className="flex flex-col items-center w-full">
+      <label className="block text-md font-bold  text-gray-700">
+        {dataOflang?.lastname || "اسم العائلة"}:
       </label>
       <input
         data-tribute="true"
@@ -90,11 +114,11 @@ const LastName = ({ register, errors }: NameProps) => {
     </div>
   );
 };
-const DateOfBirthday = ({ register, errors }: NameProps) => {
+const DateOfBirthday = ({ register, errors, dataOflang }: NameProps) => {
   return (
-    <div className="flex flex-col items-center">
-      <label className="block text-sm font-medium text-gray-700">
-        تاريخ الميلاد:
+    <div className="flex flex-col items-center w-full">
+      <label className="block text-md font-bold  text-gray-700">
+        {dataOflang?.dateOfbirth || "تاريخ الميلاد"}:
       </label>
       <input
         data-tribute="true"
@@ -111,11 +135,11 @@ const DateOfBirthday = ({ register, errors }: NameProps) => {
   );
 };
 
-const PlaceOfBirthday = ({ register, errors }: NameProps) => {
+const PlaceOfBirthday = ({ register, errors, dataOflang }: NameProps) => {
   return (
-    <div className="flex flex-col items-center">
-      <label className="block text-sm font-medium text-gray-700">
-        مكان الميلاد:
+    <div className="flex flex-col items-center w-full">
+      <label className="block text-md font-bold  text-gray-700">
+        {dataOflang?.placeofbirth || "مكان الميلاد"}:
       </label>
       <input
         data-tribute="true"
@@ -131,11 +155,11 @@ const PlaceOfBirthday = ({ register, errors }: NameProps) => {
   );
 };
 
-const UserName = ({ register, errors }: NameProps) => {
+const UserName = ({ register, errors, dataOflang }: NameProps) => {
   return (
-    <div className="flex flex-col items-center">
-      <label className="block text-sm font-medium text-gray-700">
-        اسم المستخدم:
+    <div className="flex flex-col items-center w-full">
+      <label className="block text-md font-bold  text-gray-700">
+        {dataOflang?.username || "اسم المستخدم"}:
       </label>
       <input
         data-tribute="true"
@@ -149,11 +173,11 @@ const UserName = ({ register, errors }: NameProps) => {
   );
 };
 
-const Email = ({ register, errors }: NameProps) => {
+const Email = ({ register, errors, dataOflang }: NameProps) => {
   return (
-    <div className="flex flex-col items-center">
-      <label className="block text-sm font-medium text-gray-700">
-        البريد الإلكتروني:
+    <div className="flex flex-col items-center w-full">
+      <label className="block text-md font-bold  text-gray-700">
+        {dataOflang?.email || "البريد الإلكتروني"}:
       </label>
       <input
         data-tribute="true"
@@ -166,11 +190,11 @@ const Email = ({ register, errors }: NameProps) => {
     </div>
   );
 };
-const Password = ({ register, errors }: NameProps) => {
+const Password = ({ register, errors, dataOflang }: NameProps) => {
   return (
-    <div className="flex flex-col items-center">
-      <label className="block text-sm font-medium text-gray-700">
-        كلمة المرور:
+    <div className="flex flex-col items-center w-full">
+      <label className="block text-md font-bold  text-gray-700">
+        {dataOflang?.password || "كلمة المرور"}:
       </label>
       <input
         data-tribute="true"
@@ -184,11 +208,11 @@ const Password = ({ register, errors }: NameProps) => {
     </div>
   );
 };
-const PasswordConfirm = ({ register, errors }: NameProps) => {
+const PasswordConfirm = ({ register, errors, dataOflang }: NameProps) => {
   return (
-    <div className="flex flex-col items-center">
-      <label className="block text-sm font-medium text-gray-700">
-        تأكيد كلمة المرور:
+    <div className="flex flex-col items-center w-full">
+      <label className="block text-md font-bold  text-gray-700">
+        {dataOflang?.confirmPassword || "تأكيد كلمة المرور"}:
       </label>
       <input
         data-tribute="true"
@@ -205,13 +229,25 @@ const PasswordConfirm = ({ register, errors }: NameProps) => {
   );
 };
 
-const RegisterButton = () => {
+const RegisterButton = ({
+  dataOflang
+}: {
+  dataOflang: LanguageConfig | undefined;
+}) => {
+  const { currentColor } = useTheme();
+
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center w-full">
       <button
         type="submit"
-        className="w-3/4 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-        تسجيل
+        className={`w-3/4 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-md font-bold  text-white bg-${
+          themeColors[currentColor ?? "teal"]?.basics
+        }-600 hover:bg-${
+          themeColors[currentColor ?? "teal"]?.basics
+        }-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-${
+          themeColors[currentColor ?? "teal"]?.basics
+        }-500`}>
+        {dataOflang?.submit || "تسجيل"}
       </button>
     </div>
   );

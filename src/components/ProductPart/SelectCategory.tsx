@@ -1,17 +1,22 @@
 import { getCategories } from "@/api/category";
 import { Category } from "@/Types/Categorys";
+import { LanguageConfig } from "@/Types/LanguageConfig";
 import { NewProduct } from "@/Types/ProductPart";
 import React from "react";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 interface CommonFields {
   category: string;
 }
 const SelectCategory = ({
+  lang,
+  dataOfLang,
   register,
   errors,
-  setSelectCategory,
+  setSelectCategory
 }: {
+  lang: "AR" | "EN" | undefined;
+  dataOfLang: LanguageConfig | undefined;
   register: UseFormRegister<NewProduct> | UseFormRegister<Category>;
   errors: FieldErrors<NewProduct> | FieldErrors<Category>;
 
@@ -22,36 +27,50 @@ const SelectCategory = ({
     }>
   >;
 }) => {
-  const { data: categories } = useQuery({
+  const {
+    data: categories,
+    error,
+    isLoading,
+    isError
+  } = useQuery({
     queryKey: ["categories"],
-    queryFn: () => getCategories(),
-    onSuccess: (data) => {
-      console.log(data);
-    },
-    onError: (error) => {
-      console.log(error);
-    },
+    queryFn: getCategories
   });
-  console.log(categories);
+
+  if (isLoading) {
+  }
+
+  if (isError && error) {
+    console.error("Error:", error);
+  }
+
+  if (categories) {
+  }
 
   return (
     <div className="flex flex-col gap-2">
-      <label htmlFor="category" className="text-sm font-medium">
-        التصنيف الرئيسي
+      <label
+        htmlFor="category"
+        className="block text-gray-700 text-sm font-bold m-2">
+        {dataOfLang?.addingProduct.principalCategory || "التصنيف الرئيسي"}
       </label>
       <select
+        dir={lang === "AR" ? "rtl" : "ltr"}
         defaultValue={""}
         {...(register as unknown as UseFormRegister<CommonFields>)("category", {
-          required: "التصنيف الرئيسي مطلوب",
+          required: `${
+            dataOfLang?.addingProduct.requiredCategory ||
+            "التصنيف الرئيسي مطلوب"
+          }`,
           onChange: (e) => {
             const category = categories?.find(
               (category: Category) => category._id === e.target.value
             );
             setSelectCategory({
               id: category?._id || "",
-              name: category?.name || "",
+              name: category?.name || ""
             });
-          },
+          }
         })}
         id="category"
         className="border border-gray-300 rounded-md p-2">

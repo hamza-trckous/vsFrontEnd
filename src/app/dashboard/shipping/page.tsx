@@ -5,11 +5,16 @@ import { fetchShippingPrices, wilayas } from "@/utils/shipping";
 import {
   updateShippingPrice,
   deleteShippingPrice,
-  createInitialShippingPrices,
+  createInitialShippingPrices
 } from "@/api/shipping";
 import AlertModal from "@/components/AlertModal";
+import Container from "@/components/dashbord/multualCompenents/Container";
+import { themeColors } from "@/utils/theme";
+import { useTheme } from "@/context/themeContext";
 
 const Shipping = () => {
+  const { currentColor } = useTheme();
+
   const [shippingPrices, setShippingPrices] = useState<{
     [city: string]: { priceToDesktop: number; priceToHomme: number };
   }>({});
@@ -39,7 +44,7 @@ const Shipping = () => {
   ) => {
     setShippingPrices((prevPrices) => ({
       ...prevPrices,
-      [city]: { ...prevPrices[city], [pricetype]: price },
+      [city]: { ...prevPrices[city], [pricetype]: price }
     }));
   };
 
@@ -65,7 +70,7 @@ const Shipping = () => {
       const initialPrices = wilayas.map((wilaya) => ({
         wilaya: wilaya.name,
         priceToDesktop: globalPrice,
-        priceToHomme: globalPrice2,
+        priceToHomme: globalPrice2
       }));
       await createInitialShippingPrices(initialPrices);
       setAlertMessage("تم إنشاء قائمة أسعار التوصيل بنجاح!");
@@ -97,11 +102,11 @@ const Shipping = () => {
       ) => {
         const currentPrices = shippingPrices[wilaya.name] || {
           priceDesktop: 0,
-          priceToHomme: 0,
+          priceToHomme: 0
         };
         acc[wilaya.name] = {
           priceDesktop: globalPrice,
-          priceToHomme: currentPrices.priceToHomme,
+          priceToHomme: currentPrices.priceToHomme
         };
         return acc;
       },
@@ -112,7 +117,7 @@ const Shipping = () => {
       for (const city in updatedPrices) {
         updated[city] = {
           priceToDesktop: updatedPrices[city].priceDesktop,
-          priceToHomme: updated[city]?.priceToHomme || 0,
+          priceToHomme: updated[city]?.priceToHomme || 0
         };
       }
       return updated;
@@ -127,11 +132,11 @@ const Shipping = () => {
       ) => {
         const currentPrices = shippingPrices[wilaya.name] || {
           priceDesktop: 0,
-          priceToHomme: 0,
+          priceToHomme: 0
         };
         acc[wilaya.name] = {
           priceDesktop: currentPrices.priceToDesktop,
-          priceToHomme: globalPrice2,
+          priceToHomme: globalPrice2
         };
         return acc;
       },
@@ -142,120 +147,130 @@ const Shipping = () => {
       for (const city in updatedPrices) {
         updated[city] = {
           priceToDesktop: updated[city]?.priceToDesktop || 0,
-          priceToHomme: updatedPrices[city].priceToHomme,
+          priceToHomme: updatedPrices[city].priceToHomme
         };
       }
       return updated;
     });
-    console.log("stat2", shippingPrices);
   };
   return (
-    <div className="container mx-auto p-4 w-full justify-start flex-col">
-      <div className="w-11/12">
-        <h2 className="text-2xl font-bold mb-4 text-center">
-          جدول أسعار التوصيل في الجزائر
-        </h2>
-        <div className="flex items-center justify-center mb-4">
-          <input
-            type="number"
-            value={globalPrice}
-            onChange={(e) => setGlobalPrice(parseFloat(e.target.value))}
-            className="border rounded px-2 py-1 text-center"
-          />
-          <button
-            onClick={handleApplyGlobalPrice}
-            className="ml-2 bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition-colors duration-200">
-            تطبيق سعر التوصيل للمكتب على جميع الولايات
-          </button>
-        </div>
-        <div className="flex items-center justify-center mb-4">
-          <input
-            type="number"
-            value={globalPrice2}
-            onChange={(e) => setGlobalPrice2(parseFloat(e.target.value))}
-            className="border rounded px-2 py-1 text-center"
-          />
-          <button
-            onClick={handleApplyGlobalPrice2}
-            className="ml-2 bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition-colors duration-200">
-            تطبيق سعر التوصيل للمنزل على جميع الولايات
-          </button>
-        </div>
-        <table className="min-w-full bg-white border border-gray-200">
-          <thead>
-            <tr>
-              <th className="py-2 px-4 border-b">الولاية</th>
-              <th className="py-2 px-4 border-b"> سعر التوصيل للمكتب(دج)</th>
-
-              <th className="py-2 px-4 border-b">سعر التوصيل للمنزل(دج)</th>
-            </tr>
-          </thead>
-          <tbody>
-            {wilayas.map((wilaya) => (
-              <tr key={wilaya.code}>
-                <td className="py-2 px-4 border-b text-center">
-                  {wilaya.arabicName}
-                </td>
-                <td className="py-2 px-4 border-b">
-                  <div className="flex items-center justify-center">
-                    <input
-                      type="number"
-                      value={shippingPrices[wilaya.name]?.priceToDesktop || ""}
-                      onChange={(e) =>
-                        handlePriceChange(
-                          wilaya.name,
-                          "priceToDesktop",
-                          parseFloat(e.target.value)
-                        )
-                      }
-                      className="border rounded px-2 py-1 w-full text-center"
-                    />
-                    <span className="ml-2">دج</span>
-                  </div>
-                </td>
-                <td className="py-2 px-4 border-b">
-                  <div className="flex items-center justify-center">
-                    <input
-                      type="number"
-                      value={shippingPrices[wilaya.name]?.priceToHomme || ""}
-                      onChange={(e) =>
-                        handlePriceChange(
-                          wilaya.name,
-                          "priceToHomme",
-                          parseFloat(e.target.value)
-                        )
-                      }
-                      className="border rounded px-2 py-1 w-full text-center"
-                    />
-                    <span className="ml-2">دج</span>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <div className="w-full flex justify-center space-x-4">
-          <button
-            onClick={handleSavePrices}
-            className="mt-4 bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition-colors duration-200">
-            حفظ الأسعار
-          </button>
-          <button
-            onClick={handleInitializePrices}
-            className={`mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors duration-200 ${
-              isInitialPricesCreated &&
-              "bg-slate-400 cursor-auto hover:bg-slate-400"
-            } `}
-            disabled={isInitialPricesCreated}>
-            إنشاء القائمة
-          </button>
-          <button
-            onClick={handleDeletePrices}
-            className="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors duration-200">
-            حذف القائمة
-          </button>
-        </div>
+    <Container>
+      <h2 className="text-2xl font-bold mb-4 text-center">
+        جدول أسعار التوصيل في الجزائر
+      </h2>
+      <div className="flex items-center justify-center mb-4">
+        <button
+          onClick={handleApplyGlobalPrice}
+          className={`ml-2 bg-${
+            themeColors[currentColor ?? "teal"]?.basics
+          }-500 text-white px-4 py-2 rounded-lg hover:bg-${
+            themeColors[currentColor ?? "teal"]?.basics
+          }-600 transition-colors duration-200`}>
+          تطبيق سعر التوصيل للمكتب على جميع الولايات
+        </button>
+        <input
+          type="number"
+          value={globalPrice}
+          onChange={(e) => setGlobalPrice(parseFloat(e.target.value))}
+          className="border rounded px-2 py-1 text-center"
+        />
       </div>
+      <div className="flex items-center justify-center mb-4">
+        <button
+          onClick={handleApplyGlobalPrice2}
+          className={`ml-2 bg-${
+            themeColors[currentColor ?? "teal"]?.basics
+          }-500 text-white px-4 py-2 rounded-lg hover:bg-${
+            themeColors[currentColor ?? "teal"]?.basics
+          }-600 transition-colors duration-200`}>
+          تطبيق سعر التوصيل للمنزل على جميع الولايات
+        </button>
+        <input
+          type="number"
+          value={globalPrice2}
+          onChange={(e) => setGlobalPrice2(parseFloat(e.target.value))}
+          className="border rounded px-2 py-1 text-center"
+        />
+      </div>
+      <table className="min-w-full bg-white border border-gray-200">
+        <thead>
+          <tr>
+            <th className="py-2 px-4 border-b">الولاية</th>
+            <th className="py-2 px-4 border-b"> سعر التوصيل للمكتب(دج)</th>
+
+            <th className="py-2 px-4 border-b">سعر التوصيل للمنزل(دج)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {wilayas.map((wilaya) => (
+            <tr key={wilaya.code}>
+              <td className="py-2 px-4 border-b text-center">
+                {wilaya.arabicName}
+              </td>
+              <td className="py-2 px-4 border-b">
+                <div className="flex items-center justify-center">
+                  <input
+                    type="number"
+                    value={shippingPrices[wilaya.name]?.priceToDesktop || ""}
+                    onChange={(e) =>
+                      handlePriceChange(
+                        wilaya.name,
+                        "priceToDesktop",
+                        parseFloat(e.target.value)
+                      )
+                    }
+                    className="border rounded px-2 py-1 w-full text-center"
+                  />
+                  <span className="ml-2">دج</span>
+                </div>
+              </td>
+              <td className="py-2 px-4 border-b">
+                <div className="flex items-center justify-center">
+                  <input
+                    type="number"
+                    value={shippingPrices[wilaya.name]?.priceToHomme || ""}
+                    onChange={(e) =>
+                      handlePriceChange(
+                        wilaya.name,
+                        "priceToHomme",
+                        parseFloat(e.target.value)
+                      )
+                    }
+                    className="border rounded px-2 py-1 w-full text-center"
+                  />
+                  <span className="ml-2">دج</span>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <div className="w-full flex justify-center space-x-4">
+        <button
+          onClick={handleSavePrices}
+          className={`mt-4 bg-${
+            themeColors[currentColor ?? "teal"]?.basics
+          }-500 text-white px-4 py-2 rounded-lg hover:bg-${
+            themeColors[currentColor ?? "teal"]?.basics
+          }-600 transition-colors duration-200`}>
+          حفظ الأسعار
+        </button>
+        <button
+          onClick={handleInitializePrices}
+          className={`mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors duration-200 ${
+            isInitialPricesCreated &&
+            "bg-slate-400 cursor-auto hover:bg-slate-400"
+          } `}
+          disabled={isInitialPricesCreated}>
+          إنشاء القائمة
+        </button>
+        <button
+          onClick={handleDeletePrices}
+          className="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors duration-200">
+          حذف القائمة
+        </button>
+      </div>
+
       {alertMessage && (
         <AlertModal
           message={alertMessage}
@@ -263,7 +278,7 @@ const Shipping = () => {
           type={type}
         />
       )}
-    </div>
+    </Container>
   );
 };
 

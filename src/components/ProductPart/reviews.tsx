@@ -1,3 +1,4 @@
+import { LanguageConfig } from "@/Types/LanguageConfig";
 import { NewProduct, Review } from "@/Types/ProductPart";
 import Image from "next/image";
 import React, { useState } from "react";
@@ -7,14 +8,19 @@ import {
   UseFormSetValue,
   UseFormUnregister,
 } from "react-hook-form";
+import ButtonSecondary from "./ButtonSecondary";
 
 const Reviews = ({
+  dataOflang,
+  lang,
   register,
   errors,
   setValue,
   unregister,
   initialReviews = [], // Ensure initialReviews is always an array
 }: {
+  dataOflang: LanguageConfig | undefined;
+  lang: "AR" | "EN" | undefined;
   register: UseFormRegister<NewProduct>;
   errors: FieldErrors<NewProduct>;
   setValue: UseFormSetValue<NewProduct>;
@@ -60,12 +66,16 @@ const Reviews = ({
   };
 
   return (
-    <div className="col-span-2">
-      <label className="block mb-1 font-semibold">المراجعات</label>
+    <div dir={lang === "AR" ? "rtl" : "ltr"} className="col-span-2">
+      <label className="block mb-1 font-semibold">
+        {dataOflang?.addingProduct.reviews || "المراجعات"}
+      </label>
       {reviews.map((review, index) => (
         <div key={index} className="mb-4 border p-2 rounded">
           <textarea
-            placeholder="نص المراجعة"
+            placeholder={
+              dataOflang?.addingProduct.ScriptOfreviews || "نص المراجعة"
+            }
             value={review.text}
             data-tribute="true"
             className="p-2 border border-gray-300 rounded w-full text-right"
@@ -99,17 +109,18 @@ const Reviews = ({
           <button
             type="button"
             onClick={() => removeReview(index)}
-            className="mt-2 bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 text-xs">
-            إزالة المراجعة
+            className="m-2 bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 text-xs">
+            {dataOflang?.addingProduct.deletereviews || "إزالة المراجعة"}
           </button>
         </div>
       ))}
-      <button
-        type="button"
-        onClick={addReview}
-        className="bg-teal-500 text-white px-3 py-1 rounded hover:bg-teal-600 text-xs">
-        إضافة مراجعة
-      </button>
+      <ButtonSecondary
+        lang={lang}
+        TitleOfButton={`${
+          dataOflang?.addingProduct.addingReviews || " إضافة مراجعة"
+        }`}
+        handleAddSize={addReview}
+      />
       {errors.reviews && <p>{String(errors.reviews.message)}</p>}
     </div>
   );

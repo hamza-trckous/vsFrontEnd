@@ -13,6 +13,7 @@ export const useProducts = () => {
     const fetchProducts = async () => {
       try {
         const response = await getAllProductsNormal();
+
         setProducts(response.products);
       } catch (error) {
         console.error("Error fetching products:", error);

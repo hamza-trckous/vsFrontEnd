@@ -5,14 +5,13 @@ import CryptoJS from "crypto-js";
 export const HashedInformation = ({
   data,
   userIpAddress,
-  totalAmount,
+  totalAmount
 }: {
   data: OrderDetails;
   userIpAddress: string;
   totalAmount: number;
 }) => {
   const hashedPhone = CryptoJS.SHA256(data.phone).toString();
-  console.log(hashedPhone, "hashedPhone");
   const fbp = getCookie("_fbp")?.toString() || "";
   const fbc = getCookie("_fbc")?.toString() || "";
   const hashedFirstName = CryptoJS.SHA256(data.name).toString();
@@ -29,13 +28,12 @@ export const HashedInformation = ({
       external_id: "external_id",
       fb_login_id: "facebook_login_id",
       fn: hashedFirstName || "",
-      st: hashedState || "",
+      st: hashedState || ""
     },
     custom_data: {
       currency: "DZD",
-      value: totalAmount,
-    },
+      value: totalAmount
+    }
   };
-  console.log("Tracking conversion event:", JSON.stringify(eventData, null, 2));
   return { eventData, hashedPhone, fbp, fbc, hashedFirstName, hashedState };
 };

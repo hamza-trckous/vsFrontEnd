@@ -1,29 +1,30 @@
-import { ProductWithreviews } from "@/Types/ProductPart";
+import { NewProduct, ProductWithreviews } from "@/Types/ProductPart";
 import React from "react";
-
 import FirstLineOfTable from "../Table/FirstLine";
-import { tableTitles } from "@/utils/Table/Table";
-import BodyOfTable from "../Table/BodyOfTable";
+import BodyOfTableOfProductPart from "./BodyOfTableOfProductPart";
+import BodyOfTableLandingAndProductEdit from "../Table/BodyOfTable";
+import { TableTitles } from "@/utils/Table/Table";
 
 const Table = ({
   products = [],
   onDelete,
   landingPage = false,
 }: {
-  products: ProductWithreviews[];
+  products: NewProduct[] | ProductWithreviews[];
   onDelete?: (id: string) => void;
   landingPage?: boolean;
 }) => {
+  const tableTitles = TableTitles();
   return (
     <div className="relative overflow-x-auto">
-      <table className="w-full table-fixed border-collapse text-sm bg-teal-50">
+      <BodyOfTableOfProductPart>
         <FirstLineOfTable tableTitles={tableTitles} />
-        <BodyOfTable
+        <BodyOfTableLandingAndProductEdit
           landingPage={landingPage}
           onDelete={onDelete}
           items={products}
         />
-      </table>
+      </BodyOfTableOfProductPart>
     </div>
   );
 };

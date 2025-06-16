@@ -1,8 +1,7 @@
-// components/HydrateWrapper.tsx
 "use client";
 
 import React from "react";
-import { Hydrate } from "react-query";
+import { HydrationBoundary } from "@tanstack/react-query";
 
 export default function HydrateWrapper({
   children,
@@ -11,5 +10,5 @@ export default function HydrateWrapper({
   children: React.ReactNode;
   state: unknown;
 }) {
-  return <Hydrate state={state}>{children}</Hydrate>;
+  return <HydrationBoundary state={state}>{children}</HydrationBoundary>;
 }

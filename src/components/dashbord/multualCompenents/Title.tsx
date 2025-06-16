@@ -1,8 +1,8 @@
 import React from "react";
 
-const TitleRtl = ({ title }: { title: string }) => {
+const TitleRtl = ({ title }: { title: string | undefined }) => {
   return (
-    <h1 className="text-2xl font-bold mb-4 w-full text-center mt-2">{title}</h1>
+    <div className="text-2xl font-bold mb-4 w-full text-center ">{title}</div>
   );
 };
 
