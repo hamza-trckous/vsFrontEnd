@@ -1,5 +1,9 @@
 # 🍼 BabyBloom E-commerce Frontend
 
+🔐 Admin Login (for dashboard preview):
+Email: admin1@example.com
+Password: admin123
+
 A full-featured, responsive, and dynamic eCommerce frontend built with **Next.js (App Router)** and modern web tools.
 
 Live site: [vs-ebon.vercel.app](https://vs-ebon.vercel.app)  
