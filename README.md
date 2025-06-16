@@ -107,6 +107,4 @@ GitHub: hamza-trckous
 
 ---
 
-✅ **Next step:**
-Create a file in the root of your project:
 ```
