@@ -10,7 +10,6 @@ export async function getUserProfile() {
     const profileRes = await axios.get(`${url}/api/profile`);
 
     profile = profileRes.data;
-    console.log(profile);
   } catch (err) {
     console.log(err);
 

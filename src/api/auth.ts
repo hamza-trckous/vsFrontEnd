@@ -72,9 +72,28 @@ export const registerUser = async (data: IFormInput) => {
 };
 
 export const loginUser = async (form: { email: string; password: string }) => {
-  return axios.post(`${url}/api/login`, form, {
-    withCredentials: true
-  });
+  console.log("loginFront");
+  console.log(url);
+  const csrfToken = await fetchCsrfToken();
+  try {
+    const response = await axios.post(`${url}/api/login`, form, {
+      withCredentials: true,
+      headers: {
+        "XSRF-TOKEN": csrfToken
+      }
+    });
+    return response;
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      if (error.response?.status === 429) {
+        throw new Error(
+          "عدد محاولات تسجيل الدخول تم تجاوزها. حاول مرة أخرى بعد 15 دقيقة"
+        );
+      }
+      throw new Error(error.response?.data?.message || "فشل تسجيل الدخول");
+    }
+    throw new Error("حدث خطأ غير متوقع");
+  }
 };
 
 export const logoutUser = async () => {
@@ -86,14 +105,17 @@ export const logoutUser = async () => {
     }
   );
 };
-
-export const checkAuth = async (token: string): Promise<CheckAuthResponse> => {
+export const checkAuth = async (): Promise<CheckAuthResponse> => {
   const response = await axios.get(`${url}/api/check-auth`, {
-    headers: {
-      Authorization: `Bearer ${token}`
-    },
     withCredentials: true
   });
 
   return response.data;
+};
+
+export const fetchCsrfToken = async (): Promise<string> => {
+  const res = await axios.get(`${url}/api/csrf-token`, {
+    withCredentials: true
+  });
+  return res.data.csrfToken;
 };

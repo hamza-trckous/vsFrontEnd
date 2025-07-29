@@ -32,6 +32,7 @@ const MainPartShowingProducts = ({
       fetchNextPage();
     }
   }, [showSideBar, inView]);
+
   const {
     data: products,
     isLoading,
@@ -92,12 +93,11 @@ const MainPartShowingProducts = ({
     if (!products?.pages) return [];
     const allProducts = products.pages.flatMap((page) => page.products || []);
     return allProducts.map((product, index) => {
-      const isLast = index === allProducts.length - 1;
       return (
         <CardForProduct
-          ref={showSideBar && isLast ? ref : null}
+          ref={index === allProducts.length - 1 ? ref : undefined}
           forCart={false}
-          key={product._id}
+          key={`${product._id}-${categoryId}-${index}`}
           id={product._id}
           product={{
             images: product.images,

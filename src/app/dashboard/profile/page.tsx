@@ -10,24 +10,14 @@ import Settings from "@/components/dashbord/Profile/settings";
 import ConfigColor from "@/components/dashbord/Profile/ConfigColor";
 import { useLanguage } from "@/context/languageColorContext";
 import { setCookie } from "cookies-next";
-import { useTheme } from "@/context/themeContext";
 import { ColorName } from "@/utils/theme";
 import { useProfileContext } from "@/context/ProfileContext";
 
 const IntegrationPage = () => {
   const { lang } = useLanguage();
-  const { Profile, setProfile } = useProfileContext();
-  // const [profile, setprofile] = useState<profile>({
-  //   logo: { src: "", enable: true },
-  //   nameOfBrand: { name: "", enable: true },
-  //   cover: { name: "", enable: true, title: "", subtitle: "" },
-  //   color: "teal" as ColorName,
-  //   slogon: { name: "", enable: true },
-  //   category: { enable: true }
-  // });
+  const { setProfile } = useProfileContext();
   const [coverType, setCoverType] = useState<"image" | "video">("image");
-  const { alertMessage, alertType, setAlertMessage, setAlertType } = useAlert();
-  const { currentColor } = useTheme();
+  const { alertMessage, alertType, setAlertMessage } = useAlert();
   const fetchSettings = async () => {
     try {
       const settings = await getSettingsProfile();
@@ -35,9 +25,7 @@ const IntegrationPage = () => {
         ...settings,
         color: settings.color as ColorName
       });
-
       setCookie("ColorText", settings.color);
-
       // Optional: determine cover type from file extension
       const isVideo = settings.cover?.name?.match(/\.(mp4|webm|ogg)$/);
       setCoverType(isVideo ? "video" : "image");
@@ -45,7 +33,6 @@ const IntegrationPage = () => {
       console.error("Error fetching settings:", error);
     }
   };
-
   useEffect(() => {
     fetchSettings();
   }, []);
@@ -57,15 +44,10 @@ const IntegrationPage = () => {
 Store settings
         "
       />
-      <ConfigColor currentColor={currentColor} />
+      <ConfigColor />
       <Settings
         coverType={coverType}
-        setprofile={setProfile}
-        currentColor={currentColor}
         fetchSettings={fetchSettings}
-        profile={Profile}
-        setAlertMessage={setAlertMessage}
-        setAlertType={setAlertType}
         setCoverType={setCoverType}
       />
 

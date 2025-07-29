@@ -10,11 +10,8 @@ export const getSettingsProfile = async () => {
 };
 
 export const saveSettingsProfile = async (settings: profile) => {
-  console.log("sss", settings);
-
   const response = await axios.post(`${url}/api/profile`, settings, {
     withCredentials: true
   });
-  console.log(response);
   return response.data;
 };

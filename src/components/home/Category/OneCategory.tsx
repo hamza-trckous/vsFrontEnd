@@ -39,12 +39,12 @@ const OneCategory = ({ item }: { item: Category }) => {
           borderHoverClass
         )}
       />
-      <h1
+      <h2
         className={`text-center text-xs hover:text-${
           themeColors[currentColor ?? "teal"]?.basics
         }-500 transition-all `}>
         {item.name}
-      </h1>
+      </h2>
     </Link>
   );
 };

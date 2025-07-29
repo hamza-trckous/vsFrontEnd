@@ -6,7 +6,7 @@ import {
   FieldErrors,
   UseFormRegister,
   UseFormSetValue,
-  UseFormUnregister,
+  UseFormUnregister
 } from "react-hook-form";
 import ButtonSecondary from "./ButtonSecondary";
 
@@ -17,7 +17,7 @@ const Reviews = ({
   errors,
   setValue,
   unregister,
-  initialReviews = [], // Ensure initialReviews is always an array
+  initialReviews = [] // Ensure initialReviews is always an array
 }: {
   dataOflang: LanguageConfig | undefined;
   lang: "AR" | "EN" | undefined;
@@ -49,17 +49,26 @@ const Reviews = ({
     setReviews(updatedReviews);
     setValue(`reviews.${index}.text`, text);
   };
-
-  const handleReviewImageUpload = (index: number, files: FileList | null) => {
+  const toBase64 = (file: File): Promise<string> =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = reject;
+    });
+  const handleReviewImageUpload = async (
+    index: number,
+    files: FileList | null
+  ) => {
     if (files) {
-      const fileURLs = Array.from(files).map((file) =>
-        URL.createObjectURL(file)
-      );
+      const base64Images = await Promise.all(Array.from(files).map(toBase64));
+
       const updatedReviews = [...reviews];
       if (!updatedReviews[index].images) {
         updatedReviews[index].images = [];
       }
-      updatedReviews[index].images.push(...fileURLs);
+      updatedReviews[index].images.push(...base64Images);
+
       setReviews(updatedReviews);
       setValue(`reviews.${index}.images`, updatedReviews[index].images);
     }
@@ -80,7 +89,7 @@ const Reviews = ({
             data-tribute="true"
             className="p-2 border border-gray-300 rounded w-full text-right"
             {...register(`reviews.${index}.text`, {
-              onChange: (e) => handleReviewTextChange(index, e.target.value),
+              onChange: (e) => handleReviewTextChange(index, e.target.value)
             })}></textarea>
           <input
             type="file"

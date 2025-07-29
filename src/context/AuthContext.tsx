@@ -12,8 +12,12 @@ import {
   loginUser,
   logoutUser,
   checkAuth,
-  CheckAuthResponse
+  CheckAuthResponse,
+  fetchCsrfToken
 } from "@/api/auth";
+import axios from "axios";
+import { getAllProducts, getAllProductsNormal } from "@/api/product";
+import { sendHelp } from "@/api/serviceHelpe/help";
 
 interface AuthContextType {
   isLoggedIn: boolean;
@@ -39,23 +43,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     try {
       setLoading(true);
       const response = await loginUser({ email, password });
-      const token = response.data.token;
-
-      if (!token) {
-        throw new Error("Token is null");
-      }
-
-      window.localStorage.setItem("token", token);
-      const storedToken = window.localStorage.getItem("token");
-
-      if (!storedToken) {
-        throw new Error("Failed to store token");
-      }
-
-      await cheking(token);
+      console.log("login", response);
+      await cheking();
     } catch (error) {
       console.error("Login error:", error);
-      window.localStorage.removeItem("token");
+
       setIsLoggedIn(false);
       setIsAdmin(false);
       throw error;
@@ -67,9 +59,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const logout = async () => {
     try {
       setLoading(true);
-      // Clear all storage
-      window.localStorage.removeItem("token");
-      window.localStorage.removeItem("isAdmin");
 
       setIsLoggedIn(false);
       setIsAdmin(false);
@@ -82,26 +71,18 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
-  const cheking = async (token: string): Promise<CheckAuthResponse | void> => {
-    if (!token) {
-      setIsLoggedIn(false);
-      setIsAdmin(false);
-      await logout();
-      console.log("logout - no token");
-      return;
-    }
+  const cheking = async (): Promise<CheckAuthResponse | void> => {
+    if (typeof window === "undefined") return;
 
     try {
-      const authData = await checkAuth(token);
+      const authData = await checkAuth();
 
       if (authData && authData.isAuthenticated) {
         setIsLoggedIn(true);
         setIsAdmin(authData?.user?.role === "admin");
-        window.localStorage.setItem("token", token);
         return authData;
       } else {
         // Token is invalid or expired
-        console.log("Authentication failed - logging out");
         await logout();
         throw new Error("Authentication failed");
       }
@@ -114,18 +95,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const checkAuthStatus = async () => {
-    console.log("checking auth status...");
-    const token = window.localStorage.getItem("token");
-
-    if (!token) {
-      setLoading(false);
-      setIsLoggedIn(false);
-      setIsAdmin(false);
-      return;
-    }
-
     try {
-      const response = await cheking(token);
+      const response = await cheking();
       if (response?.isAuthenticated) {
         setIsLoggedIn(true);
         setIsAdmin(response?.user?.role === "admin");
@@ -141,7 +112,32 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   useEffect(() => {
-    checkAuthStatus();
+    sendHelp();
+    const init = async () => {
+      try {
+        const product = await getAllProductsNormal();
+        console.log("product Normal", product);
+        const csrfToken = await fetchCsrfToken();
+        console.log("✅ CSRF Token fetched:", csrfToken);
+
+        axios.defaults.headers.post["X-CSRF-Token"] = csrfToken;
+        axios.defaults.headers.put["X-CSRF-Token"] = csrfToken;
+        axios.defaults.headers.delete["X-CSRF-Token"] = csrfToken;
+      } catch (err) {
+        console.error("❌ فشل في جلب CSRF Token", err);
+      }
+
+      try {
+        await checkAuthStatus();
+      } catch (err) {
+        console.error("❌ فشل في التحقق من حالة تسجيل الدخول", err);
+      }
+    };
+
+    init();
+    // every 5 mnt chek Token in coockies :
+    const interval = setInterval(checkAuthStatus, 1 * 60 * 1000);
+    return () => clearInterval(interval);
   }, []);
 
   return (

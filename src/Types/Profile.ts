@@ -1,5 +1,10 @@
 import { ColorName } from "@/utils/theme";
 
+export interface Account {
+  name: string;
+  enable: boolean;
+}
+
 export interface profile {
   logo: {
     src: string;
@@ -12,8 +17,8 @@ export interface profile {
   cover: {
     name: string;
     enable: boolean;
-    title: string;
-    subtitle: string;
+    title?: string;
+    subtitle?: string;
   };
   color: ColorName;
   slogon: {
@@ -23,4 +28,7 @@ export interface profile {
   category: {
     enable: boolean;
   };
+  email: Account;
+  accounts: Account[];
+  lastUpdated?: string;
 }

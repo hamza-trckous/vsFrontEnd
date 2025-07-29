@@ -54,7 +54,6 @@ const StaticsPage = () => {
     try {
       const status = selectedStatus[orderId];
       const updatedOrder = await updateOrderStatus(orderId, status);
-      console.log("Updated order:", updatedOrder);
       setOrders((prevOrders) =>
         prevOrders.map((order) =>
           order._id === orderId ? updatedOrder : order
@@ -235,9 +234,7 @@ const StaticsPage = () => {
                         </div>
                       ))}
                     </td>
-                    <td
-                      onClick={() => console.log(order)}
-                      className="py-2 px-4 border-b">
+                    <td onClick={() => {}} className="py-2 px-4 border-b">
                       {order.totalAmount} $
                     </td>
                     <td className="py-2 px-4 border-b">{order.status}</td>

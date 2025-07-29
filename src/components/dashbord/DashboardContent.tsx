@@ -12,7 +12,6 @@ const DashboardContent = ({ children }: { children: ReactNode }) => {
     if (!isAdmin) {
       router.push("/");
     }
-    console.log(isAdmin, "isAdmin", "isLoggedIn", isLoggedIn);
   }, [isAdmin, router, isLoggedIn, loading]);
   return (
     <>

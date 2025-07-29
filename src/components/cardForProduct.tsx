@@ -36,8 +36,47 @@ const CardForProduct = forwardRef<HTMLDivElement, CardForProductProps>(
       withShipping: "نعم",
       category: "default-category"
     };
+    const validateProductData = (
+      product: ProductWithreviews | undefined
+    ): ProductWithreviews => {
+      if (!product) return defaultProduct;
 
-    const currentProduct = product || defaultProduct;
+      return {
+        _id: product._id || defaultProduct._id,
+        images:
+          Array.isArray(product.images) && product.images.length > 0
+            ? product.images
+            : defaultProduct.images,
+        name: product.name || defaultProduct.name,
+        price:
+          typeof product.price === "number" && !isNaN(product.price)
+            ? product.price
+            : defaultProduct.price,
+        discountedPrice:
+          typeof product.discountedPrice === "number" &&
+          !isNaN(product.discountedPrice)
+            ? product.discountedPrice
+            : product.price || defaultProduct.discountedPrice,
+        rating:
+          typeof product.rating === "number"
+            ? Math.min(Math.max(product.rating, 0), 5)
+            : defaultProduct.rating,
+        description: product.description || defaultProduct.description,
+        reviews: Array.isArray(product.reviews)
+          ? product.reviews
+          : defaultProduct.reviews,
+        colors: Array.isArray(product.colors)
+          ? product.colors
+          : defaultProduct.colors,
+        sizes: Array.isArray(product.sizes)
+          ? product.sizes
+          : defaultProduct.sizes,
+        withShipping: product.withShipping || defaultProduct.withShipping,
+        category: product.category || defaultProduct.category
+      };
+    };
+
+    const currentProduct = validateProductData(product);
 
     const [changeImage, setChangeImage] = useState(false);
     useEffect(() => {
@@ -56,6 +95,7 @@ const CardForProduct = forwardRef<HTMLDivElement, CardForProductProps>(
         productcard.removeEventListener("mouseleave", handleMouseLeave);
       };
     }, [id]);
+
     return (
       <>
         <div
@@ -121,7 +161,7 @@ const CardForProduct = forwardRef<HTMLDivElement, CardForProductProps>(
           ) : (
             <Image
               src={defaultProduct.images[0]}
-              alt={currentProduct.name}
+              alt={currentProduct.name || ""}
               width={625}
               height={240}
               className="w-full h-60 object-cover rounded-t-lg "
