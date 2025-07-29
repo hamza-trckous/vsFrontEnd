@@ -13,13 +13,13 @@ import { ColorName } from "../theme";
 import { profile } from "@/Types/Profile";
 export const handleSave = async ({
   currentColor,
-  profile,
+  Profile,
   setIsSaved,
   setAlertMessage,
   setAlertType,
   fetchSettings
 }: {
-  profile: profile;
+  Profile: profile;
   currentColor: ColorName | undefined;
   setIsSaved: React.Dispatch<React.SetStateAction<boolean>>;
   setAlertMessage: (message: string | null) => void;
@@ -27,18 +27,16 @@ export const handleSave = async ({
   fetchSettings: () => Promise<void>;
 }) => {
   try {
-    console.log("here2:");
-
     await saveSettingsProfile({
-      logo: profile.logo,
-      nameOfBrand: profile.nameOfBrand,
-      cover: profile.cover,
+      logo: Profile.logo,
+      nameOfBrand: Profile.nameOfBrand,
+      cover: Profile.cover,
       color: currentColor as ColorName,
-      slogon: profile.slogon,
-      category: profile.category
+      slogon: Profile.slogon,
+      category: Profile.category,
+      accounts: Profile.accounts,
+      email: Profile.email
     });
-
-    console.log("here2:");
 
     setIsSaved(true);
     await fetchSettings(); // Refresh the profile info

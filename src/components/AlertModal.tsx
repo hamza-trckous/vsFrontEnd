@@ -16,7 +16,7 @@ const AlertModal: React.FC<AlertModalProps> = ({
   type,
   onClose,
   withConfirm,
-  onConfirm,
+  onConfirm
 }) => {
   const { currentColor } = useTheme();
 

@@ -32,7 +32,6 @@ const BaRFilterCompo = ({ onFilterChange, handlFilter, filters }: Props) => {
     onFilterChange(key, updated);
   };
 
-  console.log(category);
   return (
     <div className="w-full bg-white dark:bg-gray-900 p-4 shadow-md rounded-md grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 text-sm text-black dark:text-white">
       {/* Shipping Filter */}

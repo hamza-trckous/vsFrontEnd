@@ -1,59 +1,30 @@
+import AboutComponent from "@/components/About/AboutComponent";
 import { Metadata } from "next";
 import React from "react";
 export const metadata: Metadata = {
-  title: "About",
+  title: "About Us | Baby Bloom",
+  description:
+    "Learn more about Baby Bloom — our mission, story, and what makes us special in the world of baby products.",
+  openGraph: {
+    title: "About Us | Baby Bloom",
+    description: "Discover the story and mission behind Baby Bloom.",
+    url: "https://vs-ebon.vercel.app/about",
+    type: "website",
+    images: [
+      {
+        url: "https://vs-ebon.vercel.app/about.png",
+        width: 1200,
+        height: 630,
+        alt: "About Baby Bloom"
+      }
+    ]
+  }
 };
 const AboutPage = () => {
   return (
-    <div className="min-h-screen bg-white px-4 py-12 sm:px-6 lg:px-16">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold text-gray-900 mb-6 text-center">
-          About Us
-        </h1>
-        <p className="text-lg text-gray-700 leading-relaxed mb-6">
-          Welcome to <span className="font-semibold text-black">ShopVerse</span>
-          , your all-in-one online store built for everyone. Whether
-          {"you're"} starting a niche brand, launching your personal product
-          line, or simply looking to explore endless categories — ShopVerse is
-          your platform.
-        </p>
-        <p className="text-lg text-gray-700 leading-relaxed mb-6">
-          Designed with flexibility in mind, ShopVerse lets you fully customize
-          your store name, logo, and categories. {"It's"} more than just an
-          ecommerce site — {"It's"} a ready-to-sell, fully adaptable solution
-          for creators, sellers, and entrepreneurs of all kinds.
-        </p>
-        <p className="text-lg text-gray-700 leading-relaxed mb-6">
-          We believe in simplicity, scalability, and giving you the tools to
-          grow without limits. With clean performance, strong SEO foundations,
-          and mobile-friendly design, ShopVerse is made for the future of
-          ecommerce.
-        </p>
-        <div className="mt-10">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-            Our Mission
-          </h2>
-          <p className="text-lg text-gray-700 leading-relaxed">
-            To empower every creator and seller to launch their own store
-            effortlessly, without code, limits, or barriers.
-          </p>
-        </div>
-        <div className="mt-10">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-            Contact Us
-          </h2>
-          <p className="text-lg text-gray-700 leading-relaxed">
-            Have questions? Reach out to us at{" "}
-            <a
-              href="mailto:support@shopverse.com"
-              className="text-blue-600 hover:underline">
-              support@shopverse.com
-            </a>{" "}
-            and we’ll be happy to help.
-          </p>
-        </div>
-      </div>
-    </div>
+    <>
+      <AboutComponent />
+    </>
   );
 };
 

@@ -1,41 +1,46 @@
-import type { NextConfig } from "next";
 import withBundleAnalyzer from "@next/bundle-analyzer";
+import type { NextConfig } from "next";
+import type { Configuration as WebpackConfig } from "webpack";
 
-const nextConfig: NextConfig = withBundleAnalyzer({
-  enabled: process.env.ANALYZE === "true"
-})({
-  // Fix TypeScript build errors
+const isProd = process.env.NODE_ENV === "production";
+
+const baseConfig: NextConfig = {
   typescript: {
-    ignoreBuildErrors: true // Temporary measure for stubborn type errors
+    ignoreBuildErrors: true
   },
   eslint: {
-    ignoreDuringBuilds: true // Add this to prevent ESLint from blocking builds
+    ignoreDuringBuilds: true
   },
-
-  // Image configuration
   images: {
-    domains: ["frontend-babybloom.vercel.app"], // Remove https://
-    unoptimized: process.env.NODE_ENV === "development" // Only unoptimized in dev
+    domains: [
+      "res.cloudinary.com",
+      "frontend-babybloom.vercel.app",
+      "via.placeholder.com"
+    ],
+    unoptimized: !isProd
   },
-
-  // Webpack configuration to handle chunk loading
-  webpack: (config) => {
-    config.resolve.fallback = {
-      fs: false,
-      path: false,
-      stream: false
+  webpack: (config: WebpackConfig) => {
+    config.resolve = {
+      ...config.resolve,
+      fallback: {
+        fs: false,
+        path: false,
+        stream: false
+      }
     };
     return config;
   },
+  reactStrictMode: true
+};
 
-  // Enable React Strict Mode
-  reactStrictMode: true,
+// Add production-only options separately
+if (isProd) {
+  baseConfig.output = "standalone";
+  baseConfig.compress = true;
+}
 
-  // Production optimizations
-  ...(process.env.NODE_ENV === "production" && {
-    output: "standalone", // For Docker deployments
-    compress: true
-  })
-});
+const nextConfig = withBundleAnalyzer({
+  enabled: process.env.ANALYZE === "true"
+})(baseConfig);
 
 export default nextConfig;

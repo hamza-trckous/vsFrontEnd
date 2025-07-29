@@ -4,12 +4,8 @@ import { ColorName, themeColors } from "@/utils/theme";
 import { setCookie } from "cookies-next";
 import React from "react";
 
-const ConfigColor = ({
-  currentColor,
-}: {
-  currentColor: ColorName | undefined;
-}) => {
-  const { setcolor } = useTheme();
+const ConfigColor = () => {
+  const { setcolor, currentColor } = useTheme();
   return (
     <div className="w-full flex flex-col p-2 justify-between items-center">
       <label className="sm:text-xl text-md font-bold text-gray-700 m-2  ">

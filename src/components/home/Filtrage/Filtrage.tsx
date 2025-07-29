@@ -25,7 +25,6 @@ const Filtrage = ({
       setfiltredProducts(response);
       setLoading(false);
     }
-    console.log(response);
   };
   const handleFilterChange = (
     key: string,
@@ -41,6 +40,11 @@ const Filtrage = ({
   const [searchTerm, setSearchTerm] = useState("");
   const [isPending, startTransition] = useTransition();
   useEffect(() => {
+    if (searchTerm.trim() === "") {
+      setfiltredProducts(null);
+      return;
+    }
+
     const delayDebounce = setTimeout(() => {
       startTransition(() => {
         setfiltredProducts(
@@ -53,10 +57,7 @@ const Filtrage = ({
 
     return () => clearTimeout(delayDebounce);
   }, [searchTerm, products]);
-  console.log(products);
-  useEffect(() => {
-    console.log(filters);
-  }, [filters]);
+  useEffect(() => {}, [filters]);
   const { currentColor } = useTheme();
   const [BarFilter, setBarFilter] = useState(false);
   return (
@@ -81,7 +82,7 @@ const Filtrage = ({
             className="h-[3rem] rounded-full w-full bg-white p-[0.5rem] pl-10 peer"
             placeholder="Search..."
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
+            onChange={(e) => setSearchTerm(e.target.value.trim().toLowerCase())}
           />
           <Search className="w-5 h-5 text-gray-500 absolute top-1/2 -translate-y-1/2 left-3 peer-focus:hidden" />
         </div>
