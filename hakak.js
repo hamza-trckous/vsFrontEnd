@@ -6,3 +6,4 @@ const d = 333;
 console.log(c - d);
 const aaaaa = "za";
 console.log(aaaaa);
+console.log("hello");
