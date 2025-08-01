@@ -1,0 +1,15 @@
+name : First github Actions 
+
+on : [push]
+
+
+jobs : 
+  hello-job:
+    runs-on: ubunto-latest
+
+    steps:
+      -name: 👋 Step 1 - Say Hello
+      run: echo "hello from GitHub Actions"
+  
+      -name:  🕒 Step 2 - Show Current Date
+      run: date
