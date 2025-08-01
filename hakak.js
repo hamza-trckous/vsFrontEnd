@@ -4,3 +4,7 @@ console.log(a + b);
 const c = 33;
 const d = 333;
 console.log(c - d);
+const aaaaa = "za";
+console.log(aaaaa);
+console.log("hello");
+console.log("hello");
