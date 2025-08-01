@@ -1,6 +1,9 @@
 name : First github Actions 
 
-on : [push]
+on : 
+  push:
+    branches : [feature/add-testing]
+
 
 
 jobs : 
