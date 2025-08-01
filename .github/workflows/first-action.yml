@@ -1,18 +1,16 @@
-name : First github Actions 
+name: First github Actions
 
-on : 
+on:
   push:
-    branches : [feature/add-testing]
+    branches: [feature/add-testing]
 
-
-
-jobs : 
+jobs:
   hello-job:
-    runs-on: ubunto-latest
+    runs-on: ubuntu-latest
 
     steps:
-      -name: 👋 Step 1 - Say Hello
-      run: echo "hello from GitHub Actions"
-  
-      -name:  🕒 Step 2 - Show Current Date
-      run: date
+      - name: 👋 Step 1 - Say Hello
+        run: echo "hello from GitHub Actions"
+
+      - name: 🕒 Step 2 - Show Current Date
+        run: date
