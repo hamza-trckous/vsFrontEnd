@@ -2,7 +2,7 @@ name: action Number one
 
 on:
   push:
-    branches: [main]
+    branches: [jdid]
 
 jobs:
   build:
