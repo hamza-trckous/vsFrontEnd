@@ -18,13 +18,15 @@ const DescriptionProductTable = ({ item }: { item: Category | NewProduct }) => {
       <div
         className={`overflow-hidden ${
           showMoreDescription[item._id || ""] ? "max-h-full" : "max-h-12"
-        }`}>
+        }`}
+      >
         {item.description}
       </div>
       {item.description.length > 30 && (
         <button
           onClick={() => toggleShowMoreDescription(item._id || "")}
-          className="text-blue-500 text-xs mt-1">
+          className="text-blue-500 text-xs mt-1"
+        >
           {showMoreDescription[item._id || ""]
             ? `${dataOflang?.table?.Showless || "عرض أقل"}`
             : `${dataOflang?.table?.Showmore || "عرض المزيد"}`}

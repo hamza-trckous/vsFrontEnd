@@ -34,10 +34,10 @@ const CardForProduct = forwardRef<HTMLDivElement, CardForProductProps>(
       colors: ["أحمر", "أزرق", "أخضر"],
       sizes: ["S", "M", "L"],
       withShipping: "نعم",
-      category: "default-category"
+      category: "default-category",
     };
     const validateProductData = (
-      product: ProductWithreviews | undefined
+      product: ProductWithreviews | undefined,
     ): ProductWithreviews => {
       if (!product) return defaultProduct;
 
@@ -72,7 +72,7 @@ const CardForProduct = forwardRef<HTMLDivElement, CardForProductProps>(
           ? product.sizes
           : defaultProduct.sizes,
         withShipping: product.withShipping || defaultProduct.withShipping,
-        category: product.category || defaultProduct.category
+        category: product.category || defaultProduct.category,
       };
     };
 
@@ -109,7 +109,8 @@ const CardForProduct = forwardRef<HTMLDivElement, CardForProductProps>(
             const newUrl = `/landingpage/${currentProduct._id}`;
 
             window.history.pushState({}, "", newUrl);
-          }}>
+          }}
+        >
           <button
             className={`absolute top-2 right-2 text-gray-600 hover:text-${
               themeColors[currentColor ?? "teal"]?.basics
@@ -117,7 +118,8 @@ const CardForProduct = forwardRef<HTMLDivElement, CardForProductProps>(
             onClick={(e) => {
               e.stopPropagation();
               setShowPreview(true);
-            }}>
+            }}
+          >
             <FaEye size={20} />
           </button>
           {!forCart && (
@@ -131,9 +133,10 @@ const CardForProduct = forwardRef<HTMLDivElement, CardForProductProps>(
                   e,
                   currentProduct,
                   setAlertMessage,
-                  setAlertType
+                  setAlertType,
                 );
-              }}>
+              }}
+            >
               <FaCartArrowDown size={20} />
             </button>
           )}
@@ -184,17 +187,20 @@ const CardForProduct = forwardRef<HTMLDivElement, CardForProductProps>(
           </div>
           <div
             id="ImageCard"
-            className="text-center flex flex-col items-center w-full">
+            className="text-center flex flex-col items-center w-full"
+          >
             <h2
               className=" break-words max-h-16 overflow-hidden text-[15px]  sm:text-[20px] w-[90%]"
-              style={{ fontFamily: "Cairo, sans-serif" }}>
+              style={{ fontFamily: "Cairo, sans-serif" }}
+            >
               {currentProduct.name}
             </h2>
             <div className="flex items-center justify-end mt-1 sm:flex-wrap ">
               <span
                 className={`text-${
                   themeColors[currentColor ?? "teal"]?.basics
-                }-500 font-bold sm:text-[20px] text-[14px] break-words m-1 sm:m-0  w-15 sm:w-20`}>
+                }-500 font-bold sm:text-[20px] text-[14px] break-words m-1 sm:m-0  w-15 sm:w-20`}
+              >
                 {currentProduct.discountedPrice}{" "}
                 {dataOflang?.addingProduct?.da || " دج"}
               </span>
@@ -203,7 +209,8 @@ const CardForProduct = forwardRef<HTMLDivElement, CardForProductProps>(
                 <span
                   className={`text-${
                     themeColors[currentColor ?? "teal"]?.secondary
-                  }-400 line-through mr-2 sm:text-[20px]  text-[14px] break-words sm:m-0 m-1 w-15 sm:w-20 `}>
+                  }-400 line-through mr-2 sm:text-[20px]  text-[14px] break-words sm:m-0 m-1 w-15 sm:w-20 `}
+                >
                   {currentProduct.price}{" "}
                   {dataOflang?.addingProduct?.da || " دج"}
                 </span>
@@ -226,7 +233,8 @@ const CardForProduct = forwardRef<HTMLDivElement, CardForProductProps>(
                 className={`absolute top-2 right-2 text-gray-600 hover:text-${
                   themeColors[currentColor ?? "teal"]?.basics
                 }-500`}
-                onClick={() => setShowPreview(false)}>
+                onClick={() => setShowPreview(false)}
+              >
                 &times;
               </button>
 
@@ -247,7 +255,7 @@ const CardForProduct = forwardRef<HTMLDivElement, CardForProductProps>(
         )}
       </>
     );
-  }
+  },
 );
 
 CardForProduct.displayName = "CardForProduct";

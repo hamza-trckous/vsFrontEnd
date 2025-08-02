@@ -7,27 +7,27 @@ import React, {
   useState,
   ReactNode,
   useEffect,
-  useCallback
+  useCallback,
 } from "react";
 
 interface CategoryContextProps {
   category: Category[] | null;
   setcategory: React.Dispatch<React.SetStateAction<Category[]>>;
   addCategorie: (
-    data: Category
+    data: Category,
   ) => Promise<"تمت اضافة الفئة بنجاح" | "حدث خطأ ما">;
 
   deleateCategory: (
-    id: string
+    id: string,
   ) => Promise<"  تم حذف القسم بنجاح" | "حدث خطأ ما" | undefined>;
 }
 
 const CategoryContext = createContext<CategoryContextProps | undefined>(
-  undefined
+  undefined,
 );
 
 export const CategoryProvider: React.FC<{ children: ReactNode }> = ({
-  children
+  children,
 }) => {
   const [category, setcategory] = useState<Category[]>([]);
   const getCategorys = useCallback(async () => {
@@ -66,7 +66,8 @@ export const CategoryProvider: React.FC<{ children: ReactNode }> = ({
 
   return (
     <CategoryContext.Provider
-      value={{ category, setcategory, deleateCategory, addCategorie }}>
+      value={{ category, setcategory, deleateCategory, addCategorie }}
+    >
       {children}
     </CategoryContext.Provider>
   );

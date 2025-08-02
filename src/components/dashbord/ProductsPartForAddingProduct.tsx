@@ -33,7 +33,7 @@ const ProductPart = () => {
     handleSubmit,
     setValue,
     formState: { errors },
-    getValues
+    getValues,
   } = useForm<NewProduct>({
     defaultValues: {
       name: "",
@@ -45,8 +45,8 @@ const ProductPart = () => {
       rating: 0,
       reviews: [],
       images: [],
-      withShipping: ""
-    }
+      withShipping: "",
+    },
   });
 
   // State for new product
@@ -62,7 +62,7 @@ const ProductPart = () => {
     reviews: [],
     images: [], // Ensure the property name matches the backend schema
     withShipping: "",
-    category: ""
+    category: "",
   });
 
   // State for products
@@ -74,7 +74,7 @@ const ProductPart = () => {
     name: string;
   }>({
     id: "",
-    name: ""
+    name: "",
   });
   // Fetch all products when the component mounts
   const { category } = useCategory();
@@ -84,7 +84,7 @@ const ProductPart = () => {
     setproductsInTAble(
       category
         ?.filter((cat) => cat._id === selectCategory.id)
-        .flatMap((cat) => cat.products || []) || []
+        .flatMap((cat) => cat.products || []) || [],
     );
   }, [selectCategory, category]);
   const onSubmit = async (data: NewProduct) => {
@@ -118,23 +118,24 @@ const ProductPart = () => {
       setProducts([...products, createdProduct]);
       setAlertType("success");
       setAlertMessage(
-        dataOflang?.addingProduct.successCreate || "تمت إضافة المنتج بنجاح!"
+        dataOflang?.addingProduct.successCreate || "تمت إضافة المنتج بنجاح!",
       );
     } catch (error) {
       if (error instanceof AxiosError && error.response?.data.errors) {
         console.error(
           "Error  Adding Poduct:",
-          error.response.data.errors[0].message
+          error.response.data.errors[0].message,
         );
         setAlertMessage(
           error.response.data.errors[0].message ||
             dataOflang?.addingProduct.errorCreate ||
-            "حدث خطأ أثناء تحديث المنتج."
+            "حدث خطأ أثناء تحديث المنتج.",
         );
       } else {
         console.error("Error updating product:", error);
         setAlertMessage(
-          dataOflang?.addingProduct.errorCreate || "حدث خطأ أثناء تحديث المنتج."
+          dataOflang?.addingProduct.errorCreate ||
+            "حدث خطأ أثناء تحديث المنتج.",
         );
       }
       setAlertType("error");
@@ -153,7 +154,7 @@ const ProductPart = () => {
       reviews: [],
       images: [],
       withShipping: "",
-      category: ""
+      category: "",
     });
   };
 
@@ -280,7 +281,7 @@ const ProductPart = () => {
             setProducts,
             setAlertType,
             setAlertMessage,
-            products
+            products,
           );
         }}
       />

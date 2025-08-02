@@ -1,13 +1,13 @@
 import {
   ImageValidationOptions,
-  ValidationResult
+  ValidationResult,
 } from "@/Types/ValidationMedia";
 
 export const DEFAULT_IMAGE_OPTIONS: ImageValidationOptions = {
   maxSizeInMB: 5, // 5MB
   allowedTypes: ["image/jpeg", "image/png", "image/gif", "image/webp"],
   maxWidth: 4096,
-  maxHeight: 4096
+  maxHeight: 4096,
 };
 
 /**
@@ -15,14 +15,14 @@ export const DEFAULT_IMAGE_OPTIONS: ImageValidationOptions = {
  */
 const validateImageSize = (
   file: File,
-  maxSizeInMB: number
+  maxSizeInMB: number,
 ): ValidationResult => {
   const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
 
   if (file.size > maxSizeInBytes) {
     return {
       isValid: false,
-      error: `Image size must be less than ${maxSizeInMB}MB`
+      error: `Image size must be less than ${maxSizeInMB}MB`,
     };
   }
 
@@ -33,12 +33,12 @@ const validateImageSize = (
  */
 const validateImageType = (
   file: File,
-  allowedTypes: string[]
+  allowedTypes: string[],
 ): ValidationResult => {
   if (!allowedTypes.includes(file.type)) {
     return {
       isValid: false,
-      error: `Image type must be one of: ${allowedTypes.join(", ")}`
+      error: `Image type must be one of: ${allowedTypes.join(", ")}`,
     };
   }
 
@@ -51,7 +51,7 @@ const validateImageType = (
 const validateImageDimensions = (
   file: File,
   maxWidth: number,
-  maxHeight: number
+  maxHeight: number,
 ): Promise<ValidationResult> => {
   return new Promise((resolve) => {
     const img = new Image();
@@ -63,7 +63,7 @@ const validateImageDimensions = (
       if (img.width > maxWidth || img.height > maxHeight) {
         resolve({
           isValid: false,
-          error: `Image dimensions must be less than ${maxWidth}x${maxHeight}px`
+          error: `Image dimensions must be less than ${maxWidth}x${maxHeight}px`,
         });
       }
 
@@ -74,7 +74,7 @@ const validateImageDimensions = (
       URL.revokeObjectURL(objectUrl);
       resolve({
         isValid: false,
-        error: "Failed to load image for validation"
+        error: "Failed to load image for validation",
       });
     };
 
@@ -87,21 +87,21 @@ const validateImageDimensions = (
  */
 export const validateImage = async (
   file: File,
-  options: ImageValidationOptions = DEFAULT_IMAGE_OPTIONS
+  options: ImageValidationOptions = DEFAULT_IMAGE_OPTIONS,
 ): Promise<ValidationResult> => {
   // Destructure options with defaults
   const {
     maxSizeInMB = DEFAULT_IMAGE_OPTIONS.maxSizeInMB,
     allowedTypes = DEFAULT_IMAGE_OPTIONS.allowedTypes,
     maxWidth = DEFAULT_IMAGE_OPTIONS.maxWidth,
-    maxHeight = DEFAULT_IMAGE_OPTIONS.maxHeight
+    maxHeight = DEFAULT_IMAGE_OPTIONS.maxHeight,
   } = options;
 
   // Check if file exists
   if (!file) {
     return {
       isValid: false,
-      error: "No file provided"
+      error: "No file provided",
     };
   }
 
@@ -121,7 +121,7 @@ export const validateImage = async (
   const dimensionsValidation = await validateImageDimensions(
     file,
     maxWidth!,
-    maxHeight!
+    maxHeight!,
   );
   if (!dimensionsValidation.isValid) {
     return dimensionsValidation;
@@ -145,12 +145,12 @@ export const LOGO_VALIDATION: ImageValidationOptions = {
   maxSizeInMB: 5,
   allowedTypes: ["image/jpeg", "image/png", "image/webp"],
   maxWidth: 1024, // logos don’t need to be huge
-  maxHeight: 1024
+  maxHeight: 1024,
 };
 
 export const COVER_IMAGE_VALIDATION: ImageValidationOptions = {
   maxSizeInMB: 5,
   allowedTypes: ["image/jpeg", "image/png", "image/webp"],
   maxWidth: 2048,
-  maxHeight: 1080
+  maxHeight: 1080,
 };

@@ -11,7 +11,7 @@ const LanguageSetter = () => {
       lang = navigator.language.startsWith("ar") ? "AR" : "EN";
       setCookie("language", lang, {
         path: "/",
-        maxAge: 60 * 60 * 24 * 30
+        maxAge: 60 * 60 * 24 * 30,
       });
     }
   }, []);

@@ -11,7 +11,8 @@ const ShowPart = () => {
       <div
         className={`h-screen bg-${
           themeColors[currentColor ?? "teal"]?.basics
-        }-500 w-2/3 rounded-2xl ml-1/3`}></div>
+        }-500 w-2/3 rounded-2xl ml-1/3`}
+      ></div>
     </div>
   );
 };

@@ -14,7 +14,8 @@ const AccessToken = ({
       {" "}
       <label
         className="block text-gray-700 text-sm font-bold mb-2"
-        htmlFor="accessToken">
+        htmlFor="accessToken"
+      >
         Access Token
       </label>
       <input

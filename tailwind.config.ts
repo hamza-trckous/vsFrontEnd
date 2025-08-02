@@ -5,18 +5,18 @@ export default {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}"
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
 
   safelist: [
     // Patterns
     {
       pattern:
-        /hover:text-(teal|blue|red|green|yellow|purple|pink|gray|black|white|orange)-(100|200|300|400|500|600|700|800|900)/
+        /hover:text-(teal|blue|red|green|yellow|purple|pink|gray|black|white|orange)-(100|200|300|400|500|600|700|800|900)/,
     },
     {
       pattern:
-        /hover:border-(teal|blue|red|green|yellow|purple|pink|gray|black|white|orange)-(100|200|300|400|500|600|700|800|900)/
+        /hover:border-(teal|blue|red|green|yellow|purple|pink|gray|black|white|orange)-(100|200|300|400|500|600|700|800|900)/,
     },
 
     // Standard strings
@@ -34,12 +34,12 @@ export default {
       "rose",
       "orange",
       "fuchsia",
-      "zinc"
+      "zinc",
     ].flatMap((color) => [
       `bg-${color}-200`,
       `bg-${color}-500`,
       `bg-${color}-600`,
-      `bg-${color}-700`
+      `bg-${color}-700`,
     ]),
 
     "bg-black",
@@ -55,7 +55,7 @@ export default {
       "sky",
       "rose",
       "fuchsia",
-      "zinc"
+      "zinc",
     ].flatMap((color) => [`text-${color}-400`, `text-${color}-500`]),
 
     ...[
@@ -72,7 +72,7 @@ export default {
       "rose",
       "orange",
       "fuchsia",
-      "zinc"
+      "zinc",
     ].flatMap((color) => [`from-${color}-400`, `to-${color}-600`]),
 
     ...[
@@ -88,7 +88,7 @@ export default {
       "rose",
       "orange",
       "fuchsia",
-      "zinc"
+      "zinc",
     ].flatMap((color) => [`hover:bg-${color}-700`, `focus:ring-${color}-500`]),
 
     ...[
@@ -105,12 +105,12 @@ export default {
       "rose",
       "orange",
       "fuchsia",
-      "zinc"
+      "zinc",
     ].flatMap((color) =>
       Array.from(
         { length: 9 },
-        (_, n) => `hover:text-${color}-${(n + 1) * 100}`
-      )
+        (_, n) => `hover:text-${color}-${(n + 1) * 100}`,
+      ),
     ),
 
     ...[
@@ -127,22 +127,22 @@ export default {
       "rose",
       "orange",
       "fuchsia",
-      "zinc"
+      "zinc",
     ].flatMap((color) =>
       Array.from(
         { length: 9 },
-        (_, n) => `hover:border-${color}-${(n + 1) * 100}`
-      )
-    )
+        (_, n) => `hover:border-${color}-${(n + 1) * 100}`,
+      ),
+    ),
   ],
   theme: {
     extend: {
       fontFamily: {
         macondo: ["Macondo", "sans-serif"],
-        montserrat: ["Montserrat", "sans-serif"]
+        montserrat: ["Montserrat", "sans-serif"],
       },
       boxShadow: {
-        "white-glow": "0 0 30px white"
+        "white-glow": "0 0 30px white",
       },
       colors: {
         fontColor: "#343045",
@@ -157,9 +157,9 @@ export default {
         muted: "#6c757d",
         white: "#ffffff",
         black: "#000000",
-        gray: colors.gray
-      }
-    }
+        gray: colors.gray,
+      },
+    },
 
     // screens: {
     //   xs: "320px",
@@ -171,5 +171,5 @@ export default {
     // },
   },
 
-  plugins: []
+  plugins: [],
 } satisfies Config;

@@ -6,18 +6,18 @@ const isProd = process.env.NODE_ENV === "production";
 
 const baseConfig: NextConfig = {
   typescript: {
-    ignoreBuildErrors: true
+    ignoreBuildErrors: true,
   },
   eslint: {
-    ignoreDuringBuilds: true
+    ignoreDuringBuilds: true,
   },
   images: {
     domains: [
       "res.cloudinary.com",
       "frontend-babybloom.vercel.app",
-      "via.placeholder.com"
+      "via.placeholder.com",
     ],
-    unoptimized: !isProd
+    unoptimized: !isProd,
   },
   webpack: (config: WebpackConfig) => {
     config.resolve = {
@@ -25,12 +25,12 @@ const baseConfig: NextConfig = {
       fallback: {
         fs: false,
         path: false,
-        stream: false
-      }
+        stream: false,
+      },
     };
     return config;
   },
-  reactStrictMode: true
+  reactStrictMode: true,
 };
 
 // Add production-only options separately
@@ -40,7 +40,7 @@ if (isProd) {
 }
 
 const nextConfig = withBundleAnalyzer({
-  enabled: process.env.ANALYZE === "true"
+  enabled: process.env.ANALYZE === "true",
 })(baseConfig);
 
 export default nextConfig;

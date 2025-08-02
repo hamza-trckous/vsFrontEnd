@@ -10,7 +10,8 @@ function SideBarCategory() {
     <div
       className={`h-screen bg-${
         themeColors[currentColor ?? "teal"]?.basics
-      }-500 w-1/4 mr-10 rounded-2xl absolute `}></div>
+      }-500 w-1/4 mr-10 rounded-2xl absolute `}
+    ></div>
   );
 }
 

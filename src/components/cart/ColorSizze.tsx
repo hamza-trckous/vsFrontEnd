@@ -14,7 +14,8 @@ export const SizesOrColor = ({
         {item.map((size, index) => (
           <span
             key={index}
-            className="whitespace-nowrap border rounded-lg px-2 py-1 bg-gray-200 text-gray-700 text-sm ml-2 mb-2">
+            className="whitespace-nowrap border rounded-lg px-2 py-1 bg-gray-200 text-gray-700 text-sm ml-2 mb-2"
+          >
             {size}
           </span>
         ))}

@@ -20,7 +20,8 @@ const DiscountPrice: React.FC<DiscountPriceProps> = ({
     <div dir={lang === "AR" ? "rtl" : "ltr"} className="mb-4">
       <label
         className="block text-gray-700 text-sm font-bold m-2"
-        htmlFor="discountedPrice">
+        htmlFor="discountedPrice"
+      >
         {dataOfLang?.addingProduct.priceAfterDiscount || "السعر بعد التخفيض "}
       </label>
       <input

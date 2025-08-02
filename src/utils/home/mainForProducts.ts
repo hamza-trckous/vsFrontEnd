@@ -8,7 +8,7 @@ export const fetchProducts = async (
   setTotalProducts: React.Dispatch<React.SetStateAction<number>>,
   setLoading: React.Dispatch<React.SetStateAction<boolean>>,
   setShowSideBar: React.Dispatch<React.SetStateAction<boolean>>,
-  products: Product[]
+  products: Product[],
 ) => {
   try {
     const fetchedProductsResponse = await getAllProducts({ page, limit });
@@ -21,8 +21,8 @@ export const fetchProducts = async (
     setProducts((prevProducts) => [
       ...prevProducts,
       ...fetchedProducts.filter(
-        (product) => !prevProducts.some((p) => p._id === product._id)
-      )
+        (product) => !prevProducts.some((p) => p._id === product._id),
+      ),
     ]);
     if (products.length > 0) {
       setTimeout(() => {

@@ -16,10 +16,10 @@ export const metadata: Metadata = {
         url: "https://vs-ebon.vercel.app/OpenGraph/Policies.png",
         width: 1200,
         height: 630,
-        alt: "MyStore Policies"
-      }
-    ]
-  }
+        alt: "MyStore Policies",
+      },
+    ],
+  },
 };
 const Page = () => {
   return (

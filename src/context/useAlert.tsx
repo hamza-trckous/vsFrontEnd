@@ -26,7 +26,7 @@ export const AlertProvider: React.FC<{ children: React.ReactNode }> = ({
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const [withConfirm, setWithConfirm] = useState<boolean>(false);
   const [alertType, setAlertType] = React.useState<"success" | "error">(
-    "success"
+    "success",
   );
 
   return (
@@ -38,7 +38,8 @@ export const AlertProvider: React.FC<{ children: React.ReactNode }> = ({
         setAlertType,
         withConfirm,
         setWithConfirm,
-      }}>
+      }}
+    >
       {children}
     </AlertContext.Provider>
   );

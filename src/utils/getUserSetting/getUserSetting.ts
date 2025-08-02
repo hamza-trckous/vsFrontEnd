@@ -18,7 +18,7 @@ export async function getUserSettings() {
   if (token) {
     try {
       const authRes = await axios.get(`${url}/api/check-auth`, {
-        headers
+        headers,
       });
 
       isLoggedIn = authRes.data?.isAuthenticated ?? false;
@@ -36,6 +36,6 @@ export async function getUserSettings() {
     isLoggedIn,
     isAdmin,
     LanguageData,
-    language
+    language,
   };
 }

@@ -15,7 +15,8 @@ const BtnSubmit = ({ BtnName }: { BtnName: string }) => {
         }-500 text-white px-3 py-1 rounded-lg hover:bg-${
           themeColors[currentColor ?? "teal"]?.basics
         }-600 transition-colors duration-200 text-xs`}
-        data-tribute="true">
+        data-tribute="true"
+      >
         {BtnName}
       </button>
     </div>

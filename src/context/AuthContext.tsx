@@ -6,14 +6,14 @@ import React, {
   useState,
   useContext,
   ReactNode,
-  useEffect
+  useEffect,
 } from "react";
 import {
   loginUser,
   logoutUser,
   checkAuth,
   CheckAuthResponse,
-  fetchCsrfToken
+  fetchCsrfToken,
 } from "@/api/auth";
 import axios from "axios";
 import { getAllProducts, getAllProductsNormal } from "@/api/product";
@@ -33,7 +33,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
-  children
+  children,
 }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -150,8 +150,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         logout,
         setLoading,
         setIsLoggedIn,
-        cheking
-      }}>
+        cheking,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

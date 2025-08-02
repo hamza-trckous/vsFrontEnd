@@ -15,10 +15,10 @@ export const metadata: Metadata = {
         url: "https://vs-ebon.vercel.app/about.png",
         width: 1200,
         height: 630,
-        alt: "About Baby Bloom"
-      }
-    ]
-  }
+        alt: "About Baby Bloom",
+      },
+    ],
+  },
 };
 const AboutPage = () => {
   return (

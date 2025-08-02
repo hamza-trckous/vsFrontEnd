@@ -60,13 +60,13 @@ const ShowProduct = ({ product }: { product: NewProduct }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const handleNextImage = () => {
     setCurrentImageIndex((prevIndex) =>
-      prevIndex === product.images.length - 1 ? 0 : prevIndex + 1
+      prevIndex === product.images.length - 1 ? 0 : prevIndex + 1,
     );
   };
 
   const handlePrevImage = () => {
     setCurrentImageIndex((prevIndex) =>
-      prevIndex === 0 ? product.images.length - 1 : prevIndex - 1
+      prevIndex === 0 ? product.images.length - 1 : prevIndex - 1,
     );
   };
 
@@ -79,7 +79,8 @@ const ShowProduct = ({ product }: { product: NewProduct }) => {
       <div className="md:w-1/2 p-4">
         <h2
           className="text-lg font-bold"
-          style={{ fontFamily: "Cairo, sans-serif" }}>
+          style={{ fontFamily: "Cairo, sans-serif" }}
+        >
           {product.name}
         </h2>
         <div className="flex items-center justify-start mt-2">
@@ -89,7 +90,8 @@ const ShowProduct = ({ product }: { product: NewProduct }) => {
           <span
             className={`text-${
               themeColors[currentColor ?? "teal"]?.basics
-            }-500 font-bold text-md`}>
+            }-500 font-bold text-md`}
+          >
             {product.discountedPrice ?? product.price} ${" "}
             {/* Display discountedPrice or price */}
           </span>
@@ -108,21 +110,24 @@ const ShowProduct = ({ product }: { product: NewProduct }) => {
         </div>
         <p
           className="mt-4 text-gray-700 text-sm"
-          style={{ fontFamily: "Cairo, sans-serif" }}>
+          style={{ fontFamily: "Cairo, sans-serif" }}
+        >
           {product.description}
         </p>
         {product.colors && product.colors.length > 0 && (
           <div className="mt-4 text-right">
             <h3
               className="text-sm font-bold"
-              style={{ fontFamily: "Cairo, sans-serif" }}>
+              style={{ fontFamily: "Cairo, sans-serif" }}
+            >
               الألوان:
             </h3>
             <div className="flex flex-wrap justify-start">
               {product.colors.map((color, index) => (
                 <span
                   key={index}
-                  className="border rounded-lg px-2 py-1 bg-gray-200 text-gray-700 text-sm ml-2 mb-2">
+                  className="border rounded-lg px-2 py-1 bg-gray-200 text-gray-700 text-sm ml-2 mb-2"
+                >
                   {color}
                 </span>
               ))}
@@ -133,14 +138,16 @@ const ShowProduct = ({ product }: { product: NewProduct }) => {
           <div className="mt-4 text-right">
             <h3
               className="text-sm font-bold"
-              style={{ fontFamily: "Cairo, sans-serif" }}>
+              style={{ fontFamily: "Cairo, sans-serif" }}
+            >
               الأحجام:
             </h3>
             <div className="flex content-start justify-start flex-wrap  w-full">
               {product.sizes.map((size, index) => (
                 <span
                   key={index}
-                  className="flex  justify-end border rounded-lg px-2 py-1 bg-gray-200 text-gray-700 text-sm ml-2 mb-2 ">
+                  className="flex  justify-end border rounded-lg px-2 py-1 bg-gray-200 text-gray-700 text-sm ml-2 mb-2 "
+                >
                   {size}
                 </span>
               ))}
@@ -150,14 +157,16 @@ const ShowProduct = ({ product }: { product: NewProduct }) => {
         <div className="mt-4 text-right">
           <h3
             className="text-sm font-bold"
-            style={{ fontFamily: "Cairo, sans-serif" }}>
+            style={{ fontFamily: "Cairo, sans-serif" }}
+          >
             مراجعات:
           </h3>
           <div className="flex flex-col space-y-2">
             {product.reviews.map((review, index) => (
               <div
                 key={index}
-                className="border rounded-lg p-2 bg-gray-100 text-gray-700 text-sm">
+                className="border rounded-lg p-2 bg-gray-100 text-gray-700 text-sm"
+              >
                 {review.text}
               </div>
             ))}
@@ -180,12 +189,14 @@ const ShowProduct = ({ product }: { product: NewProduct }) => {
             <>
               <button
                 className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-gray-800 text-white rounded-full p-1"
-                onClick={handlePrevImage}>
+                onClick={handlePrevImage}
+              >
                 &lt;
               </button>
               <button
                 className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-gray-800 text-white rounded-full p-1"
-                onClick={handleNextImage}>
+                onClick={handleNextImage}
+              >
                 &gt;
               </button>
             </>
@@ -211,7 +222,7 @@ const ShowProduct = ({ product }: { product: NewProduct }) => {
                   onClick={() => handleImageClick(index)}
                   loading="lazy"
                 />
-              )
+              ),
           )}
         </div>
       </div>

@@ -13,7 +13,7 @@ const SelectCategory = ({
   dataOfLang,
   register,
   errors,
-  setSelectCategory
+  setSelectCategory,
 }: {
   lang: "AR" | "EN" | undefined;
   dataOfLang: LanguageConfig | undefined;
@@ -31,10 +31,10 @@ const SelectCategory = ({
     data: categories,
     error,
     isLoading,
-    isError
+    isError,
   } = useQuery({
     queryKey: ["categories"],
-    queryFn: getCategories
+    queryFn: getCategories,
   });
 
   if (isLoading) {
@@ -51,7 +51,8 @@ const SelectCategory = ({
     <div className="flex flex-col gap-2">
       <label
         htmlFor="category"
-        className="block text-gray-700 text-sm font-bold m-2">
+        className="block text-gray-700 text-sm font-bold m-2"
+      >
         {dataOfLang?.addingProduct.principalCategory || "التصنيف الرئيسي"}
       </label>
       <select
@@ -64,16 +65,17 @@ const SelectCategory = ({
           }`,
           onChange: (e) => {
             const category = categories?.find(
-              (category: Category) => category._id === e.target.value
+              (category: Category) => category._id === e.target.value,
             );
             setSelectCategory({
               id: category?._id || "",
-              name: category?.name || ""
+              name: category?.name || "",
             });
-          }
+          },
         })}
         id="category"
-        className="border border-gray-300 rounded-md p-2">
+        className="border border-gray-300 rounded-md p-2"
+      >
         <option value="" disabled>
           Principal Category
         </option>

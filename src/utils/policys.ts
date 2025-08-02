@@ -11,14 +11,14 @@ export const handleOnChange = (
   editingPolicy: Policy | null,
   setNewPolicy: React.Dispatch<React.SetStateAction<Policy>> | undefined,
   newPolicy: Policy | undefined,
-  item: Policy["title"] | Policy["content"]
+  item: Policy["title"] | Policy["content"],
 ) => {
   if (forEditing) {
     // When forEditing is true, we should update editingPolicy
     if (setEditingPolicy && editingPolicy) {
       setEditingPolicy({
         ...editingPolicy,
-        [item]: e.target.value
+        [item]: e.target.value,
       });
     }
   } else {
@@ -26,7 +26,7 @@ export const handleOnChange = (
     if (setNewPolicy && newPolicy) {
       setNewPolicy({
         ...newPolicy,
-        [item]: e.target.value
+        [item]: e.target.value,
       });
     }
   }
@@ -36,7 +36,7 @@ export const getValue = ({
   forEditing,
   newPolicy,
   editingPolicy,
-  item
+  item,
 }: {
   forEditing: boolean;
   newPolicy: Policy;
@@ -56,7 +56,7 @@ export const handleCreatePolicy = async ({
   newPolicy,
   setAlertMessage,
   setAlertType,
-  fetchPolicies
+  fetchPolicies,
 }: {
   newPolicy: Policy;
   setAlertMessage: (message: string) => void;
@@ -92,7 +92,7 @@ export const handleUpdate = async (
   setAlertMessage: (message: string) => void,
   setAlertType: (type: "success" | "error") => void,
   fetchPolicies: () => Promise<void>,
-  setEditingPolicy: React.Dispatch<React.SetStateAction<Policy | null>>
+  setEditingPolicy: React.Dispatch<React.SetStateAction<Policy | null>>,
 ) => {
   try {
     if (!editingPolicy?.content || !editingPolicy?.title) {
@@ -118,7 +118,7 @@ export const handleDelete = async (
   id: string,
   setAlertMessage: (message: string) => void,
   setAlertType: (type: "success" | "error") => void,
-  fetchPolicies: () => Promise<void>
+  fetchPolicies: () => Promise<void>,
 ) => {
   try {
     await deletePolicy(id);

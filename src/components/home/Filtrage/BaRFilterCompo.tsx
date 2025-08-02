@@ -4,7 +4,7 @@ import React, { useState } from "react";
 interface Props {
   onFilterChange: (
     key: string,
-    value: string | string[] | number | number[] | undefined
+    value: string | string[] | number | number[] | undefined,
   ) => void;
   handlFilter: () => void;
   filters: Record<string, unknown>;
@@ -22,7 +22,7 @@ const BaRFilterCompo = ({ onFilterChange, handlFilter, filters }: Props) => {
     key: string,
     value: string,
     selectedValues: string[],
-    setSelectedValues: React.Dispatch<React.SetStateAction<string[]>>
+    setSelectedValues: React.Dispatch<React.SetStateAction<string[]>>,
   ) => {
     const updated = selectedValues.includes(value)
       ? selectedValues.filter((v) => v !== value)
@@ -40,7 +40,8 @@ const BaRFilterCompo = ({ onFilterChange, handlFilter, filters }: Props) => {
         {["yes", "no"].map((value) => (
           <label
             key={value}
-            className="flex items-center gap-2 mb-1 capitalize">
+            className="flex items-center gap-2 mb-1 capitalize"
+          >
             <input
               type="checkbox"
               className="accent-teal-600"
@@ -50,7 +51,7 @@ const BaRFilterCompo = ({ onFilterChange, handlFilter, filters }: Props) => {
                   "withShipping",
                   value,
                   selectedShipping,
-                  setSelectedShipping
+                  setSelectedShipping,
                 )
               }
             />
@@ -68,13 +69,13 @@ const BaRFilterCompo = ({ onFilterChange, handlFilter, filters }: Props) => {
               ?.filter(
                 (cat) =>
                   selectedCategories.length === 0 ||
-                  selectedCategories.includes(cat.name)
+                  selectedCategories.includes(cat.name),
               )
               .flatMap((cat) =>
-                cat.products.map((prod) => prod.rating?.toString())
+                cat.products.map((prod) => prod.rating?.toString()),
               )
-              .filter(Boolean)
-          )
+              .filter(Boolean),
+          ),
         )
           .sort((a, b) => Number(b) - Number(a)) // optional: sort descending
           .map((value) => (
@@ -88,7 +89,7 @@ const BaRFilterCompo = ({ onFilterChange, handlFilter, filters }: Props) => {
                     "rating",
                     value,
                     selectedRatings,
-                    setSelectedRatings
+                    setSelectedRatings,
                   )
                 }
               />
@@ -108,7 +109,7 @@ const BaRFilterCompo = ({ onFilterChange, handlFilter, filters }: Props) => {
             onChange={(e) =>
               onFilterChange(
                 "minPrice",
-                e.target.value === "" ? undefined : Number(e.target.value)
+                e.target.value === "" ? undefined : Number(e.target.value),
               )
             }
           />
@@ -119,7 +120,7 @@ const BaRFilterCompo = ({ onFilterChange, handlFilter, filters }: Props) => {
             onChange={(e) =>
               onFilterChange(
                 "maxPrice",
-                e.target.value === "" ? undefined : Number(e.target.value)
+                e.target.value === "" ? undefined : Number(e.target.value),
               )
             }
           />
@@ -135,15 +136,16 @@ const BaRFilterCompo = ({ onFilterChange, handlFilter, filters }: Props) => {
               ?.filter(
                 (cat) =>
                   selectedCategories.length === 0 ||
-                  selectedCategories.includes(cat.name)
+                  selectedCategories.includes(cat.name),
               )
               .flatMap((cat) => cat.products.flatMap((prod) => prod.colors))
-              .map((color) => color.toLowerCase())
-          )
+              .map((color) => color.toLowerCase()),
+          ),
         ].map((color) => (
           <label
             key={color}
-            className="flex items-center gap-2 mb-1 capitalize">
+            className="flex items-center gap-2 mb-1 capitalize"
+          >
             <input
               type="checkbox"
               className="accent-indigo-500"
@@ -153,7 +155,7 @@ const BaRFilterCompo = ({ onFilterChange, handlFilter, filters }: Props) => {
                   "color",
                   color,
                   selectedColors,
-                  setSelectedColors
+                  setSelectedColors,
                 )
               }
             />
@@ -171,13 +173,13 @@ const BaRFilterCompo = ({ onFilterChange, handlFilter, filters }: Props) => {
               ?.filter(
                 (cat) =>
                   selectedCategories.length === 0 ||
-                  selectedCategories.includes(cat.name)
+                  selectedCategories.includes(cat.name),
               )
               .flatMap((cat) =>
-                cat.products.flatMap((prod) => prod.sizes || [])
+                cat.products.flatMap((prod) => prod.sizes || []),
               )
-              .map((size) => size.toUpperCase())
-          )
+              .map((size) => size.toUpperCase()),
+          ),
         )
           .sort()
           .map((size) => (
@@ -191,7 +193,7 @@ const BaRFilterCompo = ({ onFilterChange, handlFilter, filters }: Props) => {
                     "size",
                     size,
                     selectedSizes,
-                    setSelectedSizes
+                    setSelectedSizes,
                   )
                 }
               />
@@ -214,7 +216,7 @@ const BaRFilterCompo = ({ onFilterChange, handlFilter, filters }: Props) => {
                   "category",
                   cat.name,
                   selectedCategories,
-                  setSelectedCategories
+                  setSelectedCategories,
                 )
               }
             />
@@ -225,7 +227,8 @@ const BaRFilterCompo = ({ onFilterChange, handlFilter, filters }: Props) => {
       <button
         disabled={Object.keys(filters).length === 0}
         onClick={() => handlFilter()}
-        className="bg-gray-400 p-[0.5rem] rounded-xl">
+        className="bg-gray-400 p-[0.5rem] rounded-xl"
+      >
         chekProducts{" "}
       </button>
     </div>

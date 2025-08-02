@@ -70,7 +70,7 @@ const FormOrder = ({ product }: { product: NewProduct }) => {
     selectedWilaya,
     shippingPrices,
     quantity,
-    ShippingMethode
+    ShippingMethode,
   ]);
 
   useEffect(() => {
@@ -106,7 +106,7 @@ const FormOrder = ({ product }: { product: NewProduct }) => {
       const { eventData } = HashedInformation({
         data,
         userIpAddress,
-        totalAmount
+        totalAmount,
       });
       await trackConversion(eventData);
     } catch (error) {
@@ -114,7 +114,7 @@ const FormOrder = ({ product }: { product: NewProduct }) => {
       // Do not show token-related errors to the customer
       if (isAdmin) {
         setAlertMessage(
-          "تم تقديم الطلب.ولكن يوجد مشكلة و بالظبط في اعدادات فايسبك بيكسل ."
+          "تم تقديم الطلب.ولكن يوجد مشكلة و بالظبط في اعدادات فايسبك بيكسل .",
         );
         setAlertType("error");
       }
@@ -134,7 +134,8 @@ const FormOrder = ({ product }: { product: NewProduct }) => {
     <form
       dir={lang === "AR" ? "rtl" : "ltr"}
       onSubmit={handleSubmit(onSubmit)}
-      className="mt-4 p-4 flex flex-col  w-full">
+      className="mt-4 p-4 flex flex-col  w-full"
+    >
       <Title dataOflang={dataOflang} />
       <div className="grid grid-cols-2 md:grid-cols-2 gap-4 mb-2 items-center justify-center content-center justify-items-center ">
         <Name dataOflang={dataOflang} register={register} />
@@ -255,7 +256,7 @@ export default FormOrder;
 const Quantité = ({
   quantity,
   setQuantity,
-  dataOflang
+  dataOflang,
 }: {
   quantity: number;
   setQuantity: React.Dispatch<React.SetStateAction<number>>;
@@ -282,14 +283,16 @@ const Quantité = ({
       <button
         type="button"
         onClick={handleDecrement}
-        className="bg-blue-200 text-black border px-4 py-1 rounded-lg">
+        className="bg-blue-200 text-black border px-4 py-1 rounded-lg"
+      >
         -
       </button>
       <span className="mx-4">{quantity}</span>
       <button
         type="button"
         onClick={handleIncrement}
-        className="bg-green-200 text-black border px-4 py-1 rounded-lg">
+        className="bg-green-200 text-black border px-4 py-1 rounded-lg"
+      >
         +
       </button>
     </div>
@@ -299,7 +302,8 @@ const Title = ({ dataOflang }: { dataOflang: LanguageConfig | undefined }) => {
   return (
     <h3
       className="text-lg font-bold m-2  "
-      style={{ fontFamily: "Cairo, sans-serif" }}>
+      style={{ fontFamily: "Cairo, sans-serif" }}
+    >
       {dataOflang?.orderForm?.form_title || " طلب المنتج"}
     </h3>
   );
@@ -308,7 +312,7 @@ const ButtonOfSendForm = ({
   handleSubmit,
   isAnimating,
   onSubmit,
-  dataOflang
+  dataOflang,
 }: {
   handleSubmit: (onSubmit: SubmitHandler<OrderDetails>) => void;
   isAnimating: boolean;
@@ -321,7 +325,8 @@ const ButtonOfSendForm = ({
       onClick={() => handleSubmit(onSubmit)} // Add click handler
       className={`mt-4 text-white px-4 py-2 rounded-lg transition-colors duration-200 ${
         isAnimating ? "animate-pulse bg-orange-500" : "bg-teal-500"
-      } hover:bg-teal-600`}>
+      } hover:bg-teal-600`}
+    >
       {dataOflang?.orderForm?.sendorder || "إرسال الطلب"}
     </button>
   );
@@ -331,7 +336,7 @@ const TotalPrice = ({
   calculateTotalAmount,
   selectedWilayaStyle,
   product,
-  dataOflang
+  dataOflang,
 }: {
   calculateTotalAmount: () => number;
   selectedWilayaStyle: string;
@@ -350,9 +355,9 @@ const TotalPrice = ({
           selectedWilayaStyle
             ? "bg-green-100"
             : product.withShipping ===
-              `${dataOflang?.addingProduct.yes || "نعم"}`
-            ? "bg-blue-100"
-            : "bg-green-100"
+                `${dataOflang?.addingProduct.yes || "نعم"}`
+              ? "bg-blue-100"
+              : "bg-green-100"
         }`}
       />
     </div>
@@ -360,7 +365,7 @@ const TotalPrice = ({
 };
 const Name = ({
   register,
-  dataOflang
+  dataOflang,
 }: {
   register: ReturnType<typeof useForm<OrderDetails>>["register"];
   dataOflang: LanguageConfig | undefined;
@@ -377,7 +382,7 @@ const Name = ({
 
 const Phone = ({
   register,
-  dataOflang
+  dataOflang,
 }: {
   register: ReturnType<typeof useForm<OrderDetails>>["register"];
   dataOflang: LanguageConfig | undefined;
@@ -394,7 +399,7 @@ const Phone = ({
 
 const Adrees = ({
   register,
-  dataOflang
+  dataOflang,
 }: {
   register: ReturnType<typeof useForm<OrderDetails>>["register"];
   dataOflang: LanguageConfig | undefined;
@@ -414,7 +419,7 @@ const SelectWilaya = ({
   selectedWilayaStyle,
   setValue,
   setSelectedWilayaStyle,
-  dataOflang
+  dataOflang,
 }: {
   register: ReturnType<typeof useForm<OrderDetails>>["register"];
   selectedWilayaStyle: string;
@@ -433,7 +438,8 @@ const SelectWilaya = ({
         setValue("wilaya", value); // Update the form value
         setSelectedWilayaStyle(value);
       }}
-      value={selectedWilayaStyle}>
+      value={selectedWilayaStyle}
+    >
       <option value="">
         {" "}
         {dataOflang?.orderForm?.chooseCity || " اختر البلدية"}{" "}

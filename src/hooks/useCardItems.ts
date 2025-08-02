@@ -18,21 +18,21 @@ export const UseCardItems = () => {
     useQuery<UseCardItemsProps>({
       queryKey: ["cart"],
       queryFn: getCartServerAction,
-      select: (data: UseCardItemsProps) => data
+      select: (data: UseCardItemsProps) => data,
     });
 
   // Mutation for removing items from the cart
   const {
     mutateAsync: removeItem,
     status: mutationStatus,
-    isError: isMutationError
+    isError: isMutationError,
   } = useMutation({
     mutationKey: ["removeCartItem"],
     mutationFn: (productId: string) => handleRemoveCartItem(productId),
     onSettled: () => {
       // Invalidate the cart query after mutation is completed
       queryClient.invalidateQueries({ queryKey: ["cart"] });
-    }
+    },
   });
 
   // Handle success or error states manually
@@ -59,6 +59,6 @@ export const UseCardItems = () => {
     isLoading,
     handleRemoveItem: removeItem,
     isRemoving: mutationStatus === "pending", // this can be used as a loading indicator
-    error
+    error,
   };
 };

@@ -48,13 +48,13 @@ const PreviewProduct: React.FC<PreviewProductProps> = ({
 
   const handleNextImage = () => {
     setCurrentImageIndex((prevIndex) =>
-      prevIndex === currentProduct.images.length - 1 ? 0 : prevIndex + 1
+      prevIndex === currentProduct.images.length - 1 ? 0 : prevIndex + 1,
     );
   };
 
   const handlePrevImage = () => {
     setCurrentImageIndex((prevIndex) =>
-      prevIndex === 0 ? currentProduct.images.length - 1 : prevIndex - 1
+      prevIndex === 0 ? currentProduct.images.length - 1 : prevIndex - 1,
     );
   };
   const handleImageClick = (index: number) => {
@@ -100,16 +100,19 @@ const PreviewProduct: React.FC<PreviewProductProps> = ({
     <div
       dir={lang === "AR" ? "rtl" : "ltr"}
       className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50   "
-      onClick={handleClickOutside}>
+      onClick={handleClickOutside}
+    >
       <div
         className={`p-4 rounded-lg shadow-lg w-11/12 md:w-3/5 relative overflow-y-auto max-h-full bg-${
           themeColors[currentColor ?? "teal"]?.basics
-        }-50`}>
+        }-50`}
+      >
         <button
           className={`absolute top-2 right-2 text-gray-600 hover:text-${
             themeColors[currentColor ?? "teal"]?.basics
           }-500`}
-          onClick={onClose}>
+          onClick={onClose}
+        >
           <IoMdCloseCircle className="scale-[200%]" />
         </button>
         <div className="border rounded-lg shadow-md p-1 bg-white w-full m-1 overflow-y-auto max-h-screen scrollbar-hide">
@@ -129,7 +132,8 @@ const PreviewProduct: React.FC<PreviewProductProps> = ({
               <>
                 <button
                   className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-gray-800 text-white rounded-full p-1"
-                  onClick={handlePrevImage}>
+                  onClick={handlePrevImage}
+                >
                   <FaArrowCircleLeft
                     className={`text-${
                       themeColors[currentColor ?? "teal"]?.basics
@@ -140,7 +144,8 @@ const PreviewProduct: React.FC<PreviewProductProps> = ({
                 </button>
                 <button
                   className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-gray-800 text-white rounded-full p-1"
-                  onClick={handleNextImage}>
+                  onClick={handleNextImage}
+                >
                   <FaArrowCircleRight
                     className={`text-${
                       themeColors[currentColor ?? "teal"]?.basics
@@ -174,17 +179,20 @@ const PreviewProduct: React.FC<PreviewProductProps> = ({
           <div className=" p-2">
             <h2
               className="text-md font-bold"
-              style={{ fontFamily: "Cairo, sans-serif" }}>
+              style={{ fontFamily: "Cairo, sans-serif" }}
+            >
               {currentProduct.name}
             </h2>
             <div className="flex items-center  mt-2">
               <span className="text-gray-600 line-through mr-2 text-md">
-                {currentProduct.price} {dataOflang?.addingProduct?.da || " دج"}{" "}
+                {currentProduct.price}{" "}
+                {dataOflang?.addingProduct?.da || " دج"}{" "}
               </span>
               <span
                 className={`text-${
                   themeColors[currentColor ?? "teal"]?.basics
-                }-500 font-bold text-md`}>
+                }-500 font-bold text-md`}
+              >
                 {currentProduct.price} {dataOflang?.addingProduct?.da || " دج"}
               </span>
             </div>
@@ -203,14 +211,16 @@ const PreviewProduct: React.FC<PreviewProductProps> = ({
             </div>
             <p
               className="mt-4 text-gray-700 text-lg"
-              style={{ fontFamily: "Cairo, sans-serif" }}>
+              style={{ fontFamily: "Cairo, sans-serif" }}
+            >
               {currentProduct.description}
             </p>
             {currentProduct.colors && currentProduct.colors.length > 0 && (
               <div className="mt-4 ">
                 <h3
                   className="text-sm font-bold"
-                  style={{ fontFamily: "Cairo, sans-serif" }}>
+                  style={{ fontFamily: "Cairo, sans-serif" }}
+                >
                   {currentProduct.price}{" "}
                   {dataOflang?.addingProduct?.color || "الألوان:"}
                 </h3>
@@ -218,7 +228,8 @@ const PreviewProduct: React.FC<PreviewProductProps> = ({
                   {currentProduct.colors.map((color, index) => (
                     <span
                       key={index}
-                      className="border rounded-lg px-2 py-1 bg-gray-200 text-gray-700 text-sm mr-2 mb-2">
+                      className="border rounded-lg px-2 py-1 bg-gray-200 text-gray-700 text-sm mr-2 mb-2"
+                    >
                       {color}
                     </span>
                   ))}
@@ -229,14 +240,16 @@ const PreviewProduct: React.FC<PreviewProductProps> = ({
               <div className="mt-4 ">
                 <h3
                   className="text-sm font-bold"
-                  style={{ fontFamily: "Cairo, sans-serif" }}>
+                  style={{ fontFamily: "Cairo, sans-serif" }}
+                >
                   {dataOflang?.addingProduct?.sizes || " الأحجام:"}
                 </h3>
                 <div className="flex flex-wrap ">
                   {currentProduct.sizes.map((size, index) => (
                     <span
                       key={index}
-                      className="border rounded-lg px-2 py-1 bg-gray-200 text-gray-700 text-sm mr-2 mb-2">
+                      className="border rounded-lg px-2 py-1 bg-gray-200 text-gray-700 text-sm mr-2 mb-2"
+                    >
                       {size}
                     </span>
                   ))}
@@ -246,14 +259,16 @@ const PreviewProduct: React.FC<PreviewProductProps> = ({
             <div className="mt-4 ">
               <h3
                 className="text-sm font-bold"
-                style={{ fontFamily: "Cairo, sans-serif" }}>
+                style={{ fontFamily: "Cairo, sans-serif" }}
+              >
                 {dataOflang?.addingProduct?.reviews || "مراجعات:"}
               </h3>
               <div className="flex flex-col space-y-2">
                 {currentProduct.reviews.map((review, index) => (
                   <div
                     key={index}
-                    className="border rounded-lg p-2 bg-gray-100 text-gray-700 text-sm">
+                    className="border rounded-lg p-2 bg-gray-100 text-gray-700 text-sm"
+                  >
                     {typeof review === "string"
                       ? review
                       : JSON.stringify(review.text).slice(1, -1)}
@@ -270,13 +285,15 @@ const PreviewProduct: React.FC<PreviewProductProps> = ({
                 }-500 text-white px-3 py-1 rounded-lg hover:bg-${
                   themeColors[currentColor ?? "teal"]?.basics
                 }-600 transition-colors duration-200 text-sm`}
-                onClick={handleOrderClick}>
+                onClick={handleOrderClick}
+              >
                 {dataOflang?.CardPreview.pageOfProduct || "صفحة المنتج"}
               </button>
 
               <button
                 className="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600 transition-colors duration-200 text-sm"
-                onClick={handleAddToCart}>
+                onClick={handleAddToCart}
+              >
                 {dataOflang?.CardPreview?.AddToCard || "أضف إلى السلة"}
               </button>
             </div>

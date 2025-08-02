@@ -6,7 +6,7 @@ import {
   FieldErrors,
   UseFormRegister,
   UseFormSetValue,
-  UseFormUnregister
+  UseFormUnregister,
 } from "react-hook-form";
 import ButtonSecondary from "./ButtonSecondary";
 
@@ -17,7 +17,7 @@ const Reviews = ({
   errors,
   setValue,
   unregister,
-  initialReviews = [] // Ensure initialReviews is always an array
+  initialReviews = [], // Ensure initialReviews is always an array
 }: {
   dataOflang: LanguageConfig | undefined;
   lang: "AR" | "EN" | undefined;
@@ -58,7 +58,7 @@ const Reviews = ({
     });
   const handleReviewImageUpload = async (
     index: number,
-    files: FileList | null
+    files: FileList | null,
   ) => {
     if (files) {
       const base64Images = await Promise.all(Array.from(files).map(toBase64));
@@ -89,8 +89,9 @@ const Reviews = ({
             data-tribute="true"
             className="p-2 border border-gray-300 rounded w-full text-right"
             {...register(`reviews.${index}.text`, {
-              onChange: (e) => handleReviewTextChange(index, e.target.value)
-            })}></textarea>
+              onChange: (e) => handleReviewTextChange(index, e.target.value),
+            })}
+          ></textarea>
           <input
             type="file"
             accept="image/*"
@@ -118,7 +119,8 @@ const Reviews = ({
           <button
             type="button"
             onClick={() => removeReview(index)}
-            className="m-2 bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 text-xs">
+            className="m-2 bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 text-xs"
+          >
             {dataOflang?.addingProduct.deletereviews || "إزالة المراجعة"}
           </button>
         </div>

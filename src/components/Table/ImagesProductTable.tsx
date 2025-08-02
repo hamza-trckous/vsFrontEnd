@@ -57,7 +57,8 @@ const ImagesProductTable = ({ items, forproduct }: Props) => {
         {forproduct && items.images.length > 1 && (
           <button
             onClick={() => toggleShowMoreImages(items._id)}
-            className="absolute top-0 right-0 bg-blue-500 text-white px-1 py-0.5 rounded-full hover:bg-blue-600 transition-colors duration-200 text-xs">
+            className="absolute top-0 right-0 bg-blue-500 text-white px-1 py-0.5 rounded-full hover:bg-blue-600 transition-colors duration-200 text-xs"
+          >
             {showMoreImages[items._id] ? "−" : "+"}
           </button>
         )}
@@ -76,7 +77,7 @@ const ImagesProductTable = ({ items, forproduct }: Props) => {
                     alt={`${items.name} ${imgIndex + 2}`}
                     className="w-12 h-12 rounded mt-1"
                   />
-                )
+                ),
             )}
       </div>
     </td>

@@ -43,7 +43,7 @@ export const injectFacebookPixel = (id: string) => {
         version?: string;
       },
       t?: HTMLScriptElement,
-      s?: HTMLScriptElement
+      s?: HTMLScriptElement,
     ) {
       if (window.fbq) return;
       n = f.fbq = function (...args: unknown[]) {
@@ -71,7 +71,7 @@ export const injectFacebookPixel = (id: string) => {
       window,
       document,
       "script",
-      "https://connect.facebook.net/en_US/fbevents.js"
+      "https://connect.facebook.net/en_US/fbevents.js",
     );
 
     if (window.fbq) {

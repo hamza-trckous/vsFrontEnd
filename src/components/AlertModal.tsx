@@ -16,7 +16,7 @@ const AlertModal: React.FC<AlertModalProps> = ({
   type,
   onClose,
   withConfirm,
-  onConfirm
+  onConfirm,
 }) => {
   const { currentColor } = useTheme();
 
@@ -34,17 +34,20 @@ const AlertModal: React.FC<AlertModalProps> = ({
           className={`absolute top-2 right-2 text-gray-600 hover:text-${
             themeColors[currentColor ?? "teal"]?.basics
           }-500`}
-          onClick={onClose}>
+          onClick={onClose}
+        >
           &times;
         </button>
         <div
           className={`p-4 rounded-lg ${
             type === "success" ? "bg-green-100" : "bg-red-100"
-          }`}>
+          }`}
+        >
           <p
             className={`text-lg break-words ${
               type === "success" ? "text-green-700" : "text-red-700"
-            }`}>
+            }`}
+          >
             {message}
           </p>
         </div>
@@ -52,13 +55,15 @@ const AlertModal: React.FC<AlertModalProps> = ({
           <div className="mt-4">
             <button
               className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg m-2"
-              onClick={onClose}>
+              onClick={onClose}
+            >
               Cancel
             </button>
 
             <button
               className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg"
-              onClick={onConfirm}>
+              onClick={onConfirm}
+            >
               Confirm
             </button>
           </div>

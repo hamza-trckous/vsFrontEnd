@@ -32,12 +32,13 @@ const Buttonupdat = ({
           setAlertMessage,
           setAlertType,
           fetchPolicies,
-          setEditingPolicy
+          setEditingPolicy,
         )
       }
       className={`bg-${
         themeColors[currentColor ?? "teal"]?.basics
-      }-500 text-white px-4 py-2 rounded-lg w-full mb-2`}>
+      }-500 text-white px-4 py-2 rounded-lg w-full mb-2`}
+    >
       تحديث
     </button>
   );

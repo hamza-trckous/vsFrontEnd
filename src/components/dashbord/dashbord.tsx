@@ -46,7 +46,7 @@ const Dashboard = () => {
 
   const handleClick = (
     e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement, MouseEvent>,
-    href: string
+    href: string,
   ) => {
     e.preventDefault();
     setIsMenuOpen(false);
@@ -78,7 +78,7 @@ const Dashboard = () => {
     Logo7,
     Logo8,
     Logo9,
-    dataOflang
+    dataOflang,
   });
 
   const asideClasse = () => {
@@ -100,10 +100,12 @@ const Dashboard = () => {
           className={asideClasse()}
           style={{ top: `${scrollY > 20 ? 63 : 95}px` }}
           onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}>
+          onMouseLeave={() => setIsHovered(false)}
+        >
           <button
             className="md:hidden items-center text-white p-2 ml-auto flex w-full justify-center"
-            onClick={toggleMenu}>
+            onClick={toggleMenu}
+          >
             {isMenuOpen
               ? dataOflang?.dashboardBar.closeMenu
               : dataOflang?.dashboardBar.openMenu}
@@ -111,7 +113,8 @@ const Dashboard = () => {
           <ul
             className={`space-y-1 flex md:flex-col relative transition-all duration-300  h-screen overflow-y-auto sm:w-full ${
               isMenuOpen ? "flex-col " : "hidden md:flex"
-            }`}>
+            }`}
+          >
             {items.map((item, index) => (
               <li key={index}>
                 <Link
@@ -151,7 +154,8 @@ const Dashboard = () => {
                       : `hover:bg-${
                           themeColors[currentColor ?? "teal"]?.basics
                         }-600`
-                  }  p-1 hover:rounded-s-3xl   rounded text-white hover:text-black/70 items-center relative flex md:text-right justify-between content-end transition-all duration-300`}>
+                  }  p-1 hover:rounded-s-3xl   rounded text-white hover:text-black/70 items-center relative flex md:text-right justify-between content-end transition-all duration-300`}
+                >
                   <Image
                     width={24}
                     height={24}
@@ -172,7 +176,8 @@ const Dashboard = () => {
                   item.sections.map((section, index) => (
                     <div
                       className={`w-full m-1 flex justify-end items-end content-end`}
-                      key={index}>
+                      key={index}
+                    >
                       <Link
                         id="subLink"
                         href={section.Link}
@@ -198,7 +203,8 @@ const Dashboard = () => {
                               `hover:bg-${
                                 themeColors[currentColor ?? "teal"]?.basics
                               }-600 hover:rounded-s-3xl`
-                        }`}>
+                        }`}
+                      >
                         {isHovered && <span>{section.name} ◉ </span>}
                       </Link>
                     </div>

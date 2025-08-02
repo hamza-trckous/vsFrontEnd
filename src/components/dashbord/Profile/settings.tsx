@@ -15,7 +15,7 @@ import AccountsPart from "./AccountsPart";
 const Settings = ({
   fetchSettings,
   setCoverType,
-  coverType
+  coverType,
 }: {
   coverType: "image" | "video";
 

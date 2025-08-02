@@ -5,7 +5,7 @@ import CryptoJS from "crypto-js";
 export const HashedInformation = ({
   data,
   userIpAddress,
-  totalAmount
+  totalAmount,
 }: {
   data: OrderDetails;
   userIpAddress: string;
@@ -28,12 +28,12 @@ export const HashedInformation = ({
       external_id: "external_id",
       fb_login_id: "facebook_login_id",
       fn: hashedFirstName || "",
-      st: hashedState || ""
+      st: hashedState || "",
     },
     custom_data: {
       currency: "DZD",
-      value: totalAmount
-    }
+      value: totalAmount,
+    },
   };
   return { eventData, hashedPhone, fbp, fbc, hashedFirstName, hashedState };
 };

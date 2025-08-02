@@ -22,7 +22,8 @@ const ReviewsProductTable = ({ product }: { product: NewProduct }) => {
           showMoreReviews[product._id ?? "defaultId"]
             ? "max-h-full"
             : "max-h-12"
-        }`}>
+        }`}
+      >
         {product.reviews.map((review, index) => (
           <div key={`${product._id}-review-${index}`} className="mb-2">
             <p>{review.text}</p>
@@ -39,7 +40,7 @@ const ReviewsProductTable = ({ product }: { product: NewProduct }) => {
                         alt={`Review ${index + 1} Image ${imgIndex + 1}`}
                         className="w-12 h-12 rounded"
                       />
-                    )
+                    ),
                 )}
             </div>
           </div>
@@ -48,7 +49,8 @@ const ReviewsProductTable = ({ product }: { product: NewProduct }) => {
       {product.reviews.length > 0 && (
         <button
           onClick={() => toggleShowMoreReviews(product._id ?? "defaultId")}
-          className="text-blue-500 text-xs mt-1">
+          className="text-blue-500 text-xs mt-1"
+        >
           {showMoreReviews[product._id ?? "defaultId"]
             ? `${dataOflang?.table.Showless || "عرض أقل"}`
             : `${dataOflang?.table.Showmore || "عرض المزيد"}`}

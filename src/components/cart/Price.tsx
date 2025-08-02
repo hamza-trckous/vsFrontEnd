@@ -12,7 +12,8 @@ export const Price = ({ item }: { item: Product }) => {
       <span
         className={`text-${
           themeColors[currentColor ?? "teal"]?.basics
-        }-500 font-bold`}>
+        }-500 font-bold`}
+      >
         {item.discountedPrice} $
       </span>
     </div>

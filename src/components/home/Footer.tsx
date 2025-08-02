@@ -15,7 +15,8 @@ const Footer = () => {
           <div className="mb-4 md:mb-0">
             <h2
               className="text-lg font-bold"
-              style={{ fontFamily: "Cairo, sans-serif" }}>
+              style={{ fontFamily: "Cairo, sans-serif" }}
+            >
               {Profile?.nameOfBrand?.name || "not selected Yet"}
             </h2>
             <p className="text-sm" style={{ fontFamily: "Cairo, sans-serif" }}>
@@ -27,7 +28,8 @@ const Footer = () => {
           <div>
             <h3
               className="text-md font-bold mb-2 text-white"
-              style={{ fontFamily: "Cairo, sans-serif" }}>
+              style={{ fontFamily: "Cairo, sans-serif" }}
+            >
               {dataOflang?.quick_links || "روابط سريعة"}
             </h3>
             <ul className="list-none space-y-1">
@@ -36,7 +38,8 @@ const Footer = () => {
                   href="/about"
                   className={`hover:text-${
                     themeColors[currentColor ?? "teal"]?.basics
-                  }-500 text-white`}>
+                  }-500 text-white`}
+                >
                   {dataOflang?.about_us || "معلومات عنا"}
                 </a>
               </li>
@@ -45,7 +48,8 @@ const Footer = () => {
                   href="/contact"
                   className={`hover:text-${
                     themeColors[currentColor ?? "teal"]?.basics
-                  }-500 text-white`}>
+                  }-500 text-white`}
+                >
                   {dataOflang?.contact || "اتصل بنا"}
                 </a>
               </li>
@@ -55,7 +59,8 @@ const Footer = () => {
         <div>
           <h3
             className="text-md font-bold mb-2 text-white"
-            style={{ fontFamily: "Cairo, sans-serif" }}>
+            style={{ fontFamily: "Cairo, sans-serif" }}
+          >
             {dataOflang?.policies || "سياسات"}
           </h3>
           <ul className="list-none space-y-1">
@@ -64,7 +69,8 @@ const Footer = () => {
                 href="/policies"
                 className={`hover:text-${
                   themeColors[currentColor ?? "teal"]?.basics
-                }-500 text-white`}>
+                }-500 text-white`}
+              >
                 {dataOflang?.privacy_policy || "سياسة الخصوصية"}
               </a>
             </li>

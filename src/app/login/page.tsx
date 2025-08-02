@@ -37,7 +37,8 @@ const LoginPage: React.FC = () => {
         <div
           className={`w-full flex flex-wrap justify-center align-middle content-center bg-slate-500 text-${
             themeColors[currentColor ?? "teal"]?.basics
-          }-400  text-2xl font-bold h-screen`}>
+          }-400  text-2xl font-bold h-screen`}
+        >
           You already loggedin ...
           <FaSpinner
             className={`animate-spin text-${

@@ -5,7 +5,7 @@ import { fetchShippingPrices, wilayas } from "@/utils/shipping";
 import {
   updateShippingPrice,
   deleteShippingPrice,
-  createInitialShippingPrices
+  createInitialShippingPrices,
 } from "@/api/shipping";
 import AlertModal from "@/components/AlertModal";
 import Container from "@/components/dashbord/multualCompenents/Container";
@@ -40,18 +40,18 @@ const Shipping = () => {
   const handlePriceChange = (
     city: string,
     pricetype: "priceToDesktop" | "priceToHomme",
-    price: number
+    price: number,
   ) => {
     setShippingPrices((prevPrices) => ({
       ...prevPrices,
-      [city]: { ...prevPrices[city], [pricetype]: price }
+      [city]: { ...prevPrices[city], [pricetype]: price },
     }));
   };
 
   const handleSavePrices = async () => {
     try {
       for (const [wilaya, { priceToDesktop, priceToHomme }] of Object.entries(
-        shippingPrices
+        shippingPrices,
       )) {
         await updateShippingPrice(wilaya, priceToDesktop, priceToHomme);
       }
@@ -70,7 +70,7 @@ const Shipping = () => {
       const initialPrices = wilayas.map((wilaya) => ({
         wilaya: wilaya.name,
         priceToDesktop: globalPrice,
-        priceToHomme: globalPrice2
+        priceToHomme: globalPrice2,
       }));
       await createInitialShippingPrices(initialPrices);
       setAlertMessage("تم إنشاء قائمة أسعار التوصيل بنجاح!");
@@ -98,26 +98,26 @@ const Shipping = () => {
     const updatedPrices = wilayas.reduce(
       (
         acc: { [city: string]: { priceDesktop: number; priceToHomme: number } },
-        wilaya
+        wilaya,
       ) => {
         const currentPrices = shippingPrices[wilaya.name] || {
           priceDesktop: 0,
-          priceToHomme: 0
+          priceToHomme: 0,
         };
         acc[wilaya.name] = {
           priceDesktop: globalPrice,
-          priceToHomme: currentPrices.priceToHomme
+          priceToHomme: currentPrices.priceToHomme,
         };
         return acc;
       },
-      {}
+      {},
     );
     setShippingPrices((pre) => {
       const updated = { ...pre };
       for (const city in updatedPrices) {
         updated[city] = {
           priceToDesktop: updatedPrices[city].priceDesktop,
-          priceToHomme: updated[city]?.priceToHomme || 0
+          priceToHomme: updated[city]?.priceToHomme || 0,
         };
       }
       return updated;
@@ -128,26 +128,26 @@ const Shipping = () => {
     const updatedPrices = wilayas.reduce(
       (
         acc: { [city: string]: { priceDesktop: number; priceToHomme: number } },
-        wilaya
+        wilaya,
       ) => {
         const currentPrices = shippingPrices[wilaya.name] || {
           priceDesktop: 0,
-          priceToHomme: 0
+          priceToHomme: 0,
         };
         acc[wilaya.name] = {
           priceDesktop: currentPrices.priceToDesktop,
-          priceToHomme: globalPrice2
+          priceToHomme: globalPrice2,
         };
         return acc;
       },
-      {}
+      {},
     );
     setShippingPrices((pre) => {
       const updated = { ...pre };
       for (const city in updatedPrices) {
         updated[city] = {
           priceToDesktop: updated[city]?.priceToDesktop || 0,
-          priceToHomme: updatedPrices[city].priceToHomme
+          priceToHomme: updatedPrices[city].priceToHomme,
         };
       }
       return updated;
@@ -165,7 +165,8 @@ const Shipping = () => {
             themeColors[currentColor ?? "teal"]?.basics
           }-500 text-white px-4 py-2 rounded-lg hover:bg-${
             themeColors[currentColor ?? "teal"]?.basics
-          }-600 transition-colors duration-200`}>
+          }-600 transition-colors duration-200`}
+        >
           تطبيق سعر التوصيل للمكتب على جميع الولايات
         </button>
         <input
@@ -182,7 +183,8 @@ const Shipping = () => {
             themeColors[currentColor ?? "teal"]?.basics
           }-500 text-white px-4 py-2 rounded-lg hover:bg-${
             themeColors[currentColor ?? "teal"]?.basics
-          }-600 transition-colors duration-200`}>
+          }-600 transition-colors duration-200`}
+        >
           تطبيق سعر التوصيل للمنزل على جميع الولايات
         </button>
         <input
@@ -216,7 +218,7 @@ const Shipping = () => {
                       handlePriceChange(
                         wilaya.name,
                         "priceToDesktop",
-                        parseFloat(e.target.value)
+                        parseFloat(e.target.value),
                       )
                     }
                     className="border rounded px-2 py-1 w-full text-center"
@@ -233,7 +235,7 @@ const Shipping = () => {
                       handlePriceChange(
                         wilaya.name,
                         "priceToHomme",
-                        parseFloat(e.target.value)
+                        parseFloat(e.target.value),
                       )
                     }
                     className="border rounded px-2 py-1 w-full text-center"
@@ -252,7 +254,8 @@ const Shipping = () => {
             themeColors[currentColor ?? "teal"]?.basics
           }-500 text-white px-4 py-2 rounded-lg hover:bg-${
             themeColors[currentColor ?? "teal"]?.basics
-          }-600 transition-colors duration-200`}>
+          }-600 transition-colors duration-200`}
+        >
           حفظ الأسعار
         </button>
         <button
@@ -261,12 +264,14 @@ const Shipping = () => {
             isInitialPricesCreated &&
             "bg-slate-400 cursor-auto hover:bg-slate-400"
           } `}
-          disabled={isInitialPricesCreated}>
+          disabled={isInitialPricesCreated}
+        >
           إنشاء القائمة
         </button>
         <button
           onClick={handleDeletePrices}
-          className="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors duration-200">
+          className="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors duration-200"
+        >
           حذف القائمة
         </button>
       </div>

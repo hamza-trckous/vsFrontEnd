@@ -26,7 +26,7 @@ const TextArea = ({
           editingPolicy || null,
           setNewPolicy,
           newPolicy,
-          "content"
+          "content",
         )
       }
       className="border rounded-lg p-2 mb-2 w-full text-right"

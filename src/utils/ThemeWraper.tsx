@@ -6,7 +6,7 @@ import { ColorName } from "./theme";
 
 const ThemeWraper = ({
   children,
-  initialColor
+  initialColor,
 }: {
   children: ReactNode;
   initialColor: ColorName;

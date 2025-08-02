@@ -32,17 +32,17 @@ export const registerUser = async (data: IFormInput) => {
       "يجب أن تحتوي كلمة المرور على رقم واحد على الأقل",
     "Validation failed": "فشل التحقق من الصحة",
     "Something went wrong!": "حدث خطأ غير متوقع",
-    "Invalid token": "رمز غير صالح"
+    "Invalid token": "رمز غير صالح",
     // You can add more known translations here
   };
 
   try {
     const response = await axios.post(`${url}/api/register`, data, {
-      withCredentials: true
+      withCredentials: true,
     });
     return {
       ...response.data,
-      message: translations[response.data.message] ?? response.data.message
+      message: translations[response.data.message] ?? response.data.message,
     };
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
@@ -51,7 +51,7 @@ export const registerUser = async (data: IFormInput) => {
         statusText: error.response?.statusText,
         data: error.response?.data,
         error: error.response?.data?.error,
-        message: error.response?.data?.message
+        message: error.response?.data?.message,
       });
 
       const errorDetails = error.response?.data?.details || [];
@@ -79,15 +79,15 @@ export const loginUser = async (form: { email: string; password: string }) => {
     const response = await axios.post(`${url}/api/login`, form, {
       withCredentials: true,
       headers: {
-        "XSRF-TOKEN": csrfToken
-      }
+        "XSRF-TOKEN": csrfToken,
+      },
     });
     return response;
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
       if (error.response?.status === 429) {
         throw new Error(
-          "عدد محاولات تسجيل الدخول تم تجاوزها. حاول مرة أخرى بعد 15 دقيقة"
+          "عدد محاولات تسجيل الدخول تم تجاوزها. حاول مرة أخرى بعد 15 دقيقة",
         );
       }
       throw new Error(error.response?.data?.message || "فشل تسجيل الدخول");
@@ -101,13 +101,13 @@ export const logoutUser = async () => {
     `${url}/api/logout`,
     {},
     {
-      withCredentials: true
-    }
+      withCredentials: true,
+    },
   );
 };
 export const checkAuth = async (): Promise<CheckAuthResponse> => {
   const response = await axios.get(`${url}/api/check-auth`, {
-    withCredentials: true
+    withCredentials: true,
   });
 
   return response.data;
@@ -115,7 +115,7 @@ export const checkAuth = async (): Promise<CheckAuthResponse> => {
 
 export const fetchCsrfToken = async (): Promise<string> => {
   const res = await axios.get(`${url}/api/csrf-token`, {
-    withCredentials: true
+    withCredentials: true,
   });
   return res.data.csrfToken;
 };

@@ -51,7 +51,8 @@ const AboutComponent = () => {
             Have questions? Reach out to us at{" "}
             <a
               href="mailto:support@shopverse.com"
-              className="text-blue-600 hover:underline">
+              className="text-blue-600 hover:underline"
+            >
               support@shopverse.com
             </a>{" "}
             and we’ll be happy to help.

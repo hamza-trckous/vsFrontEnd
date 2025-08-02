@@ -17,7 +17,7 @@ const UsersPage = () => {
     ? users.filter(
         (user) =>
           user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          user.email.toLowerCase().includes(searchTerm.toLowerCase())
+          user.email.toLowerCase().includes(searchTerm.toLowerCase()),
       )
     : [];
 
@@ -73,7 +73,8 @@ const UsersPage = () => {
                 <td className="py-2 px-4 border-b">
                   <button
                     onClick={() => handleDelete(user._id)}
-                    className="bg-red-500 text-white px-2 py-1 rounded-lg hover:bg-red-600 transition-colors duration-200 text-xs">
+                    className="bg-red-500 text-white px-2 py-1 rounded-lg hover:bg-red-600 transition-colors duration-200 text-xs"
+                  >
                     {dataOflang?.delete || "حذف المستخدم"}
                   </button>
                 </td>
@@ -89,7 +90,8 @@ const UsersPage = () => {
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg">
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <path
               strokeLinecap="round"
               strokeLinejoin="round"

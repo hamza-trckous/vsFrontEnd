@@ -13,7 +13,7 @@ const BtnHandleRemove = ({
 }) => {
   const { handleRemoveItem } = UseCardItems();
   const logiCForRemove = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.stopPropagation();
     const removeReponse = await handleRemoveItem(id);
@@ -28,7 +28,8 @@ const BtnHandleRemove = ({
   return (
     <button
       onClick={(e) => logiCForRemove(e)}
-      className="bg-red-400 rounded-md p-1 m-2 justify-center items-center flex text-white z-20">
+      className="bg-red-400 rounded-md p-1 m-2 justify-center items-center flex text-white z-20"
+    >
       حذف
       <FaTrash className="m-1" />
     </button>

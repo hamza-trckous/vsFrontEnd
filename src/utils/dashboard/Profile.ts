@@ -2,12 +2,12 @@ import { saveSettingsProfile } from "@/api/profile";
 import {
   fileToBase64,
   LOGO_VALIDATION,
-  validateImage
+  validateImage,
 } from "../validationMedia/validationPhoto";
 import { ValidationResult } from "@/Types/ValidationMedia";
 import {
   COVER_VALIDATION,
-  validateVideo
+  validateVideo,
 } from "../validationMedia/validationVideo";
 import { ColorName } from "../theme";
 import { profile } from "@/Types/Profile";
@@ -17,7 +17,7 @@ export const handleSave = async ({
   setIsSaved,
   setAlertMessage,
   setAlertType,
-  fetchSettings
+  fetchSettings,
 }: {
   Profile: profile;
   currentColor: ColorName | undefined;
@@ -35,7 +35,7 @@ export const handleSave = async ({
       slogon: Profile.slogon,
       category: Profile.category,
       accounts: Profile.accounts,
-      email: Profile.email
+      email: Profile.email,
     });
 
     setIsSaved(true);
@@ -46,7 +46,7 @@ export const handleSave = async ({
     setAlertMessage(
       error instanceof Error
         ? `Error: ${error.message}`
-        : "An unknown error occurred."
+        : "An unknown error occurred.",
     );
     setAlertType("error");
   }
@@ -57,7 +57,7 @@ export const handlePhotoChange = async (
   e: React.ChangeEvent<HTMLInputElement>,
   setAlertMessage: (message: string | null) => void,
   setAlertType: (type: "success" | "error") => void,
-  setprofile: React.Dispatch<React.SetStateAction<profile>>
+  setprofile: React.Dispatch<React.SetStateAction<profile>>,
 ) => {
   const file = e.target.files?.[0];
   if (file) {
@@ -75,8 +75,8 @@ export const handlePhotoChange = async (
         ...prev,
         logo: {
           ...(prev.logo ?? {}), // <--- safe fallback if prev.logo is undefined
-          src: base64String
-        }
+          src: base64String,
+        },
       }));
       e.target.value = ""; // Reset after successful upload
     } catch (error) {
@@ -95,7 +95,7 @@ export const handleCoverChange = async (
   setAlertType: (type: "success" | "error") => void,
   setCoverType: React.Dispatch<React.SetStateAction<"image" | "video">>,
 
-  setprofile: React.Dispatch<React.SetStateAction<profile>>
+  setprofile: React.Dispatch<React.SetStateAction<profile>>,
 ) => {
   const file = e.target.files?.[0];
   if (file) {
@@ -123,7 +123,7 @@ export const handleCoverChange = async (
       const base64String = await fileToBase64(file);
       setprofile((pre) => ({
         ...pre,
-        cover: { ...pre.cover, name: base64String }
+        cover: { ...pre.cover, name: base64String },
       }));
       setCoverType(isImage ? "image" : "video");
     } catch (error) {
@@ -138,7 +138,7 @@ export const handleCoverChange = async (
     reader.onloadend = () => {
       setprofile((pre) => ({
         ...pre,
-        cover: { ...pre.cover, name: reader.result as string }
+        cover: { ...pre.cover, name: reader.result as string },
       }));
     };
     reader.readAsDataURL(e.target.files[0]);

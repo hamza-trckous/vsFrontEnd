@@ -9,18 +9,18 @@ const AccountsPart = () => {
     const updatedAccounts = [...(Profile?.accounts || [])];
     updatedAccounts[index] = {
       ...updatedAccounts[index],
-      name: value
+      name: value,
     };
     setProfile((prev) => ({
       ...prev,
-      accounts: updatedAccounts
+      accounts: updatedAccounts,
     }));
   };
 
   const addAccount = () => {
     setProfile((prev) => ({
       ...prev,
-      accounts: [...(prev.accounts || []), { name: "", enable: true }]
+      accounts: [...(prev.accounts || []), { name: "", enable: true }],
     }));
   };
 
@@ -29,7 +29,7 @@ const AccountsPart = () => {
     updatedAccounts.splice(index, 1);
     setProfile((prev) => ({
       ...prev,
-      accounts: updatedAccounts
+      accounts: updatedAccounts,
     }));
   };
 
@@ -47,14 +47,16 @@ const AccountsPart = () => {
           />
           <button
             onClick={() => removeAccount(index)}
-            className="text-red-500 px-2 py-1 hover:underline">
+            className="text-red-500 px-2 py-1 hover:underline"
+          >
             Remove
           </button>
         </div>
       ))}
       <button
         onClick={addAccount}
-        className="mt-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+        className="mt-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+      >
         Add Email
       </button>
     </div>

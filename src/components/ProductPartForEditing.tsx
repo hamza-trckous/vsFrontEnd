@@ -31,7 +31,7 @@ const ProductPage = () => {
     handleSubmit,
     setValue,
     getValues,
-    formState: { errors }
+    formState: { errors },
   } = useForm<NewProduct>();
 
   // State for product
@@ -103,10 +103,11 @@ const ProductPage = () => {
       if (error instanceof AxiosError && error.response?.data.errors) {
         console.error(
           "Error updating product:",
-          error.response.data.errors[0].message
+          error.response.data.errors[0].message,
         );
         setAlertMessage(
-          error.response.data.errors[0].message || "حدث خطأ أثناء تحديث المنتج."
+          error.response.data.errors[0].message ||
+            "حدث خطأ أثناء تحديث المنتج.",
         );
       } else {
         console.error("Error updating product:", error);
@@ -140,7 +141,7 @@ const ProductPage = () => {
             errors={errors}
             setNewProduct={(value: SetStateAction<NewProduct>) =>
               setProduct(
-                (prev) => ({ ...prev, ...value } as ProductWithreviews)
+                (prev) => ({ ...prev, ...value }) as ProductWithreviews,
               )
             }
             newProduct={product}

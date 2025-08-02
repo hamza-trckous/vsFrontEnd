@@ -19,10 +19,10 @@ export const metadata: Metadata = {
         url: "https://vs-ebon.vercel.app/OpenGraph/home.png",
         width: 1200,
         height: 630,
-        alt: "MyStore Cover Image"
-      }
-    ]
-  }
+        alt: "MyStore Cover Image",
+      },
+    ],
+  },
 };
 
 // ISR

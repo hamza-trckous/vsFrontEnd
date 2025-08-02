@@ -13,7 +13,7 @@ export const DEFAULT_VIDEO_OPTIONS: VideoValidationOptions = {
 // Video validation function
 export const validateVideo = (
   file: File,
-  options: VideoValidationOptions = DEFAULT_VIDEO_OPTIONS
+  options: VideoValidationOptions = DEFAULT_VIDEO_OPTIONS,
 ): Promise<ValidationResult> => {
   return new Promise((resolve) => {
     const {

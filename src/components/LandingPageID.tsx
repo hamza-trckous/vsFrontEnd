@@ -42,12 +42,12 @@ const LandingPageId: React.FC<LandingPageIDProps> = ({ productId }) => {
           content_ids: [product._id],
           content_name: product.name,
           value: product.price,
-          currency: "DZD"
+          currency: "DZD",
         },
-        isAdmin
+        isAdmin,
       });
     },
-    [isAdmin]
+    [isAdmin],
   );
 
   // Initialize Facebook Pixel
@@ -77,14 +77,14 @@ const LandingPageId: React.FC<LandingPageIDProps> = ({ productId }) => {
   // Track page view
   useTrackPageView({
     page_name: "ProductPage",
-    user_role: isLoggedIn ? "logged_in" : "guest"
+    user_role: isLoggedIn ? "logged_in" : "guest",
   });
 
   // Image navigation handlers
   const handleNextImage = () => {
     if (product?.images) {
       setCurrentImageIndex((prevIndex) =>
-        prevIndex === product.images.length - 1 ? 0 : prevIndex + 1
+        prevIndex === product.images.length - 1 ? 0 : prevIndex + 1,
       );
     }
   };
@@ -92,7 +92,7 @@ const LandingPageId: React.FC<LandingPageIDProps> = ({ productId }) => {
   const handlePrevImage = () => {
     if (product?.images) {
       setCurrentImageIndex((prevIndex) =>
-        prevIndex === 0 ? product.images.length - 1 : prevIndex - 1
+        prevIndex === 0 ? product.images.length - 1 : prevIndex - 1,
       );
     }
   };
@@ -117,7 +117,8 @@ const LandingPageId: React.FC<LandingPageIDProps> = ({ productId }) => {
           <div className="md:w-1/2 p-1 ">
             <h2
               className="text-lg font-bold"
-              style={{ fontFamily: "Cairo, sans-serif" }}>
+              style={{ fontFamily: "Cairo, sans-serif" }}
+            >
               {product.name}
             </h2>
 
@@ -130,7 +131,8 @@ const LandingPageId: React.FC<LandingPageIDProps> = ({ productId }) => {
               <span
                 className={`text-${
                   themeColors[currentColor ?? "teal"]?.basics
-                }-500 font-bold text-md mr-2`}>
+                }-500 font-bold text-md mr-2`}
+              >
                 {product.discountedPrice ?? product.price}
                 {dataOflang?.addingProduct?.dinarAlgeria || "دينار جزائري"}
               </span>
@@ -152,7 +154,8 @@ const LandingPageId: React.FC<LandingPageIDProps> = ({ productId }) => {
             {/* Product Description */}
             <p
               className="mt-4 text-gray-700 text-sm"
-              style={{ fontFamily: "Cairo, sans-serif" }}>
+              style={{ fontFamily: "Cairo, sans-serif" }}
+            >
               {product.description}
             </p>
 
@@ -161,14 +164,16 @@ const LandingPageId: React.FC<LandingPageIDProps> = ({ productId }) => {
               <div className="mt-4 ">
                 <h3
                   className="text-sm font-bold"
-                  style={{ fontFamily: "Cairo, sans-serif" }}>
+                  style={{ fontFamily: "Cairo, sans-serif" }}
+                >
                   الألوان:
                 </h3>
                 <div className="flex flex-wrap justify-start">
                   {product.colors.map((color, index) => (
                     <span
                       key={index}
-                      className="border rounded-lg px-2 py-1 bg-gray-200 text-gray-700 text-sm ml-2 mb-2">
+                      className="border rounded-lg px-2 py-1 bg-gray-200 text-gray-700 text-sm ml-2 mb-2"
+                    >
                       {color}
                     </span>
                   ))}
@@ -181,14 +186,16 @@ const LandingPageId: React.FC<LandingPageIDProps> = ({ productId }) => {
               <div className="mt-4 ">
                 <h3
                   className="text-sm font-bold"
-                  style={{ fontFamily: "Cairo, sans-serif" }}>
+                  style={{ fontFamily: "Cairo, sans-serif" }}
+                >
                   الأحجام:
                 </h3>
                 <div className="flex content-start justify-start flex-wrap w-full">
                   {product.sizes.map((size, index) => (
                     <span
                       key={index}
-                      className="flex justify-end border rounded-lg px-2 py-1 bg-gray-200 text-gray-700 text-sm ml-2 mb-2">
+                      className="flex justify-end border rounded-lg px-2 py-1 bg-gray-200 text-gray-700 text-sm ml-2 mb-2"
+                    >
                       {size}
                     </span>
                   ))}
@@ -200,14 +207,16 @@ const LandingPageId: React.FC<LandingPageIDProps> = ({ productId }) => {
             <div className="mt-4 ">
               <h3
                 className="text-sm font-bold"
-                style={{ fontFamily: "Cairo, sans-serif" }}>
+                style={{ fontFamily: "Cairo, sans-serif" }}
+              >
                 {dataOflang?.addingProduct?.reviews || " مراجعات:"}
               </h3>
               <div className="flex flex-col space-y-2">
                 {product.reviews.map((review, index) => (
                   <div
                     key={index}
-                    className="border rounded-lg p-2 bg-gray-100 text-gray-700 text-sm">
+                    className="border rounded-lg p-2 bg-gray-100 text-gray-700 text-sm"
+                  >
                     {review.text}
                   </div>
                 ))}
@@ -232,12 +241,14 @@ const LandingPageId: React.FC<LandingPageIDProps> = ({ productId }) => {
                 <>
                   <button
                     className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-gray-800 text-white rounded-full p-1"
-                    onClick={handlePrevImage}>
+                    onClick={handlePrevImage}
+                  >
                     &lt;
                   </button>
                   <button
                     className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-gray-800 text-white rounded-full p-1"
-                    onClick={handleNextImage}>
+                    onClick={handleNextImage}
+                  >
                     &gt;
                   </button>
                 </>
@@ -265,7 +276,7 @@ const LandingPageId: React.FC<LandingPageIDProps> = ({ productId }) => {
                       onClick={() => handleImageClick(index)}
                       loading="lazy"
                     />
-                  )
+                  ),
               )}
             </div>
           </div>
@@ -288,7 +299,7 @@ const LandingPageId: React.FC<LandingPageIDProps> = ({ productId }) => {
 export default LandingPageId;
 
 const LandigPageContent = ({
-  newProduct
+  newProduct,
 }: {
   newProduct: LandingEditingProps;
 }) => {

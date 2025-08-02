@@ -21,7 +21,7 @@ const Testing = ({
     } catch (error) {
       console.error("Error during test:", error);
       setAlertMessage(
-        "An error occurred while processing your request. Please try again later."
+        "An error occurred while processing your request. Please try again later.",
       );
       setAlertType("error");
     }
@@ -29,7 +29,8 @@ const Testing = ({
   return (
     <button
       onClick={handleTest}
-      className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors duration-200 mt-4">
+      className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors duration-200 mt-4"
+    >
       Testing
     </button>
   );

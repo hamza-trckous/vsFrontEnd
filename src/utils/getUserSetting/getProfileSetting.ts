@@ -17,6 +17,6 @@ export async function getUserProfile() {
   }
 
   return {
-    profile
+    profile,
   };
 }

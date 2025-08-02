@@ -28,7 +28,7 @@ const InpuTTitle = ({
           editingPolicy || null,
           setNewPolicy,
           newPolicy,
-          "title"
+          "title",
         )
       }
       className="border rounded-lg p-2 mb-2 w-full text-right"

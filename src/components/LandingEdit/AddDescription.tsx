@@ -22,7 +22,8 @@ const AddDescription = ({
         value={value}
         required
         data-tribute="true"
-        className="p-2 border border-gray-300 rounded col-span-2 text-right"></textarea>
+        className="p-2 border border-gray-300 rounded col-span-2 text-right"
+      ></textarea>
       {errors.description && <p>{String(errors.description.message)}</p>}
     </>
   );

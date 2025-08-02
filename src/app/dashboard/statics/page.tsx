@@ -24,7 +24,7 @@ const StaticsPage = () => {
     setAlertMessage,
     setAlertType,
     alertType,
-    setWithConfirm
+    setWithConfirm,
   } = useAlert();
   useEffect(() => {
     const fetchOrders = async () => {
@@ -46,7 +46,7 @@ const StaticsPage = () => {
   const handleStatusChange = (orderId: string, status: string) => {
     setSelectedStatus((prevStatus) => ({
       ...prevStatus,
-      [orderId]: status
+      [orderId]: status,
     }));
   };
 
@@ -56,15 +56,15 @@ const StaticsPage = () => {
       const updatedOrder = await updateOrderStatus(orderId, status);
       setOrders((prevOrders) =>
         prevOrders.map((order) =>
-          order._id === orderId ? updatedOrder : order
-        )
+          order._id === orderId ? updatedOrder : order,
+        ),
       );
 
       if (status === "completed") {
         const contentIds = updatedOrder.products
           .map((item: { product: string }) => item.product)
           .filter(
-            (id: unknown): id is string => id !== null && id !== undefined
+            (id: unknown): id is string => id !== null && id !== undefined,
           );
 
         if (contentIds.length > 0) {
@@ -78,11 +78,11 @@ const StaticsPage = () => {
               contents: updatedOrder.products.map(
                 (item: { product: string; quantity: number }) => ({
                   id: item.product,
-                  quantity: item.quantity
-                })
-              )
+                  quantity: item.quantity,
+                }),
+              ),
             },
-            isAdmin: true // or false, depending on your logic
+            isAdmin: true, // or false, depending on your logic
           });
         } else {
           console.warn("No valid product IDs found for content_ids");
@@ -98,16 +98,16 @@ const StaticsPage = () => {
   const handleSaveAll = async () => {
     try {
       const updatePromises = Object.keys(selectedStatus).map((orderId) =>
-        updateOrderStatus(orderId, selectedStatus[orderId])
+        updateOrderStatus(orderId, selectedStatus[orderId]),
       );
       const updatedOrders = await Promise.all(updatePromises);
       setOrders((prevOrders) =>
         prevOrders.map(
           (order) =>
             updatedOrders.find(
-              (updatedOrder) => updatedOrder._id === order._id
-            ) || order
-        )
+              (updatedOrder) => updatedOrder._id === order._id,
+            ) || order,
+        ),
       );
       setSelectedStatus({});
       setAlertMessage("تم حفظ جميع التغييرات بنجاح");
@@ -130,25 +130,25 @@ const StaticsPage = () => {
           .join(", "),
         order.products.map((p) => p.quantity).join(", "),
         order.totalAmount,
-        order.status
+        order.status,
       ]);
       await axios.post(
         `${process.env.NEXT_APP_BACKEND_URL}/api/sheets/update`,
         {
-          values
-        }
+          values,
+        },
       );
       setAlertMessage("تم تصدير البيانات بنجاح");
       setAlertType("success");
     } catch (error) {
       console.error(
         "Error exporting data to Google Sheets:",
-        axios.isAxiosError(error) && error.response?.data?.message
+        axios.isAxiosError(error) && error.response?.data?.message,
       );
       setAlertMessage(
         `${
           axios.isAxiosError(error) && error.response?.data?.message
-        }حدث خطأ أثناء تصدير البيانات`
+        }حدث خطأ أثناء تصدير البيانات`,
       );
       setAlertType("error");
     }
@@ -244,7 +244,8 @@ const StaticsPage = () => {
                         onChange={(e) =>
                           handleStatusChange(order._id, e.target.value)
                         }
-                        className="border rounded-lg p-2">
+                        className="border rounded-lg p-2"
+                      >
                         <option value="pending">قيد الانتظار</option>
                         <option value="completed">مكتمل</option>
                         <option value="cancelled">ملغى</option>
@@ -254,8 +255,9 @@ const StaticsPage = () => {
                       <button
                         onClick={() => handleSave(order._id)}
                         className={`${getButtonColor(
-                          selectedStatus[order._id] || order.status
-                        )} text-white px-4 py-2 rounded-lg hover:bg-opacity-75 transition-colors duration-200`}>
+                          selectedStatus[order._id] || order.status,
+                        )} text-white px-4 py-2 rounded-lg hover:bg-opacity-75 transition-colors duration-200`}
+                      >
                         حفظ
                       </button>
                     </td>
@@ -267,17 +269,20 @@ const StaticsPage = () => {
       <div className="flex flex-col md:flex-row justify-between items-end">
         <button
           onClick={handleSaveAll}
-          className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors duration-200 self-end">
+          className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors duration-200 self-end"
+        >
           حفظ الكل
         </button>
         <button
           onClick={handleExportToSheets}
-          className="mt-4 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors duration-200 self-end">
+          className="mt-4 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors duration-200 self-end"
+        >
           تصدير إلى Google Sheets
         </button>
         <button
           onClick={askingForConfirmation}
-          className="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors duration-200 self-end">
+          className="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors duration-200 self-end"
+        >
           حذف كل الطلبيات{" "}
         </button>
       </div>

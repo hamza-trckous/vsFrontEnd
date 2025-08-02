@@ -22,7 +22,8 @@ const Price = ({
   return (
     <div
       dir={lang === "AR" ? "rtl" : "ltr"}
-      className="block text-gray-700 text-sm font-bold m-2">
+      className="block text-gray-700 text-sm font-bold m-2"
+    >
       <label className="block text-gray-700 text-sm font-bold mb-2 col-span-1">
         {dataOfLang?.addingProduct.price || "السعر"}
       </label>

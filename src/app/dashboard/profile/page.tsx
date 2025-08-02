@@ -23,7 +23,7 @@ const IntegrationPage = () => {
       const settings = await getSettingsProfile();
       setProfile({
         ...settings,
-        color: settings.color as ColorName
+        color: settings.color as ColorName,
       });
       setCookie("ColorText", settings.color);
       // Optional: determine cover type from file extension

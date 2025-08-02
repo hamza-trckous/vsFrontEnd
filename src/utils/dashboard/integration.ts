@@ -31,7 +31,7 @@ export const testingintegration = async ({ pixelId }: { pixelId: string }) => {
   // Validate the IP address format
   const isValidIp = (ip: string) =>
     /^(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)$/.test(
-      ip
+      ip,
     );
 
   if (!isValidIp(clientIpAddress)) {
@@ -56,12 +56,12 @@ export const testingintegration = async ({ pixelId }: { pixelId: string }) => {
       fbp: typeof fbp === "string" ? fbp : "",
       fbc: "fb_click_id",
       external_id: "external_id",
-      fb_login_id: "facebook_login_id"
+      fb_login_id: "facebook_login_id",
     },
     custom_data: {
       currency: "USD",
-      value: 0
-    }
+      value: 0,
+    },
   };
 
   await trackConversion(eventData);

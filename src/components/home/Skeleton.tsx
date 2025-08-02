@@ -6,7 +6,7 @@ const Skeleton = dynamic(
   () => import("react-loading-skeleton").then((mod) => mod.default),
   {
     ssr: false,
-  }
+  },
 );
 const SkeletonNav: React.FC = () => {
   return (

@@ -74,7 +74,7 @@ export const fetchShippingPrices = async () => {
           wilayas: string;
           priceToDesktop: number;
           priceToHomme: number;
-        }
+        },
       ) => {
         acc[item.wilayas] = {
           priceToDesktop: item.priceToDesktop,
@@ -82,7 +82,7 @@ export const fetchShippingPrices = async () => {
         };
         return acc;
       },
-      {}
+      {},
     );
     return pricesMap;
   } catch (error) {

@@ -35,7 +35,7 @@ const UserDashbord = () => {
   }, []);
 
   const filteredUsers = users.filter((user) =>
-    user.name.toLowerCase().includes(filter.toLowerCase())
+    user.name.toLowerCase().includes(filter.toLowerCase()),
   );
 
   return (

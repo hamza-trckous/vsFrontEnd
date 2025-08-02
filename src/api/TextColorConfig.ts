@@ -3,7 +3,7 @@ import { url } from "@/utils/api";
 import { ColorName } from "@/utils/theme";
 
 export const getColorText = async (
-  Color: ColorName = "teal"
+  Color: ColorName = "teal",
 ): Promise<ColorName> => {
   const response = await axios.get(`${url}/api/ThemeColortext?Color=${Color}`, {
     withCredentials: true,

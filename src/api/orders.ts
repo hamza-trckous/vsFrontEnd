@@ -32,7 +32,7 @@ export const updateOrderStatus = async (orderId: string, status: string) => {
     { status },
     {
       withCredentials: true,
-    }
+    },
   );
   return response.data;
 };

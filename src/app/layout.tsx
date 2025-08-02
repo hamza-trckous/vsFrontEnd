@@ -9,16 +9,16 @@ import Script from "next/script";
 export const metadata = {
   title: {
     default: "MyStore",
-    template: "%s | MyStore"
+    template: "%s | MyStore",
   },
   description: "Your favorite online store for daily menus and more.",
   alternates: {
-    canonical: "https://vs-ebon.vercel.app/"
-  }
+    canonical: "https://vs-ebon.vercel.app/",
+  },
 };
 // Async layout
 export default async function RootLayout({
-  children
+  children,
 }: {
   children: React.ReactNode;
 }) {
@@ -37,7 +37,8 @@ export default async function RootLayout({
         <ProvidersWrapper
           language={language}
           LanguageData={LanguageData as LanguageConfig}
-          profile={cleanProfile}>
+          profile={cleanProfile}
+        >
           {children}
         </ProvidersWrapper>
       </body>

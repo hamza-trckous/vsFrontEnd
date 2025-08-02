@@ -11,7 +11,8 @@ const Slogon = () => {
   return (
     <div
       className="text-white italic  text-xs md:text-base w-full text-center"
-      style={{ fontFamily: "Cairo, sans-serif" }}>
+      style={{ fontFamily: "Cairo, sans-serif" }}
+    >
       {Profile?.slogon?.name || "Without Slogon "}
     </div>
   );

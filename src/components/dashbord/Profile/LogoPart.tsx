@@ -5,7 +5,7 @@ import React from "react";
 
 const LogoPart = ({
   setAlertMessage,
-  setAlertType
+  setAlertType,
 }: {
   setAlertMessage: (message: string | null) => void;
   setAlertType: (type: "success" | "error") => void;
@@ -17,7 +17,8 @@ const LogoPart = ({
       <div className="flex  flex-col h-full w-full justify-center items-center">
         <label
           className="block  text-gray-700 text-sm font-bold mb-2"
-          htmlFor="logo">
+          htmlFor="logo"
+        >
           Logo (Max 2MB, JPEG/PNG/WebP)
         </label>
         <div className="flex flex-col items-center">
@@ -30,8 +31,9 @@ const LogoPart = ({
                 : "none",
               backgroundSize: "cover",
               backgroundPosition: "center",
-              backgroundRepeat: "no-repeat"
-            }}>
+              backgroundRepeat: "no-repeat",
+            }}
+          >
             {!Profile?.logo?.src && (
               <span className="text-center">Click to upload logo</span>
             )}

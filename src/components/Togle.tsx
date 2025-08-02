@@ -25,7 +25,8 @@ const ToggleSwitch = ({ label, checked, onChange }: ToggleSwitchProps) => {
             bg-white rounded-full 
             transition-transform 
             peer-checked:translate-x-5
-          "></span>
+          "
+        ></span>
       </label>
     </div>
   );

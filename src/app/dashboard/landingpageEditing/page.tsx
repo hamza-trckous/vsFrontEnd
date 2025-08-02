@@ -9,7 +9,7 @@ const Page = () => {
   const { products } = useProducts();
 
   const validProducts = products.filter(
-    (product): product is ProductWithreviews => product._id !== undefined
+    (product): product is ProductWithreviews => product._id !== undefined,
   ) as ProductWithreviews[];
   return (
     <Container>

@@ -14,7 +14,8 @@ const TopNavBar = () => {
       <div
         className={`bg-gradient-to-r ${
           themeColors[currentColor ?? "teal"]?.gradient
-        } p-1 shadow-lg transition-all duration-300 hover:shadow-xl opacity-85 flex  justify-between `}>
+        } p-1 shadow-lg transition-all duration-300 hover:shadow-xl opacity-85 flex  justify-between `}
+      >
         {" "}
         <div className="container mx-auto flex justify-between items-center text-sm">
           <a
@@ -23,7 +24,8 @@ const TopNavBar = () => {
             rel="noopener noreferrer"
             className={`text-white hover:text-${
               themeColors[currentColor ?? "teal"]?.basics
-            }-500 transition-colors duration-200`}>
+            }-500 transition-colors duration-200`}
+          >
             <FaFacebook size={20} />
           </a>
           {/* language slector */}
@@ -36,7 +38,8 @@ const TopNavBar = () => {
             rel="noopener noreferrer"
             className={`text-white  hover:text-${
               themeColors[currentColor ?? "teal"]?.basics
-            }-500 transition-colors duration-200`}>
+            }-500 transition-colors duration-200`}
+          >
             <FaInstagram size={20} />
           </a>
         </div>

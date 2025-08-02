@@ -135,7 +135,8 @@ const Login: React.FC<LoginProps> = () => {
               themeColors[currentColor ?? "teal"]?.basics
             }-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-${
               themeColors[currentColor ?? "teal"]?.basics
-            }-500`}>
+            }-500`}
+          >
             {dataOflang?.login || ">تسجيل الدخول"}
           </button>
         </div>

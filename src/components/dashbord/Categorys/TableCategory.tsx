@@ -13,7 +13,8 @@ const TableCategory = () => {
     <table
       className={`w-full table-fixed border-collapse text-sm bg-${
         themeColors[currentColor ?? "teal"]?.basics
-      }-50`}>
+      }-50`}
+    >
       <FirstLineOfTable tableTitles={items} />
       <BodyOFTableCategory />
     </table>

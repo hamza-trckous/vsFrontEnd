@@ -5,7 +5,7 @@ import { useCategory } from "@/context/CategoryContext";
 
 const ChoiseWhatShowingCategory = ({
   setChosenCategory,
-  chosenCategory
+  chosenCategory,
 }: {
   setChosenCategory: React.Dispatch<
     React.SetStateAction<{
@@ -31,7 +31,7 @@ const ChoiseWhatShowingCategory = ({
   const toggleCategory = (id: string, value: boolean) => {
     setChosenCategory((prev) => ({
       ...prev,
-      [id]: value
+      [id]: value,
     }));
   };
 

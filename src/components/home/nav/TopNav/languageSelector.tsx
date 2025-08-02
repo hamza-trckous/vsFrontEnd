@@ -18,7 +18,8 @@ const LanguageSelector = () => {
       <select
         onChange={handleChange}
         value={lang}
-        className="border border-gray-300 rounded-lg  p-1  w-14 h-6  text-[0.6rem] ">
+        className="border border-gray-300 rounded-lg  p-1  w-14 h-6  text-[0.6rem] "
+      >
         {languages.map((languages, index) => (
           <option key={index} value={languages}>
             {languages}

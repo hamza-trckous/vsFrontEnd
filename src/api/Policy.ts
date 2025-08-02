@@ -17,7 +17,7 @@ export const createPolicy = async (policy: Policy): Promise<Policy> => {
 
 export const updatePolicy = async (
   id: string,
-  policy: Policy
+  policy: Policy,
 ): Promise<Policy> => {
   const response = await axios.put(`${API_URL}/${id}`, policy);
   return response.data;

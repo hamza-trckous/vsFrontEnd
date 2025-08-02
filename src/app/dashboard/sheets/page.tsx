@@ -14,7 +14,7 @@ const Page = () => {
     const fetchConfig = async () => {
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sheets/config`
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sheets/config`,
         );
         setConfig({
           spreadsheetId: response.data.spreadsheetId || "",
@@ -46,7 +46,7 @@ const Page = () => {
           spreadsheetId: config.spreadsheetId,
           apiKey: config.apiKey,
           values: config.values, // Ensure values are included in the request body
-        }
+        },
       );
       alert("Config updated successfully");
     } catch (error) {
@@ -79,7 +79,8 @@ const Page = () => {
         </div>
         <button
           type="submit"
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">
+          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
+        >
           Save
         </button>
       </form>

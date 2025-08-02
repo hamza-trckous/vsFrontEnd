@@ -23,7 +23,8 @@ const AddNAme: React.FC<AddNameProps> = ({
   return (
     <div
       className="m-2 flex flex-col content-center justify-center align-middle"
-      dir={lang === "AR" ? "rtl" : "ltr"}>
+      dir={lang === "AR" ? "rtl" : "ltr"}
+    >
       <label className="block text-gray-700 text-sm font-bold mb-2">
         {dataOfLang?.addingProduct.addingName || "إضافة اسم المنتج:"}
       </label>

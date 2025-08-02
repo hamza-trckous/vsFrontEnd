@@ -5,7 +5,7 @@ export const addToCart = async (productId: string, quantity: number) => {
   const response = await axios.post(
     `${url}/api/cart/add-to-cart`,
     { productId, quantity },
-    { withCredentials: true }
+    { withCredentials: true },
   );
   return response.data;
 };
@@ -14,7 +14,7 @@ export const removeFromCart = async (productId: string) => {
   const response = await axios.post(
     `${url}/api/cart/remove-from-cart`,
     { productId },
-    { withCredentials: true }
+    { withCredentials: true },
   );
   return response.data;
 };

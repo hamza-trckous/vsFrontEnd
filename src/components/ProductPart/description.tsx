@@ -24,19 +24,21 @@ const Description = <T extends FieldValues>({
     <>
       <label
         dir={lang === "AR" ? "rtl" : "ltr"}
-        className="block text-gray-700 text-sm font-bold m-2 col-span-2">
+        className="block text-gray-700 text-sm font-bold m-2 col-span-2"
+      >
         {dataOflang?.addingProduct.description || "وصف المنتج"}
       </label>
       <textarea
         dir={lang === "AR" ? "rtl" : "ltr"}
         {...(register as unknown as UseFormRegister<CommonFields>)(
           "description",
-          { required: `description of  ${nameOfInput} required` }
+          { required: `description of  ${nameOfInput} required` },
         )}
         placeholder={`description of ${nameOfInput}`}
         required
         data-tribute="true"
-        className="p-2 border border-gray-300 rounded col-span-2 "></textarea>
+        className="p-2 border border-gray-300 rounded col-span-2 "
+      ></textarea>
       {errors.description && <p>{String(errors.description.message)}</p>}
     </>
   );

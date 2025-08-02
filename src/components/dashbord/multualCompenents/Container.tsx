@@ -16,7 +16,8 @@ const Container = ({
       } mx-auto mt-10 sm:mt-0 bg-white shadow-md rounded-lg p-4 w-full text-left ${
         forCategorys ? "md:w-full" : "md:w-[85%]"
       }`}
-      dir={lang === "EN" ? "rtl" : "ltr"}>
+      dir={lang === "EN" ? "rtl" : "ltr"}
+    >
       {children}
     </div>
   );

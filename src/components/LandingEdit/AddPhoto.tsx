@@ -18,7 +18,8 @@ const AddPhoto = ({
 
       <label
         htmlFor="photo-file"
-        className="block text-sm font-medium text-gray-700 mt-4">
+        className="block text-sm font-medium text-gray-700 mt-4"
+      >
         Upload Photo
       </label>
       <input

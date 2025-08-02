@@ -21,7 +21,8 @@ const ConfigColor = () => {
             }}
             className={`bg-${color}-200 border  hover:bg-${color}-300 text-sm px-4 py-2 ${
               currentColor === color ? "border-black" : ""
-            } rounded-md shadow transition-all`}>
+            } rounded-md shadow transition-all`}
+          >
             {color}
           </button>
         ))}

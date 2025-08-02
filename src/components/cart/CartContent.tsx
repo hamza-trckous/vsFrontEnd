@@ -20,8 +20,8 @@ const CartPage = () => {
     queryKey: ["cart"],
     queryFn: getCartServerAction,
     select: (data) => ({
-      cart: data.cart.map((item: CartItem) => item.productId)
-    })
+      cart: data.cart.map((item: CartItem) => item.productId),
+    }),
   });
 
   useEffect(() => {
@@ -29,9 +29,9 @@ const CartPage = () => {
       trackFacebookEvent({
         eventName: "PageView",
         data: {
-          page_name: "CartPage"
+          page_name: "CartPage",
         },
-        isAdmin
+        isAdmin,
       });
     }
     data?.cart?.forEach((product: Product) => {
@@ -44,9 +44,9 @@ const CartPage = () => {
           content_ids: product._id,
           content_name: product.name,
           value: product.price,
-          currency: "DZD"
+          currency: "DZD",
         },
-        isAdmin
+        isAdmin,
       });
     });
   });
@@ -61,7 +61,7 @@ const CartPage = () => {
 
   useTrackPageView({
     page_name: "CartPage",
-    product_names: productNames || ""
+    product_names: productNames || "",
   });
 
   if (isLoading) {

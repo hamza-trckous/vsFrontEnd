@@ -44,12 +44,14 @@ const Sidebar = () => {
         isVisible && isFixed
           ? " visible opacity-100 block"
           : "invisible opacity-0 hidden"
-      }`}>
+      }`}
+    >
       <h2
         className={`text-lg text-${
           themeColors[currentColor ?? "teal"]?.basics
         }-500 font-bold mb-2`}
-        style={{ fontFamily: "Cairo, sans-serif" }}>
+        style={{ fontFamily: "Cairo, sans-serif" }}
+      >
         {dataOflang?.delivery_rules?.title || "قواعد التوصيل"}
       </h2>
       <ul className="list-disc list-inside mb-2">
@@ -68,7 +70,8 @@ const Sidebar = () => {
         className={`text-lg text-${
           themeColors[currentColor ?? "teal"]?.basics
         }-500 font-bold mb-2`}
-        style={{ fontFamily: "Cairo, sans-serif" }}>
+        style={{ fontFamily: "Cairo, sans-serif" }}
+      >
         {dataOflang?.cash_on_delivery_rules?.title ||
           "قواعد الدفع عند الاستلام"}
       </h2>
@@ -91,7 +94,8 @@ const Sidebar = () => {
         className={`text-lg text-${
           themeColors[currentColor ?? "teal"]?.basics
         }-500 font-bold mb-2`}
-        style={{ fontFamily: "Cairo, sans-serif" }}>
+        style={{ fontFamily: "Cairo, sans-serif" }}
+      >
         {dataOflang?.order_confirmation?.title || "تأكيد الطلب"}
       </h2>
       <ul className="list-disc list-inside">

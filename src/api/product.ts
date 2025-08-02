@@ -7,7 +7,7 @@ import { url } from "@/utils/api";
 export const getAllProducts = async ({
   page,
   limit,
-  category
+  category,
 }: {
   page: number;
   limit: number;
@@ -17,7 +17,7 @@ export const getAllProducts = async ({
     const response = await axios.get<ProductPagination>(
       `${url}/api/products?page=${page}&limit=${limit}${
         category ? `&category=${category}` : ""
-      }`
+      }`,
     );
 
     return response.data;
@@ -50,13 +50,13 @@ export const getProductById = async (id: string): Promise<Product> => {
 
 // Create a new product
 export const createProduct = async (
-  productData: Omit<NewProduct, "_id">
+  productData: Omit<NewProduct, "_id">,
 ): Promise<Product> => {
   try {
     const response = await axios.post<Product>(
       `${url}/api/products`,
       productData,
-      { withCredentials: true }
+      { withCredentials: true },
     );
     return response.data;
   } catch (error) {
@@ -68,13 +68,13 @@ export const createProduct = async (
 // Update an existing product
 export const updateProduct = async (
   id: string,
-  productData: Partial<Omit<NewProduct, "_id">>
+  productData: Partial<Omit<NewProduct, "_id">>,
 ): Promise<Product> => {
   try {
     const response = await axios.put<Product>(
       `${url}/api/products/${id}`,
       productData,
-      { withCredentials: true }
+      { withCredentials: true },
     );
     return response.data;
   } catch (error) {
@@ -84,12 +84,12 @@ export const updateProduct = async (
 
 // Delete a product
 export const deleteProduct = async (
-  id: string
+  id: string,
 ): Promise<{ message: string }> => {
   try {
     const response = await axios.delete<{ message: string }>(
       `${url}/api/products/${id}`,
-      { withCredentials: true }
+      { withCredentials: true },
     );
     return response.data;
   } catch (error) {
@@ -100,13 +100,13 @@ export const deleteProduct = async (
 // Update landing page data for a product
 export const updateLandingPage = async (
   id: string,
-  landingPageData: LandingPageUpdateData
+  landingPageData: LandingPageUpdateData,
 ): Promise<Product> => {
   try {
     const response = await axios.patch<Product>(
       `${url}/api/products/${id}/landing`,
       landingPageData,
-      { withCredentials: true }
+      { withCredentials: true },
     );
     return response.data;
   } catch (error) {
@@ -117,12 +117,12 @@ export const updateLandingPage = async (
 // Delete a landing content by index
 export const deleteLandingContent = async (
   productId: string,
-  index: number
+  index: number,
 ): Promise<Product> => {
   try {
     const response = await axios.delete<Product>(
       `${url}/api/products/${productId}/landing/${index}`,
-      { withCredentials: true }
+      { withCredentials: true },
     );
     return response.data;
   } catch (error) {
@@ -153,7 +153,7 @@ export const filterProducts = async (params: {
     if (params.withShipping) query.append("withShipping", params.withShipping);
 
     const response = await axios.get<Product[]>(
-      `${url}/api/products/filter?${query.toString()}`
+      `${url}/api/products/filter?${query.toString()}`,
     );
     return response.data;
   } catch (error) {

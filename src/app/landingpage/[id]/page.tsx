@@ -4,7 +4,7 @@ import { Metadata } from "next";
 import React from "react";
 
 export async function generateMetadata({
-  params
+  params,
 }: {
   params: Promise<{ id: string }>;
 }): Promise<Metadata> {
@@ -19,10 +19,10 @@ export async function generateMetadata({
         {
           url: res.images[0] || "https://pngimg.com/d/google_PNG19644.png",
           width: 1200,
-          height: 630
-        }
-      ]
-    }
+          height: 630,
+        },
+      ],
+    },
   };
 }
 

@@ -35,7 +35,8 @@ const Save = ({
   return (
     <button
       onClick={handleSave}
-      className="bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition-colors duration-200">
+      className="bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition-colors duration-200"
+    >
       Save
     </button>
   );

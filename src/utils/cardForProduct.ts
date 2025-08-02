@@ -6,7 +6,7 @@ export const handleAddToCart = async (
   e: React.MouseEvent<HTMLButtonElement>,
   product: Product | undefined,
   setAlertMessage: (message: string) => void,
-  setAlertType: (type: "success" | "error") => void
+  setAlertType: (type: "success" | "error") => void,
 ) => {
   e.stopPropagation();
   try {
@@ -38,7 +38,7 @@ export const handleAddToCart = async (
   } catch (error) {
     console.error("Error adding to cart:", error);
     setAlertMessage(
-      "حدث خطأ أثناء الإضافة إلى السلة أو يرجي التسجيل للاضافة للسلة."
+      "حدث خطأ أثناء الإضافة إلى السلة أو يرجي التسجيل للاضافة للسلة.",
     );
     setAlertType("error");
   }

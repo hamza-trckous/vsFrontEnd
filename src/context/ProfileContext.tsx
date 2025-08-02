@@ -13,7 +13,7 @@ const ProfileContext = createContext<ProfileContextType | undefined>(undefined);
 
 export const ProfileProvider = ({
   children,
-  profile
+  profile,
 }: {
   children: React.ReactNode;
   profile: profile;

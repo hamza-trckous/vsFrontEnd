@@ -8,7 +8,7 @@ import {
   UseFormClearErrors,
   UseFormRegister,
   UseFormSetError,
-  UseFormSetValue
+  UseFormSetValue,
 } from "react-hook-form";
 
 const AddPhoto = ({
@@ -17,7 +17,7 @@ const AddPhoto = ({
   errors,
   clearErrors,
   imagePreviews,
-  setImagePreviews
+  setImagePreviews,
 }: {
   imagePreviews: string;
   clearErrors: UseFormClearErrors<Category>;
@@ -35,7 +35,7 @@ const AddPhoto = ({
     if (!file) {
       setError("image", {
         type: "required",
-        message: "الصورة مطلوبة"
+        message: "الصورة مطلوبة",
       });
       setValue("image", "");
       return;
@@ -80,7 +80,8 @@ const AddPhoto = ({
             <button
               type="button"
               onClick={() => handleDeleteImage()}
-              className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
+              className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs"
+            >
               ×
             </button>
           </div>

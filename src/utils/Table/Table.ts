@@ -28,7 +28,7 @@ export const TableTitles = () => {
     table.rating || "التقييم",
     table.reviews || "المراجعات",
     table.includesShipping || "يتضمن الشحن",
-    table.actions || "إجراءات"
+    table.actions || "إجراءات",
   ];
 
   return tableTitles;
@@ -41,7 +41,7 @@ export const TableTitlesCategory = () => {
     dataOflang?.addingProduct?.categoryTitle || "الفئة",
     dataOflang?.table?.description || "الوصف",
     dataOflang?.table?.photos || "الصور",
-    dataOflang?.table?.actions || "إجراءات"
+    dataOflang?.table?.actions || "إجراءات",
   ];
 
   return tableTitles;

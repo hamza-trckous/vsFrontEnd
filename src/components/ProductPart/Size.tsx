@@ -71,7 +71,7 @@ const Size: React.FC<SizeProps> = ({
                   "sizes",
                   e.target.checked
                     ? [...getValues("sizes"), value]
-                    : getValues("sizes").filter((s) => s !== value)
+                    : getValues("sizes").filter((s) => s !== value),
                 );
               }}
             />

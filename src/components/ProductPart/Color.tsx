@@ -7,7 +7,7 @@ import {
   FieldErrors,
   UseFormRegister,
   UseFormSetValue,
-  UseFormGetValues
+  UseFormGetValues,
 } from "react-hook-form";
 import ButtonSecondary from "./ButtonSecondary";
 
@@ -26,7 +26,7 @@ const Color: React.FC<ColorProps> = ({
   register,
   errors,
   setValue,
-  getValues
+  getValues,
 }) => {
   const [customColor, setCustomColor] = useState("");
 
@@ -36,7 +36,7 @@ const Color: React.FC<ColorProps> = ({
     dataOflang?.addingProduct.Green || "أخضر",
     dataOflang?.addingProduct.Yellow || "أصفر",
     dataOflang?.addingProduct.Black || "أسود",
-    dataOflang?.addingProduct.White || "أبيض"
+    dataOflang?.addingProduct.White || "أبيض",
   ]);
 
   useEffect(() => {

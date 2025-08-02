@@ -11,7 +11,7 @@ import { useAllProducts } from "@/hooks/useAllProducts";
 
 const Filtrage = ({
   children,
-  setfiltredProducts
+  setfiltredProducts,
 }: {
   children: ReactNode;
   setfiltredProducts: React.Dispatch<React.SetStateAction<Product[] | null>>;
@@ -28,11 +28,11 @@ const Filtrage = ({
   };
   const handleFilterChange = (
     key: string,
-    value: string | string[] | number | number[] | undefined
+    value: string | string[] | number | number[] | undefined,
   ) => {
     setFilters((prev) => ({
       ...prev,
-      [key]: Array.isArray(value) ? value.join(",") : value
+      [key]: Array.isArray(value) ? value.join(",") : value,
     }));
   };
   const { products } = useAllProducts();
@@ -49,8 +49,8 @@ const Filtrage = ({
       startTransition(() => {
         setfiltredProducts(
           products.filter((product) =>
-            product.name.toLowerCase().includes(searchTerm)
-          )
+            product.name.toLowerCase().includes(searchTerm),
+          ),
         );
       });
     }, 300);
@@ -66,11 +66,13 @@ const Filtrage = ({
       <div
         className={`w-full bg-${
           themeColors[currentColor ?? "teal"]?.basics
-        }-400 flex items-center justify-between px-4 py-2`}>
+        }-400 flex items-center justify-between px-4 py-2`}
+      >
         {/* Left-side Filter */}
         <div
           onClick={() => setBarFilter(!BarFilter)}
-          className="flex items-center gap-2 text-black cursor-pointer">
+          className="flex items-center gap-2 text-black cursor-pointer"
+        >
           <Filter className="w-5 h-5 text-black" />
           <label className="m-[0.5rem]">Filter</label>
         </div>

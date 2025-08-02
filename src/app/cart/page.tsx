@@ -10,7 +10,7 @@ const CartPage = async () => {
   const quryClinet = new QueryClient();
   await quryClinet.prefetchQuery({
     queryKey: ["cart"],
-    queryFn: getCartServerAction
+    queryFn: getCartServerAction,
   });
   const dehydratedState = dehydrate(quryClinet);
 

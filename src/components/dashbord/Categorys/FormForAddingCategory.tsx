@@ -23,7 +23,7 @@ const FormForAddingCategory = () => {
     register,
     clearErrors,
 
-    formState: { errors }
+    formState: { errors },
   } = useForm<Category>();
 
   const { addCategorie } = useCategory();
@@ -31,7 +31,7 @@ const FormForAddingCategory = () => {
     if (!data.image) {
       setError("image", {
         type: "required",
-        message: "الصورة مطلوبة"
+        message: "الصورة مطلوبة",
       });
       setValue("image", "");
       return;
@@ -50,7 +50,8 @@ const FormForAddingCategory = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="mb-4 text-sm flex flex-col">
+      className="mb-4 text-sm flex flex-col"
+    >
       <AddNAme
         lang={lang}
         dataOfLang={dataOflang}

@@ -6,7 +6,7 @@ import React, {
   useContext,
   useState,
   ReactNode,
-  useEffect
+  useEffect,
 } from "react";
 
 interface UserContextProps {
@@ -20,7 +20,7 @@ interface UserContextProps {
 const UserContext = createContext<UserContextProps | undefined>(undefined);
 
 export const UserProvider: React.FC<{ children: ReactNode }> = ({
-  children
+  children,
 }) => {
   const [users, setUsers] = useState<User[] | null>(null);
   const [user, setUser] = useState<User | null>(null);
@@ -42,7 +42,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
     try {
       await deleteUser(id);
       setUsers((prevUsers) =>
-        prevUsers ? prevUsers.filter((user) => user._id !== id) : null
+        prevUsers ? prevUsers.filter((user) => user._id !== id) : null,
       );
     } catch (error) {
       console.error("Error deleting user:", error);
@@ -55,8 +55,9 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
         users,
         setUsers,
         user,
-        setUser
-      }}>
+        setUser,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );

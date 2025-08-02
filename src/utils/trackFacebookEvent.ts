@@ -1,7 +1,7 @@
 const trackFacebookEvent = ({
   eventName,
   data,
-  isAdmin
+  isAdmin,
 }: {
   eventName: string;
   data: { [key: string]: string | number | boolean | object };

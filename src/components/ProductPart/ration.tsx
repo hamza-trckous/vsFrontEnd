@@ -53,7 +53,8 @@ const Ration = ({
             key={star}
             onClick={() => handleStarClick(star)}
             data-tribute="true"
-            className="text-yellow-500 text-2xl focus:outline-none">
+            className="text-yellow-500 text-2xl focus:outline-none"
+          >
             {selectedRating >= star ? "★" : "☆"}
           </button>
         ))}

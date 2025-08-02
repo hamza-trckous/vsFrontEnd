@@ -34,7 +34,8 @@ const NavMobile = ({
             className={`block text-gray-800 hover:text-${
               themeColors[currentColor ?? "teal"]?.basics
             }-500 no-underline transition duration-300 ease-in-out`}
-            style={{ fontFamily: "fantasy" }}>
+            style={{ fontFamily: "fantasy" }}
+          >
             {dataOflang?.home || " الصفحة الرئيسية"}
           </Link>
 
@@ -46,7 +47,8 @@ const NavMobile = ({
                   className={`block text-gray-800 hover:text-${
                     themeColors[currentColor ?? "teal"]?.basics
                   }-500 no-underline transition duration-300 ease-in-out`}
-                  style={{ fontFamily: "Cairo, sans-serif" }}>
+                  style={{ fontFamily: "Cairo, sans-serif" }}
+                >
                   {dataOflang?.logout || "تسجيل الخروج"}
                 </button>
 
@@ -56,7 +58,8 @@ const NavMobile = ({
                   className={`block text-gray-800 hover:text-${
                     themeColors[currentColor ?? "teal"]?.basics
                   }-500 no-underline transition duration-300 ease-in-out`}
-                  style={{ fontFamily: "Cairo, sans-serif" }}>
+                  style={{ fontFamily: "Cairo, sans-serif" }}
+                >
                   {dataOflang?.dashboard || "لوحة التحكم"}
                 </Link>
               </>
@@ -66,7 +69,8 @@ const NavMobile = ({
                 className={`block text-gray-800 hover:text-${
                   themeColors[currentColor ?? "teal"]?.basics
                 }-500 no-underline transition duration-300 ease-in-out`}
-                style={{ fontFamily: "Cairo, sans-serif" }}>
+                style={{ fontFamily: "Cairo, sans-serif" }}
+              >
                 {dataOflang?.logout || "تسجيل الخروج"}
               </button>
             )
@@ -78,7 +82,8 @@ const NavMobile = ({
                 className={`block text-gray-800 hover:text-${
                   themeColors[currentColor ?? "teal"]?.basics
                 }-500 no-underline transition duration-300 ease-in-out`}
-                style={{ fontFamily: "Cairo, sans-serif" }}>
+                style={{ fontFamily: "Cairo, sans-serif" }}
+              >
                 {dataOflang?.login || "تسجيل الدخول"}
               </Link>
               <Link
@@ -86,7 +91,8 @@ const NavMobile = ({
                 className={`block text-gray-800 hover:text-${
                   themeColors[currentColor ?? "teal"]?.basics
                 }-500 no-underline transition duration-300 ease-in-out`}
-                style={{ fontFamily: "Cairo, sans-serif" }}>
+                style={{ fontFamily: "Cairo, sans-serif" }}
+              >
                 {dataOflang?.register || "تسجيل"}
               </Link>
             </>
@@ -97,7 +103,8 @@ const NavMobile = ({
             className={`block text-gray-800 hover:text-${
               themeColors[currentColor ?? "teal"]?.basics
             }-500 no-underline transition duration-300 ease-in-out`}
-            style={{ fontFamily: "Cairo, sans-serif" }}>
+            style={{ fontFamily: "Cairo, sans-serif" }}
+          >
             <FaShoppingCart /> {/* Cart icon */}
           </Link>
         </div>

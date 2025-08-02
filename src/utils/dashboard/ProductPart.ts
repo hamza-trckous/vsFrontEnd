@@ -8,7 +8,7 @@ export const handleDelete = async (
   >,
   setAlertType: (value: React.SetStateAction<"success" | "error">) => void,
   setAlertMessage: (value: React.SetStateAction<string | null>) => void,
-  products: NewProduct[] | ProductWithreviews[]
+  products: NewProduct[] | ProductWithreviews[],
 ) => {
   try {
     await deleteProduct(id);

@@ -9,7 +9,8 @@ const NameBrand = () => {
     <>
       <label
         className="block text-gray-700 text-sm font-bold mb-2"
-        htmlFor="nameOfBrand">
+        htmlFor="nameOfBrand"
+      >
         Name of Brand
       </label>
       <input
@@ -19,7 +20,7 @@ const NameBrand = () => {
         onChange={(e) =>
           setProfile((pre) => ({
             ...pre,
-            nameOfBrand: { ...pre.nameOfBrand, name: e.target.value }
+            nameOfBrand: { ...pre.nameOfBrand, name: e.target.value },
           }))
         }
         className="border rounded-lg p-2 w-full mb-4"

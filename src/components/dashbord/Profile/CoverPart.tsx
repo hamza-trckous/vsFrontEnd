@@ -10,7 +10,7 @@ const CoverPart = ({
   coverType,
 
   setAlertMessage,
-  setAlertType
+  setAlertType,
 }: {
   setCoverType: React.Dispatch<React.SetStateAction<"image" | "video">>;
   coverType: "image" | "video";
@@ -23,7 +23,8 @@ const CoverPart = ({
     <>
       <label
         className="block text-gray-700 text-sm font-bold mb-2"
-        htmlFor="logo">
+        htmlFor="logo"
+      >
         Cover (Image: max 5MB, Video: max 100MB){" "}
       </label>
       <input
@@ -36,7 +37,7 @@ const CoverPart = ({
             setAlertMessage,
             setAlertType,
             setCoverType,
-            setProfile
+            setProfile,
           )
         }
         className="border rounded-lg p-2 w-full mb-4"
@@ -59,7 +60,8 @@ const CoverPart = ({
               <video
                 controls
                 className="rounded-lg w-full"
-                src={Profile.cover.name}>
+                src={Profile.cover.name}
+              >
                 Your browser does not support the video tag.
               </video>
             ) : null}

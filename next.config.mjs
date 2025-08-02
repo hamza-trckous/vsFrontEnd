@@ -3,7 +3,7 @@ import bundleAnalyzer from "@next/bundle-analyzer";
 
 const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
-  openAnalyzer: true
+  openAnalyzer: true,
 });
 
 const nextConfig = {
@@ -12,20 +12,20 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "res.cloudinary.com",
-        pathname: "/**" // Accept all paths from Cloudinary
+        pathname: "/**", // Accept all paths from Cloudinary
       },
       {
         protocol: "https",
         hostname: "example.com",
-        pathname: "/path/to/**"
+        pathname: "/path/to/**",
       },
       {
         protocol: "https",
         hostname: "via.placeholder.com",
-        pathname: "/**"
-      }
-    ]
-  }
+        pathname: "/**",
+      },
+    ],
+  },
 };
 
 export default process.env.ANALYZE === "true"

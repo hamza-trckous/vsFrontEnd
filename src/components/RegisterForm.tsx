@@ -3,7 +3,7 @@ import {
   useForm,
   SubmitHandler,
   UseFormRegister,
-  FieldErrors
+  FieldErrors,
 } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -19,9 +19,9 @@ const RegisterForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
   } = useForm<IFormInput>({
-    resolver: zodResolver(registerSchema)
+    resolver: zodResolver(registerSchema),
   });
 
   const registerFormUtils = RegisterFormUtils();
@@ -33,7 +33,8 @@ const RegisterForm = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="space-y-4 mt-16 mb-mt-16 w-[80%] mx-auto ">
+      className="space-y-4 mt-16 mb-mt-16 w-[80%] mx-auto "
+    >
       <div className=" space-y-8 p-10 bg-white rounded-xl shadow-lg z-10 flex justify-center items-center content-center align-middle flex-col">
         <Name dataOflang={dataOflang} register={register} errors={errors} />
         <LastName dataOflang={dataOflang} register={register} errors={errors} />
@@ -63,7 +64,8 @@ const RegisterForm = () => {
               message.includes("بنجاح")
                 ? "bg-green-100 text-green-700"
                 : "bg-red-100 text-red-700"
-            }`}>
+            }`}
+          >
             <p className="text-md font-bold ">{message}</p>
           </div>
         )}
@@ -230,7 +232,7 @@ const PasswordConfirm = ({ register, errors, dataOflang }: NameProps) => {
 };
 
 const RegisterButton = ({
-  dataOflang
+  dataOflang,
 }: {
   dataOflang: LanguageConfig | undefined;
 }) => {
@@ -246,7 +248,8 @@ const RegisterButton = ({
           themeColors[currentColor ?? "teal"]?.basics
         }-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-${
           themeColors[currentColor ?? "teal"]?.basics
-        }-500`}>
+        }-500`}
+      >
         {dataOflang?.submit || "تسجيل"}
       </button>
     </div>

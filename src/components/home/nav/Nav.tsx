@@ -44,7 +44,7 @@ const Nav = () => {
 
   const handleClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
-    href: string
+    href: string,
   ) => {
     e.preventDefault();
     setLoading(true);
@@ -57,7 +57,8 @@ const Nav = () => {
   return (
     <nav
       dir={lang === "EN" ? "rtl" : "ltr"}
-      className="bg-white bg-opacity-70 backdrop-blur-lg shadow-md sticky top-0 z-50 p-4 justify-end">
+      className="bg-white bg-opacity-70 backdrop-blur-lg shadow-md sticky top-0 z-50 p-4 justify-end"
+    >
       <div className="container mx-auto flex justify-between  items-center ">
         {/* Logo */}
         {Profile?.logo?.enable && (
@@ -78,8 +79,9 @@ const Nav = () => {
                 }  bg-clip-text text-transparent hover:scale-105 transform transition-all duration-300 tracking-wide`}
                 style={{
                   fontFamily: "Macondo, sans-serif",
-                  textShadow: "0px 2px 4px rgba(0,0,0,0.1)"
-                }}>
+                  textShadow: "0px 2px 4px rgba(0,0,0,0.1)",
+                }}
+              >
                 {Profile?.nameOfBrand?.name || "BabyBloom"}
               </div>
             )}
@@ -90,20 +92,21 @@ const Nav = () => {
         <div className="md:hidden">
           <button
             onClick={toggleMenu}
-            className="text-gray-800 focus:outline-none">
+            className="text-gray-800 focus:outline-none"
+          >
             <svg
               className="w-6 h-6"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg">
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
-                d={
-                  isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16m-7 6h7"
-                }></path>
+                d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16m-7 6h7"}
+              ></path>
             </svg>
           </button>
         </div>
@@ -116,7 +119,8 @@ const Nav = () => {
             className={`block mt-4 mx-4 md:inline-block md:mt-0 text-gray-800 hover:text-${
               themeColors[currentColor ?? "teal"]?.basics
             }-500 no-underline transition duration-300 ease-in-out`}
-            style={{ fontFamily: "Cairo, sans-serif" }}>
+            style={{ fontFamily: "Cairo, sans-serif" }}
+          >
             {dataOflang?.home || " الصفحة الرئيسية"}
           </Link>
 
@@ -128,7 +132,8 @@ const Nav = () => {
                   className={`block mt-4 mx-4 md:inline-block md:mt-0 text-gray-800 hover:text-${
                     themeColors[currentColor ?? "teal"]?.basics
                   }-500 no-underline transition duration-300 ease-in-out`}
-                  style={{ fontFamily: "Cairo, sans-serif" }}>
+                  style={{ fontFamily: "Cairo, sans-serif" }}
+                >
                   {dataOflang?.logout || "تسجيل الخروج"}
                 </button>
 
@@ -138,7 +143,8 @@ const Nav = () => {
                   className={`block mt-4 mx-4 md:inline-block md:mt-0 text-gray-800 hover:text-${
                     themeColors[currentColor ?? "teal"]?.basics
                   }-500 no-underline transition duration-300 ease-in-out`}
-                  style={{ fontFamily: "Cairo, sans-serif" }}>
+                  style={{ fontFamily: "Cairo, sans-serif" }}
+                >
                   {dataOflang?.dashboard || "لوحة التحكم"}
                 </Link>
               </>
@@ -148,7 +154,8 @@ const Nav = () => {
                 className={`block mt-4 mx-4 md:inline-block md:mt-0 text-gray-800 hover:text-${
                   themeColors[currentColor ?? "teal"]?.basics
                 }-500 no-underline transition duration-300 ease-in-out`}
-                style={{ fontFamily: "Cairo, sans-serif" }}>
+                style={{ fontFamily: "Cairo, sans-serif" }}
+              >
                 {dataOflang?.logout || "تسجيل الخروج"}
               </button>
             )
@@ -160,7 +167,8 @@ const Nav = () => {
                 className={`block mt-4 mx-4 md:inline-block md:mt-0 text-gray-800 hover:text-${
                   themeColors[currentColor ?? "teal"]?.basics
                 }-500 no-underline transition duration-300 ease-in-out`}
-                style={{ fontFamily: "Cairo, sans-serif" }}>
+                style={{ fontFamily: "Cairo, sans-serif" }}
+              >
                 {dataOflang?.login || "تسجيل الدخول"}
               </Link>
 
@@ -170,7 +178,8 @@ const Nav = () => {
                 className={`block mt-4 mx-4 md:inline-block md:mt-0 text-gray-800 hover:text-${
                   themeColors[currentColor ?? "teal"]?.basics
                 }-500 no-underline transition duration-300 ease-in-out`}
-                style={{ fontFamily: "Cairo, sans-serif" }}>
+                style={{ fontFamily: "Cairo, sans-serif" }}
+              >
                 {dataOflang?.register || "تسجيل"}
               </Link>
               <Link
@@ -179,7 +188,8 @@ const Nav = () => {
                 className={`block mx-4 items-center mt-4 md:inline-block md:mt-0 text-gray-800 hover:text-${
                   themeColors[currentColor ?? "teal"]?.basics
                 }-500 no-underline transition duration-300 ease-in-out`}
-                style={{ fontFamily: "Cairo, sans-serif" }}>
+                style={{ fontFamily: "Cairo, sans-serif" }}
+              >
                 <FaShoppingCart /> {/* Cart icon */}
               </Link>
             </>

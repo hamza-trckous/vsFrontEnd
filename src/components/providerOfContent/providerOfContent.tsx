@@ -22,7 +22,7 @@ export default function ProvidersWrapper({
   children,
   language,
   LanguageData,
-  profile
+  profile,
 }: {
   children?: React.ReactNode;
   language: string;

@@ -5,7 +5,7 @@ import {
   ReactNode,
   useContext,
   useEffect,
-  useState
+  useState,
 } from "react";
 import { LanguageConfig } from "@/Types/LanguageConfig";
 import { getLanguage } from "@/api/Language";
@@ -16,7 +16,7 @@ interface LanguageContextType {
   lang: "AR" | "EN" | undefined;
 }
 const LanguageContext = createContext<LanguageContextType | undefined>(
-  undefined
+  undefined,
 );
 
 export const useLanguage = () => {
@@ -30,17 +30,17 @@ export const useLanguage = () => {
 export const LanguageProvider = ({
   children,
   language,
-  LanguageData
+  LanguageData,
 }: {
   children: ReactNode;
   language: string;
   LanguageData: LanguageConfig | undefined;
 }) => {
   const [dataOflang, setDataOflang] = useState<LanguageConfig | undefined>(
-    LanguageData
+    LanguageData,
   );
   const [lang, setLang] = useState<"AR" | "EN" | undefined>(
-    language as "AR" | "EN"
+    language as "AR" | "EN",
   );
 
   useEffect(() => {
@@ -53,7 +53,7 @@ export const LanguageProvider = ({
         langCookie = navigator.language.startsWith("ar") ? "AR" : "EN";
         setCookie("language", langCookie, {
           path: "/",
-          maxAge: 60 * 60 * 24 * 30
+          maxAge: 60 * 60 * 24 * 30,
         });
       }
 

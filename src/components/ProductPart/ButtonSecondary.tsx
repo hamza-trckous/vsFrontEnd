@@ -22,7 +22,8 @@ const ButtonSecondary = ({
         themeColors[currentColor ?? "teal"]?.secondary
       }-500 text-white px-3 py-1 rounded hover:bg-${
         themeColors[currentColor ?? "teal"]?.secondary
-      }-600 text-xs`}>
+      }-600 text-xs`}
+    >
       {TitleOfButton}
     </button>
   );

@@ -6,7 +6,7 @@ import React from "react";
 
 const ShowingPassedProdductsFiltred = ({
   initialProducts,
-  searchParams
+  searchParams,
 }: Productoption) => {
   return (
     <div className="flex flex-col md:flex-row">
@@ -33,7 +33,7 @@ const ShowingPassedProdductsFiltred = ({
                 sizes: product.sizes,
                 _id: product._id,
                 withShipping: product.withShipping,
-                category: product.category
+                category: product.category,
               }}
             />
           ))

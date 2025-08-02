@@ -185,7 +185,8 @@ const page = () => {
   return (
     <div
       className="flex align-middle"
-      style={{ backgroundImage: "url('/background 2.jpg')" }}>
+      style={{ backgroundImage: "url('/background 2.jpg')" }}
+    >
       <RegisterForm />;
     </div>
   );

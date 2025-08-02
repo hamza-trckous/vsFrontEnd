@@ -94,10 +94,11 @@ const BodyOfTableLandingAndProductEdit = ({
                   <button
                     onClick={() =>
                       router.push(
-                        `/dashboard/landingpageEditing/${product._id}`
+                        `/dashboard/landingpageEditing/${product._id}`,
                       )
                     }
-                    className="bg-green-500 w-16 text-white px-2 py-1 rounded-lg hover:bg-blue-600 transition-colors duration-200 text-xs">
+                    className="bg-green-500 w-16 text-white px-2 py-1 rounded-lg hover:bg-blue-600 transition-colors duration-200 text-xs"
+                  >
                     عرض
                   </button>
                 </td>

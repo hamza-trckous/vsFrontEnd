@@ -16,9 +16,9 @@ export const registerSchema = z
       .regex(/\d/, "يجب أن تحتوي على رقم واحد على الأقل"),
     confirmPassword: z
       .string()
-      .min(8, "يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل")
+      .min(8, "يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل"),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "كلمتا المرور غير متطابقتين",
-    path: ["confirmPassword"]
+    path: ["confirmPassword"],
   });

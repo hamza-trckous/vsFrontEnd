@@ -19,7 +19,7 @@ const Toggles = () => {
     { key: "cover", label: "Enable Cover?" },
     { key: "slogon", label: "Enable Slogon?" },
     { key: "category", label: "Enable Category?" },
-    { key: "email", label: "Enable Showing email?" }
+    { key: "email", label: "Enable Showing email?" },
   ];
 
   return (
@@ -35,8 +35,8 @@ const Toggles = () => {
               ...prev,
               [key]: {
                 ...prev[key],
-                enable: checked
-              }
+                enable: checked,
+              },
             }))
           }
         />
@@ -53,7 +53,7 @@ const Toggles = () => {
             updated[index].enable = checked;
             setProfile((prev) => ({
               ...prev,
-              accounts: updated
+              accounts: updated,
             }));
           }}
         />

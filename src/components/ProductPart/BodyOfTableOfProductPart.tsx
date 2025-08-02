@@ -14,7 +14,8 @@ const BodyOfTableOfProductPart = ({ children }: BodyOfTableProps) => {
     <table
       className={`w-full table-fixed border-collapse text-sm bg-${
         themeColors[currentColor ?? "teal"]?.basics
-      }-50`}>
+      }-50`}
+    >
       {children}
     </table>
   );

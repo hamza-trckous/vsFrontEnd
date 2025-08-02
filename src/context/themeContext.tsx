@@ -12,12 +12,12 @@ export type theme = {
 };
 const ThemeContext = createContext<theme>({
   currentColor: "red",
-  setcolor: () => {}
+  setcolor: () => {},
 });
 
 export const ThemeProvider = ({
   value,
-  children
+  children,
 }: {
   value: ColorName | undefined;
   children: React.ReactNode;
@@ -31,7 +31,7 @@ export const ThemeProvider = ({
 
       if (settings.color !== value) {
         setCookie("ColorText", newColor, {
-          path: "/"
+          path: "/",
         });
       }
     };

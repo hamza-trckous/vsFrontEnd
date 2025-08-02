@@ -6,7 +6,7 @@ import { Metadata } from "next";
 
 export async function generateMetadata({
   params,
-  searchParams
+  searchParams,
 }: Props): Promise<Metadata> {
   const resolvedParams = await params;
   const resolvedSearchParams = await searchParams;
@@ -24,7 +24,7 @@ export async function generateMetadata({
     description: `Browse products in the ${name} category from MyStore.`,
     metadataBase: new URL("https://vs-ebon.vercel.app"),
     alternates: {
-      canonical: `https://vs-ebon.vercel.app/productsCategorys/${slug}`
+      canonical: `https://vs-ebon.vercel.app/productsCategorys/${slug}`,
     },
     openGraph: {
       title: `${name} | MyStore`,
@@ -37,10 +37,10 @@ export async function generateMetadata({
           url: category?.image || "/OpenGraph/default-category.png",
           width: 1200,
           height: 630,
-          alt: `${name} preview image`
-        }
-      ]
-    }
+          alt: `${name} preview image`,
+        },
+      ],
+    },
   };
 }
 // Use the correct type definition for Next.js pages

@@ -6,7 +6,7 @@ import trackFacebookEvent from "@/utils/trackFacebookEvent";
 interface FacebookPixelContextProps {
   trackPageView: (
     eventData?: Record<string, string | number | boolean | object>,
-    isAdmin?: boolean
+    isAdmin?: boolean,
   ) => void;
 }
 
@@ -18,7 +18,7 @@ export const useFacebookPixel = () => {
   const context = useContext(FacebookPixelContext);
   if (!context) {
     throw new Error(
-      "useFacebookPixel must be used within a FacebookPixelProvider"
+      "useFacebookPixel must be used within a FacebookPixelProvider",
     );
   }
   return context;
@@ -34,7 +34,7 @@ export const FacebookPixelProvider: React.FC<{
 
   const trackPageView = (
     eventData?: Record<string, string | number | boolean | object>,
-    isAdmin?: boolean
+    isAdmin?: boolean,
   ) => {
     trackFacebookEvent({
       eventName: "PageView",

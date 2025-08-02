@@ -19,7 +19,7 @@ const LandingpageEditing = ({ ProductID }: { ProductID: string }) => {
   const [newProduct, setNewProduct] = useState<LandingEditingProps>({
     title: "",
     description: "",
-    image: ""
+    image: "",
   });
   return (
     <Container>
@@ -74,7 +74,7 @@ const AddPart = ({
   setAlertType,
   ProductID,
   setNewProduct,
-  newProduct
+  newProduct,
 }: {
   setAlertMessage: (message: string | null) => void;
   setAlertType: (type: "success" | "error") => void;
@@ -86,7 +86,7 @@ const AddPart = ({
     register,
     handleSubmit,
     setValue,
-    formState: { errors }
+    formState: { errors },
   } = useForm<LandingEditingProps>();
 
   const onSubmit = (data: LandingEditingProps) => {
@@ -94,8 +94,8 @@ const AddPart = ({
       LandingPageContent: {
         title: data.title,
         description: data.description,
-        image: data.image && data.image.length > 0 ? data.image[0] : ""
-      }
+        image: data.image && data.image.length > 0 ? data.image[0] : "",
+      },
     };
     try {
       const updating = async () => {
@@ -118,7 +118,7 @@ const AddPart = ({
       reader.onload = (event) => {
         setNewProduct({
           ...newProduct,
-          image: event.target?.result as string
+          image: event.target?.result as string,
         });
         setValue("image", event.target?.result as string);
       };
@@ -159,7 +159,8 @@ const Submit = () => {
   return (
     <button
       type="submit"
-      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+    >
       Submit
     </button>
   );
@@ -168,7 +169,8 @@ const Add = ({ onclick }: { onclick: () => void }) => {
   return (
     <button
       onClick={onclick}
-      className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+      className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+    >
       Add
     </button>
   );

@@ -144,7 +144,8 @@ const page = () => {
   };
   return (
     <div
-      className={` xl:bg-mycolor bg-mycolor md:bg-mycolor lg:bg-mycolorpt-[3.125rem] lg:pt-[2.222rem] md:pt-[1.667rem] xl:pt-[3.125rem]   lg:px-[3.733rem] md:px-[2.8rem] xl:px-[5.25rem] px-[1.563rem] `}>
+      className={` xl:bg-mycolor bg-mycolor md:bg-mycolor lg:bg-mycolorpt-[3.125rem] lg:pt-[2.222rem] md:pt-[1.667rem] xl:pt-[3.125rem]   lg:px-[3.733rem] md:px-[2.8rem] xl:px-[5.25rem] px-[1.563rem] `}
+    >
       <header>
         {/* part 1 : /  */}
         {/* for desktop  */}
@@ -164,25 +165,29 @@ const page = () => {
             <a
               href="/ABOUT"
               className=" cursor-pointer hover:text-gray-600 z-50  text-[0.75rem] lg:text-[0.533rem] md:text-[0.4rem] xl:text-[0.75rem]  text-white font-bold
-         ">
+         "
+            >
               ABOUT
             </a>
             <a
               href="/SERVICES"
               className=" cursor-pointer hover:text-gray-600 z-50  text-[0.75rem] lg:text-[0.533rem] md:text-[0.4rem] xl:text-[0.75rem]  text-white font-bold
-         ">
+         "
+            >
               SERVICES
             </a>
             <a
               href="/TECHNOLOGIES"
               className=" cursor-pointer hover:text-gray-600 z-50  text-[0.75rem] lg:text-[0.533rem] md:text-[0.4rem] xl:text-[0.75rem]  text-white font-bold
-         ">
+         "
+            >
               TECHNOLOGIES
             </a>
             <a
               href="/HOWTO
 "
-              className=" cursor-pointer hover:text-gray-600 z-50 text-[0.75rem] lg:text-[0.533rem] md:text-[0.4rem] xl:text-[0.75rem]   text-white font-bold">
+              className=" cursor-pointer hover:text-gray-600 z-50 text-[0.75rem] lg:text-[0.533rem] md:text-[0.4rem] xl:text-[0.75rem]   text-white font-bold"
+            >
               HOW TO
             </a>
           </div>
@@ -192,7 +197,8 @@ const page = () => {
             </button>
             <button
               className="cursor-pointer z-50 hover:bg-violet-400 hover:text-white hover:bg-none  bg-gradient-to-r from-purpleDark to-purpleWhite text-darkfigma  text-[0.75rem] lg:text-[0.533rem] md:text-[0.4rem] xl:text-[0.75rem] rounded-[2.5rem] lg:rounded-[1.778rem] md:rounded-[1.333rem] xl:rounded-[2.5rem] w-[9.625rem] lg:w-[6.844rem] md:w-[5.133rem] xl:w-[9.625rem] h-[3rem] lg:h-[2.133rem] md:h-[1.6rem] xl:h-[3rem] font-bold
-         ">
+         "
+            >
               JOIN HYDRA
             </button>
           </div>
@@ -302,7 +308,8 @@ const page = () => {
                 </h3>
                 <p
                   className="text-[0.875rem] lg:text-[0.622rem] md:text-[0.467rem] xl:text-[0.875rem]
-  mt-[0.625rem] lg:mt-[0.444rem] md:mt-[0.333rem] xl:mt-[0.625rem]">
+  mt-[0.625rem] lg:mt-[0.444rem] md:mt-[0.333rem] xl:mt-[0.625rem]"
+                >
                   Union St, Seattle, WA 98101, United States
                 </p>
               </div>
@@ -680,27 +687,33 @@ const page = () => {
               <div className="">
                 <input
                   placeholder="First Name"
-                  className="h-[4.5rem] lg:h-[3.2rem] md:h-[2.4rem] xl:h-[4.5rem] py-[1.688rem] lg:py-[1.2rem] md:py-[0.9rem] xl:py-[1.688rem] w-full rounded-3xl border border-white pl-[2.75rem] lg:pl-[1.956rem] md:pl-[1.467rem] xl:pl-[2.75rem] "></input>
+                  className="h-[4.5rem] lg:h-[3.2rem] md:h-[2.4rem] xl:h-[4.5rem] py-[1.688rem] lg:py-[1.2rem] md:py-[0.9rem] xl:py-[1.688rem] w-full rounded-3xl border border-white pl-[2.75rem] lg:pl-[1.956rem] md:pl-[1.467rem] xl:pl-[2.75rem] "
+                ></input>
                 <input
                   placeholder="Email"
-                  className="h-[4.5rem] lg:h-[3.2rem] md:h-[2.4rem] xl:h-[4.5rem] py-[1.688rem] lg:py-[1.2rem] md:py-[0.9rem] xl:py-[1.688rem] w-full rounded-3xl border border-white pl-[2.75rem] lg:pl-[1.956rem] md:pl-[1.467rem] xl:pl-[2.75rem] mt-[2.438rem] lg:mt-[1.734rem] md:mt-[1.3rem] xl:mt-[2.438rem]"></input>
+                  className="h-[4.5rem] lg:h-[3.2rem] md:h-[2.4rem] xl:h-[4.5rem] py-[1.688rem] lg:py-[1.2rem] md:py-[0.9rem] xl:py-[1.688rem] w-full rounded-3xl border border-white pl-[2.75rem] lg:pl-[1.956rem] md:pl-[1.467rem] xl:pl-[2.75rem] mt-[2.438rem] lg:mt-[1.734rem] md:mt-[1.3rem] xl:mt-[2.438rem]"
+                ></input>
               </div>
               {/* right side / */}
               <div className="h-max">
                 <input
                   placeholder="Last Name"
-                  className="h-[4.5rem] lg:h-[3.2rem] md:h-[2.4rem] xl:h-[4.5rem] py-[1.688rem] lg:py-[1.2rem] md:py-[0.9rem] xl:py-[1.688rem] w-full rounded-3xl border border-white pl-[2.75rem] lg:pl-[1.956rem] md:pl-[1.467rem] xl:pl-[2.75rem] "></input>
+                  className="h-[4.5rem] lg:h-[3.2rem] md:h-[2.4rem] xl:h-[4.5rem] py-[1.688rem] lg:py-[1.2rem] md:py-[0.9rem] xl:py-[1.688rem] w-full rounded-3xl border border-white pl-[2.75rem] lg:pl-[1.956rem] md:pl-[1.467rem] xl:pl-[2.75rem] "
+                ></input>
                 <input
                   placeholder="Phone Number"
-                  className="h-[4.5rem] lg:h-[3.2rem] md:h-[2.4rem] xl:h-[4.5rem] py-[1.688rem] lg:py-[1.2rem] md:py-[0.9rem] xl:py-[1.688rem] w-full rounded-3xl border border-white pl-[2.75rem] lg:pl-[1.956rem] md:pl-[1.467rem] xl:pl-[2.75rem] mt-[2.438rem] lg:mt-[1.734rem] md:mt-[1.3rem] xl:mt-[2.438rem]"></input>
+                  className="h-[4.5rem] lg:h-[3.2rem] md:h-[2.4rem] xl:h-[4.5rem] py-[1.688rem] lg:py-[1.2rem] md:py-[0.9rem] xl:py-[1.688rem] w-full rounded-3xl border border-white pl-[2.75rem] lg:pl-[1.956rem] md:pl-[1.467rem] xl:pl-[2.75rem] mt-[2.438rem] lg:mt-[1.734rem] md:mt-[1.3rem] xl:mt-[2.438rem]"
+                ></input>
               </div>
               <div className="col-span-2  ">
                 <input
                   placeholder="Phone Number"
-                  className="h-[4.5rem] lg:h-[3.2rem] md:h-[2.4rem] xl:h-[4.5rem] py-[1.688rem] lg:py-[1.2rem] md:py-[0.9rem] xl:py-[1.688rem] w-full rounded-3xl border border-white pl-[2.75rem] lg:pl-[1.956rem] md:pl-[1.467rem] xl:pl-[2.75rem] "></input>
+                  className="h-[4.5rem] lg:h-[3.2rem] md:h-[2.4rem] xl:h-[4.5rem] py-[1.688rem] lg:py-[1.2rem] md:py-[0.9rem] xl:py-[1.688rem] w-full rounded-3xl border border-white pl-[2.75rem] lg:pl-[1.956rem] md:pl-[1.467rem] xl:pl-[2.75rem] "
+                ></input>
                 <textarea
                   className="h-[13.125rem] lg:h-[9.333rem] md:h-[7rem] xl:h-[13.125rem] py-[1.688rem] lg:py-[1.2rem] md:py-[0.9rem] xl:py-[1.688rem] w-full rounded-3xl border border-white pl-[2.75rem] lg:pl-[1.956rem] md:pl-[1.467rem] xl:pl-[2.75rem] mt-[2.438rem] lg:mt-[1.734rem] md:mt-[1.3rem] xl:mt-[2.438rem] resize-none mb-[3.188rem] lg:mb-[2.267rem] md:mb-[1.7rem] xl:mb-[3.188rem]"
-                  placeholder="Tell Us Something..."></textarea>
+                  placeholder="Tell Us Something..."
+                ></textarea>
                 <button className="cursor-pointer z-50  hover:bg-violet-400 hover:text-white hover:bg-none  text-[0.75rem] lg:text-[0.533rem] md:text-[0.4rem] xl:text-[0.75rem] rounded-[2.5rem] lg:rounded-[1.778rem] md:rounded-[1.333rem] xl:rounded-[2.5rem] w-[13.375rem] lg:w-[9.511rem] md:w-[7.133rem] xl:w-[13.375rem] h-[3rem] lg:h-[2.133rem] md:h-[1.6rem] xl:h-[3rem]   bg-gradient-to-r from-purpleDark to-purpleWhite text-darkfigma mx-auto flex justify-center items-center">
                   SEND TO HYDRA
                 </button>
@@ -889,7 +902,8 @@ const page = () => {
           <div className=" transition-all duration-300 ease-in-out  bg-[radial-gradient(circle,_theme(colors.radialform),_theme(colors.radialto))] w-[20rem] flex flex-col justify-between rounded-[2.5rem] mt-[1.625rem]  h-[31.938rem] ">
             <div
               onClick={() => MoveCardleft()}
-              className=" bg-gradient-to-r   shadow-[0_0_0_0.588rem_rgba(0,0,0,0.1)] from-purpleDark to-purpleWhite text-darkfigma absolute rounded-full w-max p-2 -ml-[1.063rem] mt-56">
+              className=" bg-gradient-to-r   shadow-[0_0_0_0.588rem_rgba(0,0,0,0.1)] from-purpleDark to-purpleWhite text-darkfigma absolute rounded-full w-max p-2 -ml-[1.063rem] mt-56"
+            >
               {" "}
               <img
                 src="/assets/Sominileft.svg"
@@ -998,7 +1012,8 @@ const page = () => {
             {/* foorthCard/  */}
             <div
               onClick={() => MoveCardright()}
-              className=" bg-gradient-to-r   shadow-[0_0_0_0.588rem_rgba(0,0,0,0.1)] from-purpleDark to-purpleWhite text-darkfigma absolute rounded-full w-max p-2 mt-56 ml-[18.875rem]">
+              className=" bg-gradient-to-r   shadow-[0_0_0_0.588rem_rgba(0,0,0,0.1)] from-purpleDark to-purpleWhite text-darkfigma absolute rounded-full w-max p-2 mt-56 ml-[18.875rem]"
+            >
               {" "}
               <img
                 src="/assets/Sominirightsvg.svg"
@@ -1057,7 +1072,8 @@ const page = () => {
             />
             <div
               onClick={() => MoveIconright()}
-              className="rounded-full items-center justify-center flex flex-col   bg-violet-400  w-[1.875rem]  h-[1.875rem]  overflow-hidden  ml-[0.5rem]  shadow-[0_0_0_0.588rem_rgba(0,0,0,0.1)]  mt-[5.688rem] ">
+              className="rounded-full items-center justify-center flex flex-col   bg-violet-400  w-[1.875rem]  h-[1.875rem]  overflow-hidden  ml-[0.5rem]  shadow-[0_0_0_0.588rem_rgba(0,0,0,0.1)]  mt-[5.688rem] "
+            >
               <img
                 src="/assets/Sominirightsvg.svg"
                 className="w-[1.188rem] h-[1.188rem]"
@@ -1074,27 +1090,32 @@ const page = () => {
           <div className="flex flex-col justify-center items-center">
             <div
               id="Number1"
-              className="rounded-full items-center justify-center flex flex-col text-[4rem]   bg-violet-400 w-[9.938rem]  h-[9.938rem]  overflow-hidden    shadow-[0_0_0_1.188rem_rgba(0,0,0,0.1)]  mt-[2.313rem] "></div>
+              className="rounded-full items-center justify-center flex flex-col text-[4rem]   bg-violet-400 w-[9.938rem]  h-[9.938rem]  overflow-hidden    shadow-[0_0_0_1.188rem_rgba(0,0,0,0.1)]  mt-[2.313rem] "
+            ></div>
             <div
               id="Number2"
-              className="hidden rounded-full items-center justify-center  flex-col text-[4rem]   bg-violet-400 w-[9.938rem]  h-[9.938rem]  overflow-hidden    shadow-[0_0_0_1.188rem_rgba(0,0,0,0.1)]  mt-[2.313rem] ">
+              className="hidden rounded-full items-center justify-center  flex-col text-[4rem]   bg-violet-400 w-[9.938rem]  h-[9.938rem]  overflow-hidden    shadow-[0_0_0_1.188rem_rgba(0,0,0,0.1)]  mt-[2.313rem] "
+            >
               2
             </div>
             <div
               id="Number3"
-              className="hidden rounded-full items-center justify-center  flex-col text-[4rem]   bg-violet-400 w-[9.938rem]  h-[9.938rem]  overflow-hidden    shadow-[0_0_0_1.188rem_rgba(0,0,0,0.1)]  mt-[2.313rem] ">
+              className="hidden rounded-full items-center justify-center  flex-col text-[4rem]   bg-violet-400 w-[9.938rem]  h-[9.938rem]  overflow-hidden    shadow-[0_0_0_1.188rem_rgba(0,0,0,0.1)]  mt-[2.313rem] "
+            >
               3
             </div>
             <div
               id="Number4"
-              className="hidden rounded-full items-center justify-center  flex-col text-[4rem]   bg-violet-400 w-[9.938rem]  h-[9.938rem]  overflow-hidden    shadow-[0_0_0_1.188rem_rgba(0,0,0,0.1)]  mt-[2.313rem] ">
+              className="hidden rounded-full items-center justify-center  flex-col text-[4rem]   bg-violet-400 w-[9.938rem]  h-[9.938rem]  overflow-hidden    shadow-[0_0_0_1.188rem_rgba(0,0,0,0.1)]  mt-[2.313rem] "
+            >
               4
             </div>
 
             <div className=" flex justify-between items-center  w-full">
               <div
                 onClick={() => MoveTextLeft()}
-                className="rounded-full absolute left-0  items-center flex flex-col justify-center   bg-violet-400  w-[1.875rem]  h-[1.875rem]  overflow-hidden   shadow-[0_0_0_0.588rem_rgba(0,0,0,0.1)]  mt-[2.688rem] ml-[1.25rem] ">
+                className="rounded-full absolute left-0  items-center flex flex-col justify-center   bg-violet-400  w-[1.875rem]  h-[1.875rem]  overflow-hidden   shadow-[0_0_0_0.588rem_rgba(0,0,0,0.1)]  mt-[2.688rem] ml-[1.25rem] "
+              >
                 <img
                   src="/assets/Sominileft.svg "
                   className="w-[1.188rem] h-[1.188rem]"
@@ -1102,22 +1123,26 @@ const page = () => {
               </div>
               <h1
                 id="text1"
-                className="text-[1.5rem] max-w-[11.688rem] my-auto mt-[2.313rem] text-center font-bold mx-auto">
+                className="text-[1.5rem] max-w-[11.688rem] my-auto mt-[2.313rem] text-center font-bold mx-auto"
+              >
                 3D Conception & Design
               </h1>
               <h1
                 id="text2"
-                className="hidden text-[1.5rem] max-w-[11.688rem] my-auto mt-[2.313rem] text-center font-bold mx-auto">
+                className="hidden text-[1.5rem] max-w-[11.688rem] my-auto mt-[2.313rem] text-center font-bold mx-auto"
+              >
                 Interaction Design
               </h1>
               <h1
                 id="text3"
-                className="hidden text-[1.5rem] max-w-[11.688rem] my-auto mt-[2.313rem] text-center font-bold mx-auto">
+                className="hidden text-[1.5rem] max-w-[11.688rem] my-auto mt-[2.313rem] text-center font-bold mx-auto"
+              >
                 VR World User Testing
               </h1>
               <h1
                 id="text4"
-                className="hidden text-[1.5rem] max-w-[11.688rem] my-auto mt-[2.313rem] text-center font-bold mx-auto">
+                className="hidden text-[1.5rem] max-w-[11.688rem] my-auto mt-[2.313rem] text-center font-bold mx-auto"
+              >
                 Hydra VR Deploy
               </h1>
 
@@ -1149,24 +1174,30 @@ const page = () => {
           <div className=" w-full px-[1.313rem]  grid grid-cols-1  gap-y-[1.375rem]  h-[3.313rem] ">
             <input
               placeholder="First Name"
-              className="h-[3.313rem] text-[0.875rem]  py-[1.813rem]w-full rounded-3xl border border-white pl-[2.75rem]  "></input>
+              className="h-[3.313rem] text-[0.875rem]  py-[1.813rem]w-full rounded-3xl border border-white pl-[2.75rem]  "
+            ></input>
             <input
               placeholder="Email"
-              className="h-[3.313rem] text-[0.875rem]  py-[1.813rem]w-full rounded-3xl border border-white pl-[2.75rem] "></input>
+              className="h-[3.313rem] text-[0.875rem]  py-[1.813rem]w-full rounded-3xl border border-white pl-[2.75rem] "
+            ></input>
 
             <input
               placeholder="Last Name"
-              className="h-[3.313rem] text-[0.875rem]  py-[1.813rem]  w-full rounded-3xl border border-white pl-[2.75rem]  "></input>
+              className="h-[3.313rem] text-[0.875rem]  py-[1.813rem]  w-full rounded-3xl border border-white pl-[2.75rem]  "
+            ></input>
             <input
               placeholder="Phone Number"
-              className="h-[3.313rem] text-[0.875rem]  py-[1.813rem]  w-full rounded-3xl border border-white pl-[2.75rem] "></input>
+              className="h-[3.313rem] text-[0.875rem]  py-[1.813rem]  w-full rounded-3xl border border-white pl-[2.75rem] "
+            ></input>
 
             <input
               placeholder="Phone Number"
-              className="h-[3.313rem] text-[0.875rem]  py-[1.813rem]  w-full rounded-3xl border border-white pl-[2.75rem]  "></input>
+              className="h-[3.313rem] text-[0.875rem]  py-[1.813rem]  w-full rounded-3xl border border-white pl-[2.75rem]  "
+            ></input>
             <textarea
               className="h-[13.688rem] text-[0.875rem]] py-[1.813rem]  w-full rounded-3xl border border-white pl-[2.75rem]  resize-none mb-[3.25rem] "
-              placeholder="Tell Us Something..."></textarea>
+              placeholder="Tell Us Something..."
+            ></textarea>
             <button className="cursor-pointer z-50   text-[0.75rem] rounded-[2.5rem] w-[13.375rem]  h-[3rem]   bg-gradient-to-r from-purpleDark to-purpleWhite text-darkfigma font-bold  mx-auto flex justify-center items-center">
               SEND TO HYDRA
             </button>

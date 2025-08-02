@@ -19,9 +19,9 @@ export async function getCartServerAction() {
     const response = await axios.get(`${url}/api/cart/cart`, {
       headers: {
         Cookie: `token=${token}`, // Send token as a cookie
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      withCredentials: true
+      withCredentials: true,
     });
     return response.data;
   } catch (error: unknown) {
@@ -29,7 +29,7 @@ export async function getCartServerAction() {
       console.error("Server action error:", {
         message: error.message,
         status: (error as AxiosError).response?.status,
-        data: (error as AxiosError).response?.data
+        data: (error as AxiosError).response?.data,
       });
     } else {
       console.error("Unknown error:", error);
@@ -45,7 +45,7 @@ export const handleRemoveCartItem = async (id: string) => {
     if (!token) {
       return {
         success: false,
-        message: "لم يتم العثور على رمز المصادقة"
+        message: "لم يتم العثور على رمز المصادقة",
       };
     }
     await axios.post(
@@ -54,10 +54,10 @@ export const handleRemoveCartItem = async (id: string) => {
       {
         headers: {
           Cookie: `token=${token}`, // Send token as a cookie
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        withCredentials: true
-      }
+        withCredentials: true,
+      },
     );
 
     revalidatePath("/cart");

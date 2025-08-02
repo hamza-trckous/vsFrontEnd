@@ -29,7 +29,8 @@ const CaverPart = () => {
             alt=""
             src={Profile?.cover.name}
             width={200}
-            height={200}></Image>
+            height={200}
+          ></Image>
         ) : (
           <video
             width={1920}
@@ -58,7 +59,8 @@ const CaverPart = () => {
             themeColors[currentColor ?? "teal"]?.basics
           }-500 text-white px-4 py-2 rounded-lg hover:bg-${
             themeColors[currentColor ?? "teal"]?.basics
-          }-600 transition-colors duration-200`}>
+          }-600 transition-colors duration-200`}
+        >
           {dataOflang?.browse_products || "استعرض المنتجات"}
         </button>
       </div>
