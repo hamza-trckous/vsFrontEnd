@@ -9,10 +9,20 @@ import ShowingPassedProdductsFiltred from "../Filtrage/ShowingPassedProdductsFil
 const ShowHomeProducts = ({ categories }: { categories: Category[] }) => {
   const [mounted, setMounted] = useState(false);
   const [filtredProducts, setfiltredProducts] = useState<Product[] | null>(
-    null,
+    null
   );
 
   useEffect(() => {
+    console.log("categories", categories);
+    categories.forEach((cat) => {
+      console.log(
+        cat.name,
+        "showing:",
+        cat.showing,
+        "products:",
+        cat.products?.length
+      );
+    });
     setMounted(true);
   }, []);
 

@@ -3,7 +3,7 @@ import { getAllProducts } from "@/api/product";
 import {
   Categoryoption,
   Productoption,
-  ProductPaginationOnly,
+  ProductPaginationOnly
 } from "@/Types/ProductPart";
 import React, { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -20,7 +20,7 @@ const MainPartShowingProducts = ({
 
   category,
   categoryId,
-  searchParams,
+  searchParams
 }: Categoryoption | Productoption) => {
   const productsRef = useRef<HTMLDivElement>(null);
   const { currentColor } = useTheme();
@@ -38,31 +38,32 @@ const MainPartShowingProducts = ({
     isLoading,
 
     fetchNextPage,
-    isFetchingNextPage,
+    isFetchingNextPage
   } = useInfiniteQuery<ProductPaginationOnly>({
     queryKey: category ? ["productsCategory", categoryId] : ["products"],
+
     queryFn: async ({ pageParam = 1 }) => {
       try {
         if (category) {
           const data = await getCategoryProductsWithPagination(
             categoryId,
             pageParam as number,
-            4,
+            4
           );
           return {
             products: data.products || [],
             totalProducts: data.totalProducts || 0,
-            hasMore: (data.products || []).length === 4,
+            hasMore: (data.products || []).length === 4
           };
         } else {
           const data = await getAllProducts({
             page: pageParam as number,
-            limit: 4,
+            limit: 4
           });
           return {
             products: data.products || [],
             totalProducts: data.totalProducts || 0,
-            hasMore: !category && (data.products || []).length === 4,
+            hasMore: !category && (data.products || []).length === 4
           };
         }
       } catch (error) {
@@ -70,23 +71,24 @@ const MainPartShowingProducts = ({
         return {
           products: [],
           totalProducts: 0,
-          hasMore: false,
+          hasMore: false
         };
       }
     },
     getNextPageParam: (lastPage, pages) =>
       lastPage.hasMore ? pages.length + 1 : undefined,
+    staleTime: Infinity,
     initialData: {
       pages: [
         {
           products: initialProducts || [],
           totalProducts: (initialProducts || []).length,
-          hasMore: (initialProducts || []).length === 4,
-        },
+          hasMore: (initialProducts || []).length === 4
+        }
       ],
-      pageParams: [1],
+      pageParams: [1]
     },
-    initialPageParam: 1,
+    initialPageParam: 1
   });
 
   const memoizedProducts = useMemo(() => {
@@ -111,7 +113,7 @@ const MainPartShowingProducts = ({
             sizes: product.sizes,
             _id: product._id,
             withShipping: product.withShipping,
-            category: product.category,
+            category: product.category
           }}
           index={index}
         />
@@ -148,8 +150,7 @@ const MainPartShowingProducts = ({
               onClick={() => {
                 setShowSideBar(true);
                 fetchNextPage();
-              }}
-            >
+              }}>
               Show More
             </button>
           )}
