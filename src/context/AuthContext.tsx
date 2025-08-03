@@ -6,18 +6,19 @@ import React, {
   useState,
   useContext,
   ReactNode,
-  useEffect,
+  useEffect
 } from "react";
 import {
   loginUser,
   logoutUser,
   checkAuth,
   CheckAuthResponse,
-  fetchCsrfToken,
+  fetchCsrfToken
 } from "@/api/auth";
 import axios from "axios";
 import { getAllProducts, getAllProductsNormal } from "@/api/product";
 import { sendHelp } from "@/api/serviceHelpe/help";
+import { fetchProducts, getrepo } from "@/api/github/getRepo";
 
 interface AuthContextType {
   isLoggedIn: boolean;
@@ -33,7 +34,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
-  children,
+  children
 }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -115,6 +116,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     sendHelp();
     const init = async () => {
       try {
+        const Graph = await fetchProducts();
+        console.log("aaaaa", Graph);
         const product = await getAllProductsNormal();
         console.log("product Normal", product);
         const csrfToken = await fetchCsrfToken();
@@ -150,9 +153,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         logout,
         setLoading,
         setIsLoggedIn,
-        cheking,
-      }}
-    >
+        cheking
+      }}>
       {children}
     </AuthContext.Provider>
   );
